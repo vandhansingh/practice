@@ -1,0 +1,15 @@
+{
+  "name": "my-blog-app",
+  "version": "1.0.0",
+  "description": "A simple blog-like web application",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "build": "echo 'No build process required for this project'"
+  },
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
