@@ -1,309 +1,206 @@
+import { processSteps } from "./metrics";
+
 export type Service = {
   slug: string;
   number: string;
+  label: string;
   title: string;
-  short: string;
+  /** One line for the homepage list. */
+  summary: string;
+  /** Longer opening paragraph for the service page hero. */
   intro: string;
+  overview: string[];
   capabilities: { title: string; description: string }[];
-  process: { number: string; title: string; description: string }[];
   deliverables: string[];
   whoItsFor: string[];
   faq: { question: string; answer: string }[];
+  motif: "facade" | "colonnade" | "interior" | "stair" | "surface";
 };
 
 export const services: Service[] = [
   {
-    slug: "ai-automation",
+    slug: "operations-audit",
     number: "01",
-    title: "AI Automation",
-    short:
-      "Design and implement automated workflows that remove repetitive operational work.",
+    label: "Diagnostic",
+    title: "Operations Audit",
+    summary:
+      "A structured read of how work actually moves through the business, and where it stops.",
     intro:
-      "Most businesses run on a patchwork of manual steps — copying data between tools, chasing approvals, re-entering the same information twice. We map those steps and replace them with systems that run on their own, so your team spends time on decisions instead of data entry.",
+      "Every business has one constraint doing more damage than the rest combined. The audit finds it. Six weeks, inside the operation, with the people doing the work — then a written diagnosis you can act on whether or not you hire us again.",
+    overview: [
+      "Most operational problems are misdiagnosed. Teams optimise the step that feels worst rather than the step that governs throughput, and six months later the same bottleneck has moved one desk to the left.",
+      "The audit is deliberately unglamorous. We observe the work, measure the handoffs, follow the exceptions, and interview the people who quietly keep things running. What comes out is a ranked list of constraints with the cost of each one attached.",
+    ],
     capabilities: [
       {
-        title: "Workflow mapping",
+        title: "Process mapping",
         description:
-          "We document how work actually moves through your business today, not how the org chart says it should.",
+          "Current-state maps built from observation and system logs, not from workshops where everyone describes the ideal version.",
       },
       {
-        title: "Process automation",
+        title: "Constraint analysis",
         description:
-          "We build automated pipelines that connect your existing tools and handle repetitive tasks end to end.",
+          "We quantify where throughput is actually lost — queue time, rework, waiting on a decision — and rank by cost.",
       },
       {
-        title: "Exception handling",
+        title: "Cost-of-delay modelling",
         description:
-          "Systems are designed to flag edge cases for a human instead of failing silently.",
+          "Each bottleneck gets a number, so sequencing the fixes becomes an arithmetic question rather than a political one.",
       },
       {
-        title: "Monitoring & alerting",
+        title: "Written diagnosis",
         description:
-          "Every workflow ships with visibility — you always know what ran, what didn't, and why.",
+          "A document your team can act on independently, with a recommended sequence and the evidence behind each call.",
       },
-    ],
-    process: [
-      { number: "01", title: "Discover", description: "Understand the current operation." },
-      { number: "02", title: "Design", description: "Map the future-state system." },
-      { number: "03", title: "Build", description: "Implement workflows, integrations and interfaces." },
-      { number: "04", title: "Launch", description: "Test, train and hand over." },
-      { number: "05", title: "Optimize", description: "Monitor and improve." },
     ],
     deliverables: [
-      "Documented process maps",
-      "Automated workflows in production",
-      "Monitoring dashboard",
-      "Internal handover documentation",
+      "Current-state process maps",
+      "Ranked constraint register with cost-of-delay",
+      "Written diagnosis and recommended sequence",
+      "Executive readout session",
     ],
     whoItsFor: [
-      "Operations teams drowning in manual, repetitive tasks",
-      "Businesses running critical processes across disconnected tools",
-      "Founders who want to scale headcount slower than revenue",
+      "Businesses growing faster than their processes can absorb",
+      "Leadership teams that disagree about where the real problem is",
+      "Operators who've fixed symptoms twice and want the cause",
     ],
     faq: [
       {
-        question: "What kind of processes can be automated?",
+        question: "How disruptive is the audit to the team?",
         answer:
-          "Anything rules-based and repeated: data entry, approvals, notifications, reporting, file handling, and routing work between systems and people.",
+          "Minimally. We work around the operation rather than through it — mostly observation and short interviews. Expect roughly two hours per key person across six weeks.",
       },
       {
-        question: "Will this replace our team?",
+        question: "What if we already know what's broken?",
         answer:
-          "No. The goal is to remove the repetitive parts of a role so people can focus on judgment calls, relationships, and work that actually needs a human.",
+          "Then the audit either confirms it with numbers you can act on, or it tells you the thing you were about to spend six figures fixing wasn't the constraint. Both are worth knowing first.",
       },
     ],
+    motif: "surface",
   },
   {
-    slug: "ai-voice-agents",
+    slug: "systems-design",
     number: "02",
-    title: "AI Voice Agents",
-    short:
-      "Build intelligent voice agents that answer calls, qualify leads, schedule appointments and handle routine conversations.",
+    label: "Build",
+    title: "Systems Design",
+    summary:
+      "Designing and installing the operating system that removes the constraint for good.",
     intro:
-      "Missed calls are missed revenue. We build voice agents trained on how your business actually talks to customers — answering common questions, qualifying leads, and booking appointments, with a clean handoff to a human whenever a conversation needs one.",
+      "A diagnosis is not a fix. Systems Design is where the future-state operation gets drawn, built and run in parallel with the current one until the numbers hold — then handed over with the documentation and ownership to keep it running.",
+    overview: [
+      "We design the operation as a system: what runs without a human, what needs judgment, who owns each decision, and what happens when something falls outside the rules.",
+      "The last part matters most. Systems fail at their exceptions, so we design the exception path first and build the happy path around it.",
+    ],
     capabilities: [
       {
-        title: "Conversation design",
+        title: "Future-state design",
         description:
-          "Scripts and decision trees built from your real call transcripts, not generic templates.",
+          "The target operation drawn end to end, with owners, decision rights and service levels attached to each step.",
       },
       {
-        title: "Lead qualification",
+        title: "Workflow implementation",
         description:
-          "Agents ask the right questions and route qualified leads straight into your CRM.",
+          "We build it — integrations, automations, interfaces — against your existing stack rather than replacing it.",
       },
       {
-        title: "Scheduling",
+        title: "Exception design",
         description:
-          "Direct integration with your calendar so appointments are booked without back-and-forth.",
+          "Edge cases route to a named human with context attached, instead of failing silently or stalling the queue.",
       },
       {
-        title: "Human handoff",
+        title: "Instrumentation",
         description:
-          "Clear escalation paths so complex or sensitive calls reach a person immediately.",
+          "Every system ships with the dashboard that shows whether it's still working, so decay surfaces early.",
       },
-    ],
-    process: [
-      { number: "01", title: "Discover", description: "Listen to real calls and identify patterns." },
-      { number: "02", title: "Design", description: "Script the conversation flows and guardrails." },
-      { number: "03", title: "Build", description: "Configure the agent, integrations and voice." },
-      { number: "04", title: "Launch", description: "Run in parallel, tune, then go live." },
-      { number: "05", title: "Optimize", description: "Review transcripts and refine monthly." },
     ],
     deliverables: [
-      "Live voice agent on your existing number",
-      "Call transcripts and analytics",
-      "CRM-integrated lead capture",
-      "Escalation and handoff rules",
+      "Future-state system design and decision-rights map",
+      "Implemented workflows running in production",
+      "Operating dashboard and alerting",
+      "Handover documentation and team training",
     ],
     whoItsFor: [
-      "Businesses that miss calls outside business hours",
-      "Teams spending hours a day on routine phone screening",
-      "Service businesses booking appointments by phone",
+      "Teams with a diagnosis and no capacity to execute it",
+      "Operations running critical work across disconnected tools",
+      "Businesses that need throughput to grow faster than headcount",
     ],
     faq: [
       {
-        question: "Does it sound robotic?",
+        question: "Do you replace our existing tools?",
         answer:
-          "No. We use natural, low-latency voice models and write conversation flows specifically for how your customers speak.",
+          "Rarely. Replacing a stack is expensive and usually unnecessary — most constraints live in the handoffs between tools, not the tools themselves.",
       },
       {
-        question: "What happens when the agent doesn't know the answer?",
+        question: "Who owns the system afterwards?",
         answer:
-          "It says so, and either transfers the call live or logs the question for a team member to follow up.",
+          "Your team. We hand over documentation, train a named owner, and stay available on a support arrangement — but nothing we build should require us to keep running.",
       },
     ],
+    motif: "facade",
   },
   {
-    slug: "crm-automation",
+    slug: "organizational-alignment",
     number: "03",
-    title: "Lead & CRM Automation",
-    short:
-      "Capture, qualify and route leads automatically across your marketing and sales stack.",
+    label: "Embed",
+    title: "Organizational Alignment",
+    summary:
+      "Making the new operating model survive contact with the organisation that has to run it.",
     intro:
-      "Leads arrive from a dozen places and too often sit untouched. We connect your forms, ads, calls and inbox to one system that qualifies, scores and routes every lead the moment it arrives.",
+      "Most operational change fails after go-live, when the system meets the incentives, reporting lines and habits that produced the old one. Alignment is the work of making the new model the path of least resistance.",
+    overview: [
+      "A system that requires people to act against their own incentives will lose, every time. So we look at what the organisation actually rewards, who owns which decision, and where accountability is ambiguous enough to be avoidable.",
+      "This is the least technical and most decisive part of the work. It is also the part most consultancies leave to the client.",
+    ],
     capabilities: [
       {
-        title: "Lead capture",
-        description: "Every channel — forms, ads, chat, phone — feeds into a single pipeline.",
+        title: "Decision-rights mapping",
+        description:
+          "Who decides, who's consulted, who's merely informed — written down, so escalation stops being a personality contest.",
       },
       {
-        title: "Scoring & routing",
-        description: "Leads are qualified automatically and assigned to the right owner instantly.",
+        title: "Operating cadence",
+        description:
+          "The meeting and review rhythm that keeps the system honest, sized to the business rather than inherited from one.",
       },
       {
-        title: "Follow-up sequencing",
-        description: "Automated, personalized outreach keeps leads warm without manual effort.",
+        title: "Role and accountability design",
+        description:
+          "Clear ownership for each part of the operation, including the parts nobody currently owns.",
       },
       {
-        title: "Reporting",
-        description: "Clear visibility into pipeline velocity, source performance and conversion.",
+        title: "Change enablement",
+        description:
+          "Training, documentation and the internal case for why the new way is better, built with the people who have to live it.",
       },
-    ],
-    process: [
-      { number: "01", title: "Discover", description: "Audit the current lead flow end to end." },
-      { number: "02", title: "Design", description: "Design the scoring and routing logic." },
-      { number: "03", title: "Build", description: "Connect the stack and automate the pipeline." },
-      { number: "04", title: "Launch", description: "Train the team and go live." },
-      { number: "05", title: "Optimize", description: "Refine scoring against real outcomes." },
     ],
     deliverables: [
-      "Unified lead pipeline",
-      "Automated scoring and routing rules",
-      "Follow-up sequences in production",
-      "Source-level reporting",
+      "Decision-rights and accountability map",
+      "Operating cadence and review structure",
+      "Role definitions for the new model",
+      "Enablement materials and rollout plan",
     ],
     whoItsFor: [
-      "Sales teams losing leads between tools",
-      "Marketing teams that can't prove channel ROI",
-      "Businesses with slow, inconsistent lead response times",
+      "Businesses where a good process keeps losing to old habits",
+      "Leadership teams with overlapping or ambiguous ownership",
+      "Organisations that have implemented change and watched it decay",
     ],
     faq: [
       {
-        question: "Can you work with our existing CRM?",
+        question: "Is this change management?",
         answer:
-          "Yes. We build around what you already use — HubSpot, Salesforce, Pipedrive, GoHighLevel and most modern CRMs support the integrations we need.",
+          "Narrower and more concrete. We're not running a culture programme — we're fixing the specific incentives, decision rights and cadence that determine whether the new operating model holds.",
       },
       {
-        question: "How fast can leads be contacted after this is live?",
+        question: "Can this run without the other engagements?",
         answer:
-          "Most clients move from hours to under a minute for the first automated touch.",
+          "Yes, if you already have a system that works on paper but keeps losing in practice. That's usually an alignment problem, not a design one.",
       },
     ],
-  },
-  {
-    slug: "internal-ai-systems",
-    number: "04",
-    title: "Internal AI Systems",
-    short:
-      "Build custom internal tools, dashboards and knowledge systems that help teams work faster.",
-    intro:
-      "The information your team needs is usually somewhere — just not anywhere useful. We build internal tools that put the right data and the right answers in front of the right people, without another tab to check.",
-    capabilities: [
-      {
-        title: "Internal dashboards",
-        description: "Live views of the metrics that matter, pulled from your existing systems.",
-      },
-      {
-        title: "Knowledge systems",
-        description: "Searchable, AI-assisted access to internal documentation and policy.",
-      },
-      {
-        title: "Custom internal tools",
-        description: "Purpose-built interfaces for the workflows your team runs every day.",
-      },
-      {
-        title: "Access & permissions",
-        description: "Role-based access built in from day one, not bolted on after.",
-      },
-    ],
-    process: [
-      { number: "01", title: "Discover", description: "Identify where teams lose time hunting for information." },
-      { number: "02", title: "Design", description: "Design the interface around the actual workflow." },
-      { number: "03", title: "Build", description: "Build and connect to your data sources." },
-      { number: "04", title: "Launch", description: "Roll out with training and documentation." },
-      { number: "05", title: "Optimize", description: "Iterate based on real usage." },
-    ],
-    deliverables: [
-      "Production internal application",
-      "Connected data sources",
-      "Role-based permissions",
-      "Team onboarding materials",
-    ],
-    whoItsFor: [
-      "Teams spending hours searching for information across tools",
-      "Operations leaders who need live visibility into the business",
-      "Companies outgrowing spreadsheets as a system of record",
-    ],
-    faq: [
-      {
-        question: "Do we need an internal technical team?",
-        answer:
-          "No. We handle build and deployment, and hand over documentation so your team can operate it confidently day to day.",
-      },
-      {
-        question: "Can this integrate with our existing software?",
-        answer:
-          "Yes — we design internal systems around your existing stack rather than asking you to replace it.",
-      },
-    ],
-  },
-  {
-    slug: "custom-software",
-    number: "05",
-    title: "Custom Business Software",
-    short: "Design and develop software around the actual way the business operates.",
-    intro:
-      "Off-the-shelf software makes you adapt to it. We build software that adapts to you — modelled on how your business actually operates, not a generic template.",
-    capabilities: [
-      {
-        title: "Product strategy",
-        description: "We define scope around outcomes, not a feature wishlist.",
-      },
-      {
-        title: "System architecture",
-        description: "Built to integrate cleanly with what you already run.",
-      },
-      {
-        title: "Application development",
-        description: "Production-grade software, built and maintained to a professional standard.",
-      },
-      {
-        title: "Ongoing support",
-        description: "We stay involved after launch so the system evolves with the business.",
-      },
-    ],
-    process: [
-      { number: "01", title: "Discover", description: "Understand the operational requirements." },
-      { number: "02", title: "Design", description: "Architect the system and interface." },
-      { number: "03", title: "Build", description: "Develop, test and integrate." },
-      { number: "04", title: "Launch", description: "Deploy and train the team." },
-      { number: "05", title: "Optimize", description: "Support and extend post-launch." },
-    ],
-    deliverables: [
-      "Production software application",
-      "System architecture documentation",
-      "Deployment and hosting setup",
-      "Ongoing support agreement",
-    ],
-    whoItsFor: [
-      "Businesses whose processes don't fit off-the-shelf tools",
-      "Companies replacing spreadsheets or legacy systems",
-      "Organizations that need software as a long-term operating asset",
-    ],
-    faq: [
-      {
-        question: "How long does a custom build take?",
-        answer:
-          "Most engagements move from discovery to a live first version in 8–14 weeks, depending on scope.",
-      },
-      {
-        question: "Do you support the software after launch?",
-        answer:
-          "Yes — ongoing support and iteration is part of every custom software engagement.",
-      },
-    ],
+    motif: "colonnade",
   },
 ];
+
+/** All service pages share the engagement arc. */
+export const serviceProcess = processSteps;
 
 export const getServiceBySlug = (slug: string) => services.find((s) => s.slug === slug);

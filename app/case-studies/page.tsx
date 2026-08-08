@@ -1,15 +1,14 @@
 import type { Metadata } from "next";
 import { PageHero } from "@/components/sections/PageHero";
-import { Container } from "@/components/ui/Container";
-import { Reveal } from "@/components/motion/Reveal";
-import { CaseStudyCard } from "@/components/cards/CaseStudyCard";
 import { FinalCTA } from "@/components/sections/FinalCTA";
-import { caseStudies } from "@/lib/data/case-studies";
+import { Container } from "@/components/ui/Container";
+import { CaseStudyCard } from "@/components/cards/CaseStudyCard";
+import { caseStudies } from "@/lib/data/caseStudies";
 
 export const metadata: Metadata = {
   title: "Case Studies",
   description:
-    "Results from systems Halyard has designed and implemented across healthcare, real estate, and professional services.",
+    "How specific operational constraints were found and removed across logistics, distribution and construction.",
   alternates: { canonical: "/case-studies" },
 };
 
@@ -17,27 +16,43 @@ export default function CaseStudiesPage() {
   return (
     <>
       <PageHero
-        breadcrumb={[{ label: "Home", href: "/" }, { label: "Case Studies", href: "/case-studies" }]}
-        eyebrow="Case studies"
-        title="Results, not promises."
-        description="A look at how specific operational problems became working systems — and what changed once they did."
+        breadcrumb={[
+          { label: "Home", href: "/" },
+          { label: "Case Studies", href: "/case-studies" },
+        ]}
+        label="Selected work"
+        lines={["Operational clarity,", "measured."]}
+        standfirst="Three engagements, written up properly: what was actually wrong, what we changed, and what moved as a result."
       />
-      <section className="bg-background py-20 lg:py-28">
+
+      <section className="bg-cream py-24 lg:py-32">
         <Container>
-          <p className="mb-14 max-w-lg text-[13px] text-muted">
-            Figures below are illustrative composites built from patterns
-            across real engagements, used here to represent the scale of
-            outcome each project type can deliver.
+          <p className="mb-16 max-w-[54ch] text-[0.8125rem] leading-relaxed text-muted">
+            Client names are withheld under NDA and the figures shown are
+            illustrative composites drawn from patterns across engagements —
+            they represent the scale of outcome each project type delivers
+            rather than a single audited account.
           </p>
-          <div className="grid grid-cols-1 gap-x-8 gap-y-16 md:grid-cols-2 lg:grid-cols-3">
+
+          <div data-reveal-group className="grid grid-cols-1 gap-x-8 gap-y-20 lg:grid-cols-2">
             {caseStudies.map((study, i) => (
-              <Reveal key={study.slug} delay={i * 90}>
-                <CaseStudyCard study={study} index={i} />
-              </Reveal>
+              <div
+                key={study.slug}
+                data-reveal
+                // Offsetting alternate cards keeps the grid from reading as
+                // matched tiles and gives the page an editorial rhythm.
+                className={i % 2 === 1 ? "lg:mt-24" : undefined}
+              >
+                <CaseStudyCard
+                  study={study}
+                  aspect={i % 2 === 1 ? "aspect-[4/5]" : "aspect-[4/3]"}
+                />
+              </div>
             ))}
           </div>
         </Container>
       </section>
+
       <FinalCTA />
     </>
   );

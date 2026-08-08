@@ -1,52 +1,121 @@
 import Link from "next/link";
+import clsx from "clsx";
 import { Container } from "@/components/ui/Container";
-import { Reveal } from "@/components/motion/Reveal";
+import { DisplayLines } from "@/components/ui/DisplayLines";
 
+/**
+ * Inner-page opening. Marked `data-hero` so the page-load timeline choreographs
+ * it and the generic scroll pass leaves it alone — inner pages get the same
+ * entrance sequence as the homepage, minus the full-bleed image.
+ */
 export function PageHero({
   breadcrumb,
-  eyebrow,
-  title,
-  description,
+  label,
+  lines,
+  standfirst,
+  meta,
+  tone = "dark",
 }: {
   breadcrumb?: { label: string; href: string }[];
-  eyebrow: string;
-  title: React.ReactNode;
-  description?: string;
+  label: string;
+  lines: string[];
+  standfirst?: string;
+  meta?: { label: string; value: string }[];
+  tone?: "dark" | "light";
 }) {
+  const onDark = tone === "dark";
+
   return (
-    <section className="border-b border-border bg-background pb-16 pt-[calc(76px+64px)] lg:pb-20 lg:pt-[calc(76px+88px)]">
+    <section
+      data-hero
+      className={clsx(
+        "pb-16 pt-32 sm:pt-36 lg:pb-20 lg:pt-40",
+        onDark ? "bg-charcoal" : "border-b border-border bg-cream"
+      )}
+    >
       <Container>
         {breadcrumb && (
-          <nav aria-label="Breadcrumb" className="mb-8 flex items-center gap-2 text-[13px] text-muted">
-            {breadcrumb.map((b, i) => (
-              <span key={b.href} className="flex items-center gap-2">
-                {i > 0 && <span aria-hidden>/</span>}
-                <Link href={b.href} className="hover:text-foreground">
-                  {b.label}
+          <nav
+            aria-label="Breadcrumb"
+            className={clsx(
+              "mb-10 flex flex-wrap items-center gap-2 text-[0.8125rem]",
+              onDark ? "text-muted" : "text-muted"
+            )}
+          >
+            {breadcrumb.map((crumb, i) => (
+              <span key={crumb.href} className="flex items-center gap-2">
+                {i > 0 && <span aria-hidden="true">/</span>}
+                <Link
+                  href={crumb.href}
+                  className={clsx(
+                    "transition-colors",
+                    onDark ? "hover:text-cream" : "hover:text-charcoal"
+                  )}
+                >
+                  {crumb.label}
                 </Link>
               </span>
             ))}
           </nav>
         )}
-        <Reveal>
-          <div className="mb-6 flex items-center gap-3">
-            <span className="h-[6px] w-[6px] rounded-full bg-accent" aria-hidden />
-            <span className="text-[11px] font-semibold uppercase tracking-label text-muted">
-              {eyebrow}
-            </span>
-          </div>
-          <h1
-            className="max-w-3xl text-balance font-medium leading-[1.02] tracking-tightest text-foreground"
-            style={{ fontSize: "clamp(2.6rem, 5.2vw, 5rem)" }}
-          >
-            {title}
-          </h1>
-          {description && (
-            <p className="mt-7 max-w-xl text-balance text-[17px] leading-relaxed text-muted">
-              {description}
-            </p>
+
+        <p
+          data-hero-item="eyebrow"
+          className={clsx(
+            "flex items-center gap-3 text-label uppercase",
+            onDark ? "text-muted-light" : "text-muted"
           )}
-        </Reveal>
+        >
+          <span aria-hidden="true" className="h-px w-6 bg-accent" />
+          {label}
+        </p>
+
+        <h1
+          className={clsx(
+            "mt-8 max-w-[24ch] font-display text-display-xl",
+            onDark ? "text-cream" : "text-charcoal"
+          )}
+        >
+          <DisplayLines lines={lines} />
+        </h1>
+
+        {standfirst && (
+          <p
+            data-hero-item="body"
+            className={clsx(
+              "mt-9 max-w-[52ch] text-[1.0625rem] leading-relaxed",
+              onDark ? "text-muted-light" : "text-muted"
+            )}
+          >
+            {standfirst}
+          </p>
+        )}
+
+        {meta && (
+          <dl
+            data-hero-item="cta"
+            className={clsx(
+              "mt-14 grid grid-cols-2 gap-x-8 gap-y-8 border-t pt-10 sm:grid-cols-4",
+              onDark ? "border-border-dark" : "border-border"
+            )}
+          >
+            {meta.map((item) => (
+              <div key={item.label}>
+                <dt className={clsx("text-label uppercase", onDark ? "text-muted" : "text-muted")}>
+                  {item.label}
+                </dt>
+                <dd
+                  className={clsx(
+                    "mt-3 text-[0.9375rem]",
+                    onDark ? "text-cream" : "text-charcoal"
+                  )}
+                >
+                  {item.value}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        )}
       </Container>
     </section>
   );

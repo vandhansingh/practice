@@ -1,38 +1,45 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { RevealImage } from "@/components/motion/RevealImage";
-import { PlaceholderVisual } from "@/components/visuals/PlaceholderVisual";
-import type { CaseStudy } from "@/lib/data/case-studies";
+import { ArchitecturalImage } from "@/components/visuals/ArchitecturalImage";
+import type { CaseStudy } from "@/lib/data/caseStudies";
 
-const TONES = ["moss", "clay", "sand"] as const;
-const PATTERNS = ["contour", "arc", "diagonal"] as const;
-
-export function CaseStudyCard({ study, index = 0 }: { study: CaseStudy; index?: number }) {
+/** Large editorial case-study card. The image is the primary element. */
+export function CaseStudyCard({
+  study,
+  aspect = "aspect-[4/3]",
+}: {
+  study: CaseStudy;
+  aspect?: string;
+}) {
   return (
-    <Link href={`/case-studies/${study.slug}`} data-cursor="view" className="group block">
-      <RevealImage className="aspect-[4/3] w-full rounded-sm">
-        <PlaceholderVisual
-          tone={TONES[index % TONES.length]}
-          pattern={PATTERNS[index % PATTERNS.length]}
-          className="h-full transition-transform duration-700 ease-power3-out group-hover:scale-[1.02]"
-          label={study.title}
-        />
-      </RevealImage>
-      <div className="mt-5 flex items-start justify-between gap-4">
-        <div>
-          <p className="text-[12px] font-semibold uppercase tracking-label text-muted">
-            {study.industry}
-          </p>
-          <h3 className="mt-2 max-w-md text-balance text-[19px] font-medium leading-snug tracking-tightest text-foreground">
+    <article>
+      <Link href={`/case-studies/${study.slug}`} data-hover-card className="group block">
+        <div data-image-reveal data-image-mask className={`w-full ${aspect}`}>
+          <div data-hover-image className="h-full w-full">
+            <ArchitecturalImage
+              uid={`cs-${study.slug}`}
+              tone={study.tone}
+              motif={study.motif}
+              className="h-full w-full"
+              label={`${study.category} — ${study.title}`}
+            />
+          </div>
+        </div>
+
+        <div className="mt-6 flex items-baseline justify-between gap-4 border-t border-border pt-5">
+          <span className="text-label uppercase text-muted">{study.category}</span>
+          <span data-hover-arrow className="text-charcoal">
+            <ArrowUpRight size={18} strokeWidth={1.75} aria-hidden="true" />
+          </span>
+        </div>
+
+        <div data-hover-shift>
+          <h3 className="mt-4 max-w-[30ch] font-display text-display-sm text-charcoal">
             {study.title}
           </h3>
+          <p className="mt-3 text-[0.9375rem] text-muted">{study.outcome}</p>
         </div>
-        <ArrowUpRight
-          size={20}
-          className="mt-1 shrink-0 text-foreground transition-transform duration-500 ease-power3-out group-hover:translate-x-1 group-hover:-translate-y-1"
-          aria-hidden
-        />
-      </div>
-    </Link>
+      </Link>
+    </article>
   );
 }

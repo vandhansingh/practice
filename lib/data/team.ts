@@ -1,37 +1,33 @@
 export type TeamMember = {
   name: string;
   role: string;
-  description: string;
+  bio: string;
   initials: string;
 };
 
 export const team: TeamMember[] = [
   {
-    name: "Sam Ostrander",
-    role: "Founder & Systems Director",
-    description:
-      "Twelve years building operational software before starting Halyard. Leads discovery on every engagement.",
-    initials: "SO",
+    name: "Ruth Okonjo",
+    role: "Founding Partner",
+    bio: "Fifteen years in industrial operations before founding the practice. Leads diagnosis on every engagement.",
+    initials: "RO",
   },
   {
-    name: "Dana Whitfield",
-    role: "Head of Automation",
-    description:
-      "Designs the workflow architecture behind every automation build, from mapping to monitoring.",
-    initials: "DW",
+    name: "Daniel Reiss",
+    role: "Partner, Systems",
+    bio: "Designs the future-state operating models and owns implementation quality end to end.",
+    initials: "DR",
   },
   {
-    name: "Theo Marsh",
-    role: "Lead Engineer",
-    description:
-      "Builds and ships the integrations, agents and internal tools clients rely on daily.",
-    initials: "TM",
+    name: "Mei Lundqvist",
+    role: "Partner, Alignment",
+    bio: "Works on decision rights, cadence and the organisational conditions that let a new system hold.",
+    initials: "ML",
   },
   {
-    name: "Aisha Kader",
-    role: "Client Strategy Lead",
-    description:
-      "Keeps every engagement anchored to a measurable business outcome, not just a technical one.",
-    initials: "AK",
+    name: "Tomas Ferreira",
+    role: "Principal",
+    bio: "Runs the audit workstream — measurement, instrumentation and the numbers behind each recommendation.",
+    initials: "TF",
   },
 ];

@@ -1,20 +1,21 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Check } from "lucide-react";
+import Link from "next/link";
+import { ArrowUpRight, Check } from "lucide-react";
 import { PageHero } from "@/components/sections/PageHero";
-import { Process } from "@/components/sections/Process";
-import { FAQ } from "@/components/sections/FAQ";
+import { ProcessList } from "@/components/sections/ProcessList";
+import { FaqSection } from "@/components/sections/FaqSection";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { Container } from "@/components/ui/Container";
-import { Reveal } from "@/components/motion/Reveal";
-import { RevealImage } from "@/components/motion/RevealImage";
-import { PlaceholderVisual } from "@/components/visuals/PlaceholderVisual";
+import { Label } from "@/components/ui/Label";
+import { DisplayLines } from "@/components/ui/DisplayLines";
+import { ArchitecturalImage } from "@/components/visuals/ArchitecturalImage";
 import { services, getServiceBySlug } from "@/lib/data/services";
 import { testimonials } from "@/lib/data/testimonials";
 import { site } from "@/lib/data/site";
 
 export function generateStaticParams() {
-  return services.map((s) => ({ slug: s.slug }));
+  return services.map((service) => ({ slug: service.slug }));
 }
 
 export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
@@ -22,8 +23,9 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
   if (!service) return {};
   return {
     title: service.title,
-    description: service.short,
+    description: service.summary,
     alternates: { canonical: `/services/${service.slug}` },
+    openGraph: { title: service.title, description: service.summary },
   };
 }
 
@@ -31,23 +33,25 @@ export default function ServiceDetailPage({ params }: { params: { slug: string }
   const service = getServiceBySlug(params.slug);
   if (!service) notFound();
 
-  const serviceSchema = {
+  const index = services.findIndex((s) => s.slug === service.slug);
+  const next = services[(index + 1) % services.length];
+  const testimonial = testimonials[index % testimonials.length];
+
+  const schema = {
     "@context": "https://schema.org",
     "@type": "Service",
     name: service.title,
-    description: service.short,
-    provider: { "@type": "Organization", name: site.name },
+    description: service.summary,
+    serviceType: service.label,
+    provider: { "@type": "ProfessionalService", name: site.name },
     areaServed: "Global",
   };
-
-  const testimonial = testimonials[0];
 
   return (
     <>
       <script
         type="application/ld+json"
-        // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
 
       <PageHero
@@ -56,93 +60,157 @@ export default function ServiceDetailPage({ params }: { params: { slug: string }
           { label: "Services", href: "/services" },
           { label: service.title, href: `/services/${service.slug}` },
         ]}
-        eyebrow={`Service ${service.number}`}
-        title={service.title}
-        description={service.intro}
+        label={`${service.number} — ${service.label}`}
+        lines={[service.title]}
+        standfirst={service.intro}
       />
 
-      <section className="border-b border-border bg-background pb-20 lg:pb-28">
+      {/* Full-bleed image bridging the dark hero into the light body */}
+      <section className="bg-charcoal">
         <Container>
-          <RevealImage className="aspect-[21/9] w-full rounded-sm">
-            <PlaceholderVisual tone="moss" pattern="nodes" className="h-full" label={`${service.title} system diagram`} />
-          </RevealImage>
+          <div data-image-reveal data-image-mask className="aspect-[21/9] w-full">
+            <div className="h-full w-full">
+              <ArchitecturalImage
+                uid={`svc-hero-${service.slug}`}
+                tone="dusk"
+                motif={service.motif}
+                className="h-full w-full"
+                label={`${service.title} — architectural study`}
+              />
+            </div>
+          </div>
+        </Container>
+        <div className="h-24 lg:h-32" />
+      </section>
+
+      {/* Overview */}
+      <section className="bg-cream py-24 lg:py-32">
+        <Container>
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-10">
+            <div className="lg:col-span-4">
+              <Label className="mb-7">Overview</Label>
+            </div>
+            <div data-reveal className="lg:col-span-7 lg:col-start-6">
+              <div className="space-y-6">
+                {service.overview.map((paragraph) => (
+                  <p
+                    key={paragraph}
+                    className="text-[1.125rem] leading-relaxed text-charcoal first:font-display first:text-display-sm first:leading-snug"
+                  >
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
+            </div>
+          </div>
         </Container>
       </section>
 
-      <section className="bg-surface py-20 lg:py-28">
+      {/* What's included — four capabilities */}
+      <section className="bg-cream-dark py-24 lg:py-32">
         <Container>
-          <Reveal>
-            <div className="mb-6 flex items-center gap-3">
-              <span className="h-[6px] w-[6px] rounded-full bg-accent" aria-hidden />
-              <span className="text-[11px] font-semibold uppercase tracking-label text-muted">
-                What&rsquo;s included
-              </span>
-            </div>
-          </Reveal>
-          <div className="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2">
-            {service.capabilities.map((c, i) => (
-              <Reveal key={c.title} delay={i * 80} className="border-t border-border pt-6">
-                <h3 className="text-[18px] font-medium text-foreground">{c.title}</h3>
-                <p className="mt-3 text-[15px] leading-relaxed text-muted">{c.description}</p>
-              </Reveal>
+          <Label className="mb-7">What&rsquo;s included</Label>
+          <h2 className="max-w-[20ch] font-display text-display-lg text-charcoal">
+            <DisplayLines lines={["Four parts to", "the engagement."]} />
+          </h2>
+
+          <div
+            data-reveal-group
+            className="mt-16 grid grid-cols-1 gap-x-10 gap-y-12 sm:grid-cols-2"
+          >
+            {service.capabilities.map((capability, i) => (
+              <div key={capability.title} data-reveal className="border-t border-border pt-6">
+                <span className="tabular text-label uppercase text-muted">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <h3 className="mt-4 font-display text-display-sm text-charcoal">
+                  {capability.title}
+                </h3>
+                <p className="mt-3 max-w-[44ch] text-[0.9375rem] leading-relaxed text-muted">
+                  {capability.description}
+                </p>
+              </div>
             ))}
           </div>
         </Container>
       </section>
 
-      <Process steps={service.process} eyebrow="Process" title="How this engagement runs." />
+      <ProcessList label="Process" lines={["How the work", "actually runs."]} />
 
-      <section className="border-y border-border bg-background py-20 lg:py-28">
-        <Container className="grid grid-cols-1 gap-12 lg:grid-cols-12">
-          <div className="lg:col-span-6">
-            <Reveal>
-              <h2 className="text-[22px] font-medium tracking-tightest text-foreground">
-                Deliverables
-              </h2>
-              <ul className="mt-6 space-y-4">
-                {service.deliverables.map((d) => (
-                  <li key={d} className="flex items-start gap-3 text-[15px] text-muted">
-                    <Check size={17} className="mt-0.5 shrink-0 text-accent" aria-hidden />
-                    <span>{d}</span>
+      {/* Deliverables + who it's for */}
+      <section className="border-y border-border bg-cream-dark py-24 lg:py-32">
+        <Container>
+          <div className="grid grid-cols-1 gap-14 lg:grid-cols-12 lg:gap-10">
+            <div data-reveal className="lg:col-span-5">
+              <Label className="mb-8">Deliverables</Label>
+              <ul className="flex flex-col">
+                {service.deliverables.map((item) => (
+                  <li
+                    key={item}
+                    className="flex items-start gap-4 border-t border-border py-4 text-[0.9375rem] text-charcoal"
+                  >
+                    <Check size={16} className="mt-1 shrink-0 text-accent" aria-hidden="true" />
+                    <span>{item}</span>
                   </li>
                 ))}
               </ul>
-            </Reveal>
-          </div>
-          <div className="lg:col-span-6">
-            <Reveal delay={100}>
-              <h2 className="text-[22px] font-medium tracking-tightest text-foreground">
-                Who it&rsquo;s for
-              </h2>
-              <ul className="mt-6 space-y-4">
-                {service.whoItsFor.map((w) => (
-                  <li key={w} className="flex items-start gap-3 text-[15px] text-muted">
-                    <Check size={17} className="mt-0.5 shrink-0 text-accent" aria-hidden />
-                    <span>{w}</span>
+            </div>
+
+            <div data-reveal className="lg:col-span-5 lg:col-start-8">
+              <Label className="mb-8">Who it&rsquo;s for</Label>
+              <ul className="flex flex-col">
+                {service.whoItsFor.map((item) => (
+                  <li
+                    key={item}
+                    className="flex items-start gap-4 border-t border-border py-4 text-[0.9375rem] text-charcoal"
+                  >
+                    <Check size={16} className="mt-1 shrink-0 text-accent" aria-hidden="true" />
+                    <span>{item}</span>
                   </li>
                 ))}
               </ul>
-            </Reveal>
+            </div>
           </div>
         </Container>
       </section>
 
-      <FAQ items={service.faq} eyebrow="FAQ" />
+      <FaqSection
+        items={service.faq}
+        label="FAQ"
+        lines={["Common", "questions."]}
+        background="cream"
+      />
 
-      <section className="bg-cream py-20 lg:py-28">
+      {/* Testimonial */}
+      <section className="bg-charcoal py-24 lg:py-32">
         <Container>
-          <Reveal className="mx-auto max-w-2xl text-center">
-            <p
-              className="font-serif italic leading-[1.3] tracking-tight text-foreground text-balance"
-              style={{ fontSize: "clamp(1.4rem, 2.6vw, 2rem)" }}
-            >
+          <div data-reveal className="max-w-[42ch]">
+            <p className="font-display text-display-md text-cream">
               &ldquo;{testimonial.quote}&rdquo;
             </p>
-            <p className="mt-6 text-[14px] text-muted">
-              <span className="font-medium text-foreground">{testimonial.name}</span> ·{" "}
-              {testimonial.role}, {testimonial.company}
+            <p className="mt-8 text-[0.875rem] text-muted">
+              <span className="text-cream">{testimonial.role}</span> — {testimonial.company}
             </p>
-          </Reveal>
+          </div>
+        </Container>
+      </section>
+
+      {/* Next service */}
+      <section className="bg-cream py-20 lg:py-24">
+        <Container>
+          <Link
+            href={`/services/${next.slug}`}
+            data-hover-card
+            className="group flex flex-col justify-between gap-6 border-t border-border pt-8 sm:flex-row sm:items-end"
+          >
+            <div>
+              <p className="text-label uppercase text-muted">Next service</p>
+              <h2 className="mt-4 font-display text-display-md text-charcoal">{next.title}</h2>
+            </div>
+            <span data-hover-arrow className="text-charcoal">
+              <ArrowUpRight size={24} strokeWidth={1.5} aria-hidden="true" />
+            </span>
+          </Link>
         </Container>
       </section>
 

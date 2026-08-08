@@ -8,23 +8,23 @@ export type Testimonial = {
 export const testimonials: Testimonial[] = [
   {
     quote:
-      "We stopped treating automation as a collection of tools and finally built a system around how our team actually works.",
-    name: "Priya Nandan",
-    role: "COO",
-    company: "Outpatient Healthcare Group",
+      "They spent two weeks watching how we actually work before proposing anything. Nobody had done that before — every previous firm arrived with the answer already written.",
+    name: "Operations Director",
+    role: "Operations Director",
+    company: "National freight operator",
   },
   {
     quote:
-      "Halyard didn't sell us on AI. They asked where our week actually went, then quietly removed the worst parts of it.",
-    name: "Marcus Webb",
-    role: "Managing Broker",
-    company: "Regional Real Estate Group",
+      "The finding was that we'd been paying overtime to paper over a process problem for two years. Uncomfortable, and completely correct.",
+    name: "Managing Director",
+    role: "Managing Director",
+    company: "B2B distributor",
   },
   {
     quote:
-      "The system just runs. That's the whole review — we don't think about it anymore, which is exactly the point.",
-    name: "Elena Choi",
-    role: "Head of Client Services",
-    company: "Professional Services Firm",
+      "What stuck was that they left. The system runs without them, which is the only real test of whether the work was any good.",
+    name: "Commercial Director",
+    role: "Commercial Director",
+    company: "Regional main contractor",
   },
 ];

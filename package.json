@@ -1,8 +1,8 @@
 {
-  "name": "meridian-systems",
+  "name": "halyard-site",
   "version": "1.0.0",
   "private": true,
-  "description": "AI automation & digital systems agency — premium editorial marketing site.",
+  "description": "Operations consultancy — premium editorial marketing site.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -10,15 +10,13 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@types/three": "^0.185.4",
     "clsx": "^2.1.1",
     "framer-motion": "^11.11.9",
     "gsap": "^3.12.5",
     "lucide-react": "^0.451.0",
     "next": "^14.2.15",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "three": "^0.185.1"
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
     "@types/node": "^20.16.11",

@@ -1,43 +1,68 @@
 import Link from "next/link";
-import { site } from "@/lib/data/site";
 import { Container } from "@/components/ui/Container";
+import { site } from "@/lib/data/site";
 
+/**
+ * Large dark editorial footer. Columns reveal as a stagger group so the whole
+ * block settles in one motion rather than eight independent ones.
+ */
 export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-border bg-surface">
-      <Container className="py-20 lg:py-28">
-        <div className="grid grid-cols-2 gap-y-14 lg:grid-cols-12 lg:gap-x-8">
-          <div className="col-span-2 lg:col-span-5">
-            <Link href="/" className="text-[22px] font-semibold tracking-tightest text-foreground">
+    <footer className="bg-charcoal pt-24 lg:pt-32">
+      <Container>
+        <div data-reveal-group className="grid grid-cols-2 gap-y-14 lg:grid-cols-12 lg:gap-x-8">
+          <div data-reveal className="col-span-2 lg:col-span-4">
+            <Link href="/" className="font-display text-[1.75rem] leading-none text-cream">
               {site.name}
             </Link>
-            <p className="mt-5 max-w-sm text-[15px] leading-relaxed text-muted">
+            <p className="mt-6 max-w-[34ch] text-[0.9375rem] leading-relaxed text-muted-light">
               {site.description}
             </p>
-            <p className="mt-8 text-[13px] uppercase tracking-label text-muted">
-              {site.location}
-            </p>
+            <p className="mt-10 text-label uppercase text-muted">{site.location}</p>
           </div>
 
-          <FooterColumn title="Services" links={site.footerNav.services} className="lg:col-span-3" />
-          <FooterColumn title="Company" links={site.footerNav.company} className="lg:col-span-2" />
+          <div data-reveal className="lg:col-span-3">
+            <FooterHeading>Services</FooterHeading>
+            <FooterLinks links={site.footerNav.services} />
+          </div>
 
-          <div className="col-span-2 lg:col-span-2">
-            <p className="mb-5 text-[11px] font-semibold uppercase tracking-label text-muted">Connect</p>
-            <ul className="flex flex-col gap-3 text-[15px] text-foreground/80">
+          <div data-reveal className="lg:col-span-2">
+            <FooterHeading>Company</FooterHeading>
+            <FooterLinks links={site.footerNav.company} />
+          </div>
+
+          <div data-reveal className="col-span-2 lg:col-span-3">
+            <FooterHeading>Contact</FooterHeading>
+            <ul className="flex flex-col gap-3 text-[0.9375rem]">
               <li>
-                <a href={`mailto:${site.email}`} className="hover:text-accent">{site.email}</a>
+                <a
+                  href={`mailto:${site.email}`}
+                  // An email address is a single unbreakable token; without an
+                  // explicit break opportunity a long one overflows its column.
+                  className="text-cream transition-colors [overflow-wrap:anywhere] hover:text-accent"
+                >
+                  {site.email}
+                </a>
               </li>
-              <li className="flex gap-4 pt-2">
-                <a href={site.social.linkedin} className="hover:text-accent" aria-label="LinkedIn">
+              <li>
+                <a
+                  href={`tel:${site.phone.replace(/[^\d+]/g, "")}`}
+                  className="text-muted-light transition-colors hover:text-cream"
+                >
+                  {site.phone}
+                </a>
+              </li>
+            </ul>
+            <ul className="mt-6 flex gap-4 text-[0.8125rem] text-muted-light">
+              <li>
+                <a href={site.social.linkedin} className="transition-colors hover:text-cream">
                   LinkedIn
                 </a>
-                <a href={site.social.instagram} className="hover:text-accent" aria-label="Instagram">
-                  Instagram
-                </a>
-                <a href={site.social.x} className="hover:text-accent" aria-label="X">
+              </li>
+              <li>
+                <a href={site.social.x} className="transition-colors hover:text-cream">
                   X
                 </a>
               </li>
@@ -45,46 +70,36 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-20 flex flex-col-reverse items-start justify-between gap-6 border-t border-border pt-8 sm:flex-row sm:items-center">
-          <p className="text-[13px] text-muted">
-            © {year} {site.legalName}. All rights reserved.
+        <div
+          data-reveal="fade"
+          className="mt-20 flex flex-col-reverse items-start justify-between gap-4 border-t border-border-dark py-8 sm:flex-row sm:items-center"
+        >
+          <p className="text-[0.8125rem] text-muted">
+            © {year} {site.legalName}
           </p>
-          <ul className="flex gap-6 text-[13px] text-muted">
-            {site.footerNav.legal.map((l) => (
-              <li key={l.href}>
-                <Link href={l.href} className="hover:text-foreground">
-                  {l.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <p className="text-[0.8125rem] text-muted">
+            Figures shown across this site are illustrative composites.
+          </p>
         </div>
       </Container>
     </footer>
   );
 }
 
-function FooterColumn({
-  title,
-  links,
-  className,
-}: {
-  title: string;
-  links: { label: string; href: string }[];
-  className?: string;
-}) {
+function FooterHeading({ children }: { children: React.ReactNode }) {
+  return <p className="mb-6 text-label uppercase text-muted">{children}</p>;
+}
+
+function FooterLinks({ links }: { links: { label: string; href: string }[] }) {
   return (
-    <div className={className}>
-      <p className="mb-5 text-[11px] font-semibold uppercase tracking-label text-muted">{title}</p>
-      <ul className="flex flex-col gap-3 text-[15px] text-foreground/80">
-        {links.map((l) => (
-          <li key={l.href}>
-            <Link href={l.href} className="transition-colors hover:text-accent">
-              {l.label}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <ul className="flex flex-col gap-3 text-[0.9375rem]">
+      {links.map((link) => (
+        <li key={link.href}>
+          <Link href={link.href} className="text-muted-light transition-colors hover:text-cream">
+            {link.label}
+          </Link>
+        </li>
+      ))}
+    </ul>
   );
 }

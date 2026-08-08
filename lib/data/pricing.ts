@@ -1,57 +1,80 @@
-export type PricingTier = {
+export type Engagement = {
   name: string;
-  tagline: string;
+  positioning: string;
+  price: string;
+  priceNote: string;
   idealFor: string;
   included: string[];
-  engagement: string;
+  duration: string;
   cta: string;
   featured?: boolean;
 };
 
-export const pricingTiers: PricingTier[] = [
+export const engagements: Engagement[] = [
   {
-    name: "Foundation",
-    tagline: "For businesses beginning their automation journey.",
+    name: "Operations Audit",
+    positioning: "Start here if the constraint isn't yet named.",
+    price: "From £28,000",
+    priceNote: "Fixed fee, six weeks",
     idealFor:
-      "Teams that know time is being lost to manual work but haven't yet mapped where, or how much.",
+      "Leadership teams who know throughput is being lost but disagree about where — or have fixed the symptom twice already.",
     included: [
-      "Operational audit & process mapping",
-      "One automated workflow, built and deployed",
-      "Monitoring & handover documentation",
-      "30 days of post-launch support",
+      "Six weeks embedded in the operation",
+      "Current-state process mapping",
+      "Ranked constraint register with cost-of-delay",
+      "Written diagnosis and recommended sequence",
+      "Executive readout",
     ],
-    engagement: "4–6 week engagement",
-    cta: "Start with Foundation",
+    duration: "6 weeks",
+    cta: "Scope an audit",
   },
   {
-    name: "Systems",
-    tagline: "For businesses ready to automate core workflows.",
+    name: "Design & Install",
+    positioning: "The full arc, from diagnosis to a system that runs.",
+    price: "From £95,000",
+    priceNote: "Fixed fee, scoped after audit",
     idealFor:
-      "Growing companies with two or more operational bottlenecks slowing the whole business down.",
+      "Businesses with a constraint they can name and no internal capacity to design and install the fix without stalling the day job.",
     included: [
-      "Everything in Foundation",
-      "Up to four connected automated workflows",
-      "CRM or voice agent integration",
-      "Internal dashboard for visibility",
-      "90 days of post-launch support",
+      "Everything in the Operations Audit",
+      "Future-state system design",
+      "Implementation against your existing stack",
+      "Operating dashboard and alerting",
+      "Parallel-run period until numbers hold",
+      "Handover documentation and training",
     ],
-    engagement: "8–12 week engagement",
-    cta: "Start with Systems",
+    duration: "14–20 weeks",
+    cta: "Discuss an engagement",
     featured: true,
   },
   {
-    name: "Scale",
-    tagline: "For organizations building a complete AI operating layer.",
+    name: "Retained Partnership",
+    positioning: "For operations that need to keep changing.",
+    price: "From £11,000",
+    priceNote: "Per month, minimum six months",
     idealFor:
-      "Established businesses ready to unify automation, internal tools and custom software into one system.",
+      "Multi-site or multi-entity businesses treating operational capability as an ongoing programme rather than a one-off project.",
     included: [
-      "Everything in Systems",
-      "Custom internal software or application",
-      "Dedicated systems architecture",
-      "Quarterly optimization reviews",
-      "Ongoing support retainer",
+      "Standing partner access",
+      "Quarterly operating reviews",
+      "Rolling design and implementation capacity",
+      "Alignment and cadence work",
+      "Priority on new workstreams",
     ],
-    engagement: "Ongoing partnership",
-    cta: "Talk to us about Scale",
+    duration: "Ongoing",
+    cta: "Talk about a retainer",
   },
+];
+
+/** Row-by-row comparison shown beneath the engagement cards. */
+export const comparison: { feature: string; values: [string, string, string] }[] = [
+  { feature: "Embedded diagnostic", values: ["Yes", "Yes", "Ongoing"] },
+  { feature: "Written diagnosis", values: ["Yes", "Yes", "Quarterly"] },
+  { feature: "Future-state design", values: ["—", "Yes", "Yes"] },
+  { feature: "Implementation", values: ["—", "Yes", "Rolling"] },
+  { feature: "Operating dashboard", values: ["—", "Yes", "Yes"] },
+  { feature: "Parallel-run period", values: ["—", "Yes", "Per workstream"] },
+  { feature: "Alignment & cadence", values: ["—", "Included", "Included"] },
+  { feature: "Post-launch review", values: ["—", "90 days", "Continuous"] },
+  { feature: "Partner-led delivery", values: ["Yes", "Yes", "Yes"] },
 ];

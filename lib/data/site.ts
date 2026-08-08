@@ -1,46 +1,47 @@
 export const site = {
   name: "Halyard",
-  legalName: "Halyard Systems Ltd.",
-  domain: "halyard.co",
-  tagline: "AI systems & automation studio",
+  legalName: "Halyard Partners LLP",
+  domain: "halyardpartners.com",
+  discipline: "Operations Consulting",
   description:
-    "Halyard designs AI-powered systems that remove operational friction, automate repetitive work, and help growing businesses scale without adding unnecessary complexity.",
-  founded: "2017",
-  location: "Remote-first · London & Austin",
-  email: "studio@halyard.co",
-  phone: "+1 (512) 555-0148",
+    "Halyard is an operations consultancy. We find the constraint that's limiting your business, then design and install the systems that remove it.",
+  founded: "2016",
+  location: "London · New York",
+  email: "hello@halyardpartners.com",
+  phone: "+44 20 7946 0412",
+
   social: {
     linkedin: "https://linkedin.com",
     instagram: "https://instagram.com",
     x: "https://x.com",
   },
+
+  /** Primary navigation — deliberately short, per the reference's four links. */
   nav: [
     { label: "Services", href: "/services" },
     { label: "Case Studies", href: "/case-studies" },
-    { label: "About", href: "/about" },
-    { label: "Insights", href: "/blog" },
     { label: "Pricing", href: "/pricing" },
+    { label: "Blog", href: "/blog" },
   ],
+
+  cta: { label: "Book a call", href: "/contact" },
+  ctaLong: { label: "Book a discovery call", href: "/contact" },
+
   footerNav: {
     services: [
-      { label: "AI Automation", href: "/services/ai-automation" },
-      { label: "AI Voice Agents", href: "/services/ai-voice-agents" },
-      { label: "Lead & CRM Automation", href: "/services/crm-automation" },
-      { label: "Internal AI Systems", href: "/services/internal-ai-systems" },
-      { label: "Custom Business Software", href: "/services/custom-software" },
+      { label: "Overview", href: "/services" },
+      { label: "Operations Audit", href: "/services/operations-audit" },
+      { label: "Systems Design", href: "/services/systems-design" },
+      { label: "Organizational Alignment", href: "/services/organizational-alignment" },
+      { label: "The Constraint Audit", href: "/the-constraint-audit" },
+      { label: "Pricing", href: "/pricing" },
     ],
     company: [
-      { label: "About", href: "/about" },
       { label: "Case Studies", href: "/case-studies" },
-      { label: "Insights", href: "/blog" },
-      { label: "Pricing", href: "/pricing" },
+      { label: "About", href: "/about" },
+      { label: "Blog", href: "/blog" },
       { label: "Contact", href: "/contact" },
-    ],
-    legal: [
-      { label: "Privacy", href: "/privacy" },
-      { label: "Terms", href: "/terms" },
+      { label: "Privacy Policy", href: "/privacy" },
     ],
   },
-  ctaPrimary: { label: "Book a strategy call", href: "/contact" },
-  ctaSecondary: { label: "See our work", href: "/case-studies" },
 };

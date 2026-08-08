@@ -4,36 +4,36 @@ export const faq: FaqItem[] = [
   {
     question: "How does an engagement begin?",
     answer:
-      "With a strategy call where we understand your operations and identify where the highest-impact automation opportunities are. If there's a fit, we scope a fixed engagement from there — no long sales process.",
+      "With a call, then a short scoping conversation with the people who run the operation. If there's a fit we propose a fixed-scope audit. We don't run long sales processes — you'll know within two conversations.",
   },
   {
-    question: "How long does implementation take?",
+    question: "How long does an engagement take?",
     answer:
-      "Most single-workflow builds take 4–6 weeks. Multi-system engagements typically run 8–12 weeks. We'll give you a specific timeline before work starts, not a range.",
+      "An Operations Audit is six weeks. Systems Design typically runs eight to fourteen weeks depending on scope. Alignment work is usually concurrent. You'll get specific dates before anything is signed, not a range.",
   },
   {
-    question: "What tools can you integrate?",
+    question: "Do you work with our existing systems?",
     answer:
-      "Most modern business software — CRMs, calendars, communication tools, spreadsheets, databases and internal systems with an API. We'll confirm feasibility during the strategy call.",
+      "Almost always. Most constraints live in the handoffs between tools rather than in the tools themselves, so replacing a stack is usually expensive and beside the point.",
   },
   {
-    question: "Can you work with our existing CRM?",
+    question: "Do we need internal technical capacity?",
     answer:
-      "Yes. We build around what you already use rather than asking you to migrate. HubSpot, Salesforce, Pipedrive, GoHighLevel and most modern CRMs are supported.",
+      "No. We build and implement, then hand over with documentation and a trained owner. Nothing we install should require us to keep it running.",
   },
   {
-    question: "Do we need an internal technical team?",
+    question: "Who actually does the work?",
     answer:
-      "No. We handle the build, deployment and documentation. Your team is trained to operate the system day to day, without needing to maintain the underlying code.",
+      "The partner who scoped your engagement. We stay deliberately small and take on fewer clients rather than staffing engagements with people you've never met.",
   },
   {
-    question: "Can you build custom software?",
+    question: "What happens after go-live?",
     answer:
-      "Yes — when off-the-shelf tools don't fit how your business actually operates, we design and build custom applications as part of the Scale engagement.",
+      "We run a parallel period until the numbers hold, then stay on a review cadence. Systems decay quietly, so the optimise phase is where a lot of the value is protected.",
   },
   {
-    question: "What happens after launch?",
+    question: "What if the audit says our problem is something else?",
     answer:
-      "Every engagement includes a post-launch support window, monitoring, and a review of real usage so the system keeps improving instead of quietly decaying.",
+      "Then it says so. A diagnosis you can act on independently is the deliverable — including when it means the expensive project you were about to approve wasn't the answer.",
   },
 ];

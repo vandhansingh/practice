@@ -1,38 +1,36 @@
 import { Container } from "@/components/ui/Container";
-import { Reveal } from "@/components/motion/Reveal";
-import { Button } from "@/components/buttons/Button";
+import { DisplayLines } from "@/components/ui/DisplayLines";
+import { Button } from "@/components/ui/Button";
 import { site } from "@/lib/data/site";
 
+/**
+ * Closing section rather than a card: the type runs large against the dark
+ * ground and flows straight into the footer, so the page ends on one continuous
+ * dark block instead of a boxed call-to-action.
+ */
 export function FinalCTA() {
   return (
-    <section className="relative overflow-hidden bg-foreground py-28 text-cream lg:py-40">
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.06]"
-        style={{
-          backgroundImage:
-            "repeating-linear-gradient(115deg, transparent, transparent 68px, #F4F1EA 69px)",
-        }}
-        aria-hidden
-      />
-      <Container className="relative">
-        <Reveal className="mx-auto max-w-3xl text-center">
-          <h2
-            className="text-balance font-medium leading-[1.02] tracking-tightest"
-            style={{ fontSize: "clamp(2.4rem, 5.2vw, 4.8rem)" }}
-          >
-            Ready to replace operational chaos with systems that work?
-          </h2>
-          <p className="mx-auto mt-7 max-w-lg text-balance text-[17px] leading-relaxed text-cream/65">
-            A single conversation is usually enough to know whether there&rsquo;s
-            a fit. No deck, no pressure — just a clear look at where your
-            business is losing time.
-          </p>
-          <div className="mt-10 flex justify-center">
-            <Button href={site.ctaPrimary.href} light>
-              {site.ctaPrimary.label}
-            </Button>
+    <section className="bg-charcoal pb-24 pt-28 lg:pb-32 lg:pt-40">
+      <Container>
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
+          <div className="lg:col-span-8">
+            <h2 className="font-display text-display-xl text-cream">
+              <DisplayLines lines={["Let's find the", "constraint."]} />
+            </h2>
           </div>
-        </Reveal>
+          <div data-reveal className="flex flex-col justify-end lg:col-span-4">
+            <p className="max-w-[38ch] text-[1.0625rem] leading-relaxed text-muted-light">
+              One conversation is usually enough to tell whether there's a fit.
+              No deck, no pitch — a straight read on where your operation is
+              losing throughput.
+            </p>
+            <div className="mt-9">
+              <Button href={site.ctaLong.href} variant="primary">
+                {site.ctaLong.label}
+              </Button>
+            </div>
+          </div>
+        </div>
       </Container>
     </section>
   );

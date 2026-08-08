@@ -1,110 +1,83 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowLeft, ArrowRight } from "lucide-react";
 import clsx from "clsx";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import type { Testimonial } from "@/lib/data/testimonials";
 
-export function TestimonialSlider({
-  testimonials,
-  light = false,
-}: {
-  testimonials: Testimonial[];
-  light?: boolean;
-}) {
+/**
+ * Large editorial quotation with minimal controls.
+ *
+ * Slides are stacked in a single grid cell rather than absolutely positioned, so
+ * the container is naturally as tall as the longest quote — no magic min-height
+ * that breaks when copy changes or the viewport narrows.
+ */
+export function TestimonialSlider({ items }: { items: Testimonial[] }) {
   const [index, setIndex] = useState(0);
 
-  const go = (dir: 1 | -1) => {
-    setIndex((i) => (i + dir + testimonials.length) % testimonials.length);
-  };
+  const go = (dir: 1 | -1) => setIndex((i) => (i + dir + items.length) % items.length);
 
   return (
     <div>
-      <div className="relative min-h-[260px] sm:min-h-[180px]">
-        {testimonials.map((t, i) => (
-          <blockquote
-            key={t.name}
-            aria-hidden={i !== index}
-            className={clsx(
-              "absolute inset-0 transition-all duration-700 ease-power3-out",
-              i === index ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-3 opacity-0"
-            )}
-          >
-            <p
+      <div className="grid">
+        {items.map((item, i) => {
+          const active = i === index;
+          return (
+            <blockquote
+              key={item.company}
+              aria-hidden={!active}
               className={clsx(
-                "max-w-3xl text-balance font-serif italic leading-[1.3] tracking-tight",
-                light ? "text-cream" : "text-foreground"
-              )}
-              style={{ fontSize: "clamp(1.5rem, 3vw, 2.4rem)" }}
-            >
-              &ldquo;{t.quote}&rdquo;
-            </p>
-            <footer
-              className={clsx(
-                "mt-7 flex flex-wrap items-center gap-x-3 gap-y-1 text-[14px]",
-                light ? "text-cream/60" : "text-muted"
+                "col-start-1 row-start-1 transition-all duration-700 ease-expo",
+                active
+                  ? "translate-x-0 opacity-100"
+                  : "pointer-events-none translate-x-5 opacity-0"
               )}
             >
-              <span className={clsx("font-medium", light ? "text-cream" : "text-foreground")}>
-                {t.name}
-              </span>
-              <span aria-hidden>·</span>
-              <span>
-                {t.role}, {t.company}
-              </span>
-            </footer>
-          </blockquote>
-        ))}
+              <p className="max-w-[38ch] font-display text-display-md text-cream">
+                &ldquo;{item.quote}&rdquo;
+              </p>
+              <footer className="mt-10 flex items-center gap-4">
+                <span
+                  aria-hidden="true"
+                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-border-dark text-[0.6875rem] font-medium tracking-wider text-muted-light"
+                >
+                  {item.company
+                    .split(" ")
+                    .slice(0, 2)
+                    .map((w) => w[0])
+                    .join("")}
+                </span>
+                <span className="text-[0.875rem] leading-snug">
+                  <span className="block text-cream">{item.role}</span>
+                  <span className="block text-muted">{item.company}</span>
+                </span>
+              </footer>
+            </blockquote>
+          );
+        })}
       </div>
 
-      <div className="mt-10 flex items-center gap-4">
+      <div className="mt-12 flex items-center gap-3">
         <button
           type="button"
           onClick={() => go(-1)}
           aria-label="Previous testimonial"
-          className={clsx(
-            "flex h-11 w-11 items-center justify-center rounded-full border transition-colors",
-            light
-              ? "border-cream/25 text-cream hover:border-cream hover:text-cream"
-              : "border-border text-foreground hover:border-accent hover:text-accent"
-          )}
+          className="flex h-11 w-11 items-center justify-center rounded-[2px] border border-border-dark text-cream transition-colors duration-300 hover:border-accent hover:text-accent"
         >
-          <ArrowLeft size={17} />
+          <ArrowLeft size={16} aria-hidden="true" />
         </button>
         <button
           type="button"
           onClick={() => go(1)}
           aria-label="Next testimonial"
-          className={clsx(
-            "flex h-11 w-11 items-center justify-center rounded-full border transition-colors",
-            light
-              ? "border-cream/25 text-cream hover:border-cream hover:text-cream"
-              : "border-border text-foreground hover:border-accent hover:text-accent"
-          )}
+          className="flex h-11 w-11 items-center justify-center rounded-[2px] border border-border-dark text-cream transition-colors duration-300 hover:border-accent hover:text-accent"
         >
-          <ArrowRight size={17} />
+          <ArrowRight size={16} aria-hidden="true" />
         </button>
-        <div className="ml-2 flex items-center gap-2" role="tablist" aria-label="Testimonial selector">
-          {testimonials.map((t, i) => (
-            <button
-              key={t.name}
-              role="tab"
-              aria-selected={i === index}
-              aria-label={`Show testimonial from ${t.name}`}
-              onClick={() => setIndex(i)}
-              className={clsx(
-                "h-[6px] rounded-full transition-all duration-300",
-                i === index
-                  ? light
-                    ? "w-7 bg-cream"
-                    : "w-7 bg-accent"
-                  : light
-                  ? "w-[6px] bg-cream/30"
-                  : "w-[6px] bg-border"
-              )}
-            />
-          ))}
-        </div>
+
+        <span className="ml-4 tabular text-[0.8125rem] text-muted">
+          {String(index + 1).padStart(2, "0")} / {String(items.length).padStart(2, "0")}
+        </span>
       </div>
     </div>
   );
