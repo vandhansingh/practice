@@ -2,9 +2,39 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ------------------------------------------------------------------ */
+/* Tokens — mirrored from lib/design-system/tokens.ts                   */
+/* ------------------------------------------------------------------ */
 :root {
-  --font-sans: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-serif: "Newsreader", Georgia, serif;
+  --cream: #f3efe7;
+  --cream-dark: #e8e0d2;
+  --white: #f8f6f1;
+  --charcoal: #1b1a18;
+  --charcoal-2: #24211f;
+  --charcoal-3: #302c29;
+  --muted: #77736b;
+  --muted-light: #a8a29a;
+  --border: #d7d0c3;
+  --border-dark: #3a3531;
+  --accent: #f2a329;
+  --accent-deep: #d8871a;
+
+  --ease-power3: cubic-bezier(0.215, 0.61, 0.355, 1);
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --container: 1320px;
+  --gutter: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  :root {
+    --gutter: 2rem;
+  }
+}
+@media (min-width: 1024px) {
+  :root {
+    --gutter: 3.5rem;
+  }
 }
 
 * {
@@ -12,82 +42,110 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background-color: #f4f1ea;
-  color: #181817;
-  font-family: var(--font-sans);
+  margin: 0;
+  background-color: var(--cream);
+  color: var(--charcoal);
+  font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
 }
 
 ::selection {
-  background-color: #253c35;
-  color: #f4f1ea;
+  background-color: var(--accent);
+  color: var(--charcoal);
 }
 
-/* Custom scrollbar - subtle, not intrusive */
-::-webkit-scrollbar {
-  width: 10px;
-}
-::-webkit-scrollbar-track {
-  background: #f4f1ea;
-}
-::-webkit-scrollbar-thumb {
-  background: #d8d3c8;
-  border-radius: 999px;
-  border: 2px solid #f4f1ea;
-}
-
-/* Visible, deliberate focus states */
 a:focus-visible,
 button:focus-visible,
 input:focus-visible,
 textarea:focus-visible,
+select:focus-visible,
 [tabindex]:focus-visible {
-  outline: 2px solid #253c35;
+  outline: 2px solid var(--accent);
   outline-offset: 3px;
   border-radius: 2px;
 }
 
-/* Reveal utility — visible by default (no-JS / crawlers / reduced-motion
-   all get fully visible content, per progressive-enhancement). Only once
-   JS has mounted does .reveal-armed hide the element ahead of its
-   IntersectionObserver-driven entrance via .is-visible. */
-.reveal.reveal-armed {
-  opacity: 0;
-  transform: translateY(28px);
-}
-.reveal.reveal-armed.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+/* Serif display face: optical corrections for large settings */
+.font-display {
+  font-feature-settings: "kern" 1, "liga" 1;
 }
 
-.reveal-image-mask {
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ------------------------------------------------------------------ */
+/* Motion pre-states                                                    */
+/*                                                                      */
+/* The .js-motion class is added to <html> by a tiny inline script that  */
+/* runs before first paint — and ONLY when JS is on and the visitor has  */
+/* not asked for reduced motion. Every rule below is scoped to it, so    */
+/* no-JS visitors, crawlers, and reduced-motion users get fully visible  */
+/* content with no hidden state to recover from. GSAP then animates      */
+/* these in with explicit fromTo() tweens, so the CSS pre-state and the  */
+/* tween never disagree about the end value.                            */
+/* ------------------------------------------------------------------ */
+.js-motion [data-reveal] {
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.js-motion [data-reveal-line] {
+  display: block;
   overflow: hidden;
 }
-.reveal-image-mask.reveal-armed img {
-  transform: scale(1.08);
-}
-.reveal-image-mask img {
-  transition: transform 1.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.reveal-image-mask.reveal-armed.is-visible img {
-  transform: scale(1);
+
+.js-motion [data-reveal-line] > * {
+  display: block;
+  opacity: 0;
+  transform: translateY(100%);
+  will-change: transform, opacity;
 }
 
-.marquee-track {
-  animation: marquee 34s linear infinite;
+.js-motion [data-image-reveal] > * {
+  clip-path: inset(0 0 100% 0);
+  will-change: clip-path, transform;
 }
 
+/* Image mask: the wrapper clips, the inner visual scales inside it. */
+[data-image-mask] {
+  overflow: hidden;
+}
+
+/* ------------------------------------------------------------------ */
+/* Hover micro-interactions (CSS where GSAP would be overkill)          */
+/* ------------------------------------------------------------------ */
+.link-underline {
+  position: relative;
+  display: inline-block;
+}
+.link-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 1px;
+  background-color: currentColor;
+  transition: width 0.5s var(--ease-expo);
+}
+.link-underline:hover::after {
+  width: 100%;
+}
+
+/* ------------------------------------------------------------------ */
+/* Reduced motion — content is already visible (no .js-motion), this    */
+/* additionally neutralises decorative transitions and any parallax.    */
+/* ------------------------------------------------------------------ */
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
   *,
   *::before,
   *::after {
@@ -96,25 +154,15 @@ textarea:focus-visible,
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
-  .reveal {
-    opacity: 1 !important;
-    transform: none !important;
-  }
-  .reveal-image-mask img {
-    transform: none !important;
-  }
 }
 
-/* Custom cursor (desktop, fine-pointer only — see CustomCursor.tsx) */
-.cursor-dot {
+/* Page-transition overlay */
+.page-veil {
   position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 100;
+  inset: 0;
+  z-index: 90;
+  background-color: var(--charcoal);
   pointer-events: none;
-  will-change: transform;
-}
-
-.text-balance {
-  text-wrap: balance;
+  transform: scaleY(0);
+  transform-origin: bottom;
 }

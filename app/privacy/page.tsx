@@ -5,34 +5,34 @@ import { site } from "@/lib/data/site";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
-  description: `How ${site.name} collects, uses and protects information.`,
+  description: `How ${site.name} collects, uses and protects personal information.`,
   alternates: { canonical: "/privacy" },
 };
 
 const sections = [
   {
-    title: "Information we collect",
-    body: "We collect information you provide directly — such as your name, email address, company and project details submitted through our contact form — along with basic analytics about how visitors use this site.",
+    title: "What we collect",
+    body: `We collect what you send us: your name, email address, company and the details of your enquiry submitted through the contact form. We also collect aggregate analytics about how this site is used.`,
   },
   {
-    title: "How we use information",
-    body: "Information submitted through our contact form is used solely to respond to your enquiry and, if an engagement begins, to deliver our services. We do not sell or rent personal information to third parties.",
+    title: "How we use it",
+    body: `Enquiry details are used to respond to you and, if an engagement begins, to deliver the work. We do not sell, rent or share personal information with third parties for their own marketing.`,
   },
   {
-    title: "Data retention",
-    body: "We retain enquiry and client information for as long as necessary to provide our services and meet legal or contractual obligations, after which it is securely deleted.",
+    title: "Client information",
+    body: `Operational data encountered during an engagement is treated as confidential and governed by the engagement agreement and any applicable NDA. Case studies on this site are anonymised and published only with client consent.`,
   },
   {
-    title: "Cookies & analytics",
-    body: "This site may use privacy-respecting analytics to understand aggregate traffic patterns. No personally identifying advertising cookies are used.",
+    title: "Retention",
+    body: `Enquiry records are kept for two years. Client records are kept for the period required by our professional and legal obligations, then securely deleted.`,
+  },
+  {
+    title: "Cookies and analytics",
+    body: `This site uses privacy-respecting analytics to understand aggregate traffic. We do not use advertising or cross-site tracking cookies.`,
   },
   {
     title: "Your rights",
-    body: `You may request access to, correction of, or deletion of your personal information at any time by contacting us at ${site.email}.`,
-  },
-  {
-    title: "Contact",
-    body: `Questions about this policy can be directed to ${site.email}.`,
+    body: `You may request access to, correction of, or deletion of your personal information at any time by writing to ${site.email}. We will respond within one month.`,
   },
 ];
 
@@ -40,20 +40,27 @@ export default function PrivacyPage() {
   return (
     <>
       <PageHero
-        breadcrumb={[{ label: "Home", href: "/" }, { label: "Privacy", href: "/privacy" }]}
-        eyebrow="Legal"
-        title="Privacy Policy"
-        description="Last updated August 2026."
+        breadcrumb={[
+          { label: "Home", href: "/" },
+          { label: "Privacy Policy", href: "/privacy" },
+        ]}
+        label="Legal"
+        lines={["Privacy Policy"]}
+        standfirst="Last updated August 2026."
       />
-      <section className="bg-background py-20 lg:py-28">
-        <Container className="max-w-3xl">
-          <div className="space-y-12">
-            {sections.map((s) => (
-              <div key={s.title} className="border-t border-border pt-6">
-                <h2 className="text-[19px] font-medium text-foreground">{s.title}</h2>
-                <p className="mt-3 text-[15px] leading-relaxed text-muted">{s.body}</p>
+
+      <section className="bg-cream py-24 lg:py-28">
+        <Container narrow>
+          <div className="flex flex-col">
+            {sections.map((section) => (
+              <div key={section.title} data-reveal className="border-t border-border py-10">
+                <h2 className="font-display text-display-sm text-charcoal">{section.title}</h2>
+                <p className="mt-4 max-w-[64ch] text-[1rem] leading-relaxed text-muted">
+                  {section.body}
+                </p>
               </div>
             ))}
+            <div className="border-t border-border" />
           </div>
         </Container>
       </section>

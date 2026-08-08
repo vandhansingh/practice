@@ -1,15 +1,16 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 import { PageHero } from "@/components/sections/PageHero";
-import { Container } from "@/components/ui/Container";
-import { Reveal } from "@/components/motion/Reveal";
-import { RevealImage } from "@/components/motion/RevealImage";
-import { PlaceholderVisual } from "@/components/visuals/PlaceholderVisual";
 import { FinalCTA } from "@/components/sections/FinalCTA";
-import { caseStudies, getCaseStudyBySlug } from "@/lib/data/case-studies";
+import { Container } from "@/components/ui/Container";
+import { Label } from "@/components/ui/Label";
+import { ArchitecturalImage } from "@/components/visuals/ArchitecturalImage";
+import { caseStudies, getCaseStudyBySlug } from "@/lib/data/caseStudies";
 
 export function generateStaticParams() {
-  return caseStudies.map((c) => ({ slug: c.slug }));
+  return caseStudies.map((study) => ({ slug: study.slug }));
 }
 
 export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
@@ -17,8 +18,9 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
   if (!study) return {};
   return {
     title: study.title,
-    description: study.result,
+    description: study.outcome,
     alternates: { canonical: `/case-studies/${study.slug}` },
+    openGraph: { title: study.title, description: study.outcome },
   };
 }
 
@@ -27,8 +29,7 @@ export default function CaseStudyDetailPage({ params }: { params: { slug: string
   if (!study) notFound();
 
   const index = caseStudies.findIndex((c) => c.slug === study.slug);
-  const tones = ["moss", "clay", "sand"] as const;
-  const patterns = ["contour", "arc", "diagonal"] as const;
+  const next = caseStudies[(index + 1) % caseStudies.length];
 
   return (
     <>
@@ -36,115 +37,152 @@ export default function CaseStudyDetailPage({ params }: { params: { slug: string
         breadcrumb={[
           { label: "Home", href: "/" },
           { label: "Case Studies", href: "/case-studies" },
-          { label: study.industry, href: `/case-studies/${study.slug}` },
+          { label: study.category, href: `/case-studies/${study.slug}` },
         ]}
-        eyebrow={study.industry}
-        title={study.title}
-        description={
-          study.isIllustrative
-            ? "An illustrative composite representing the scale of outcome this project type delivers."
-            : undefined
-        }
+        label={study.category}
+        lines={[study.title]}
+        standfirst={study.overview}
+        meta={[
+          { label: "Client", value: study.client },
+          { label: "Sector", value: study.category },
+          { label: "Services", value: study.services.join(", ") },
+          { label: "Outcome", value: study.outcome },
+        ]}
       />
 
-      <section className="border-b border-border bg-background pb-16 lg:pb-24">
+      <section className="bg-charcoal">
         <Container>
-          <RevealImage className="aspect-[21/9] w-full rounded-sm">
-            <PlaceholderVisual
-              tone={tones[index % tones.length]}
-              pattern={patterns[index % patterns.length]}
-              className="h-full"
-              label={study.title}
-            />
-          </RevealImage>
+          <div data-image-reveal data-image-mask className="aspect-[21/9] w-full">
+            <div className="h-full w-full">
+              <ArchitecturalImage
+                uid={`cs-hero-${study.slug}`}
+                tone={study.tone}
+                motif={study.motif}
+                className="h-full w-full"
+                label={`${study.category} — ${study.title}`}
+              />
+            </div>
+          </div>
+        </Container>
+        <div className="h-24 lg:h-32" />
+      </section>
+
+      {/* Editorial body — narrative, not a dashboard */}
+      <article className="bg-cream py-24 lg:py-32">
+        <Container>
+          <div className="grid grid-cols-1 gap-16 lg:grid-cols-12 lg:gap-10">
+            <div className="flex flex-col gap-16 lg:col-span-7">
+              <Block label="The challenge" paragraphs={study.challenge} lead />
+              <Block label="Our approach" paragraphs={study.approach} />
+              <Block label="Implementation" paragraphs={study.implementation} />
+            </div>
+
+            <aside className="lg:col-span-4 lg:col-start-9">
+              <div data-reveal className="sticky top-28 flex flex-col gap-12">
+                <div>
+                  <Label className="mb-8">Results</Label>
+                  <dl className="flex flex-col">
+                    {study.results.map((result) => (
+                      <div key={result.label} className="border-t border-border py-6">
+                        <dt className="sr-only">{result.label}</dt>
+                        <dd>
+                          <span className="tabular block font-display text-[clamp(2rem,3vw,2.75rem)] leading-none text-charcoal">
+                            {result.metric}
+                          </span>
+                          <span className="mt-3 block text-[0.875rem] leading-snug text-muted">
+                            {result.label}
+                          </span>
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
+                </div>
+
+                <div>
+                  <Label className="mb-6">Services applied</Label>
+                  <ul className="flex flex-wrap gap-2">
+                    {study.services.map((service) => (
+                      <li
+                        key={service}
+                        className="rounded-[2px] border border-border px-3 py-1.5 text-[0.8125rem] text-muted"
+                      >
+                        {service}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </Container>
+      </article>
+
+      {/* Client quote */}
+      <section className="bg-charcoal py-24 lg:py-32">
+        <Container>
+          <div data-reveal className="max-w-[40ch]">
+            <p className="font-display text-display-md text-cream">
+              &ldquo;{study.testimonial.quote}&rdquo;
+            </p>
+            <p className="mt-8 text-[0.875rem] text-muted">
+              <span className="text-cream">{study.testimonial.name}</span> —{" "}
+              {study.testimonial.role}
+            </p>
+          </div>
         </Container>
       </section>
 
-      <section className="bg-background py-20 lg:py-28">
-        <Container className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-10">
-          <div className="space-y-14 lg:col-span-7">
-            <Reveal>
-              <h2 className="text-[13px] font-semibold uppercase tracking-label text-muted">
-                Challenge
+      <section className="bg-cream py-20 lg:py-24">
+        <Container>
+          <Link
+            href={`/case-studies/${next.slug}`}
+            data-hover-card
+            className="group flex flex-col justify-between gap-6 border-t border-border pt-8 sm:flex-row sm:items-end"
+          >
+            <div>
+              <p className="text-label uppercase text-muted">Next case study</p>
+              <h2 className="mt-4 max-w-[28ch] font-display text-display-md text-charcoal">
+                {next.title}
               </h2>
-              <p className="mt-4 max-w-xl text-[17px] leading-relaxed text-foreground">
-                {study.challenge}
-              </p>
-            </Reveal>
-            <Reveal delay={80}>
-              <h2 className="text-[13px] font-semibold uppercase tracking-label text-muted">
-                Approach
-              </h2>
-              <p className="mt-4 max-w-xl text-[17px] leading-relaxed text-foreground">
-                {study.approach}
-              </p>
-            </Reveal>
-            <Reveal delay={160}>
-              <h2 className="text-[13px] font-semibold uppercase tracking-label text-muted">
-                System architecture
-              </h2>
-              <ul className="mt-5 space-y-3">
-                {study.architecture.map((a) => (
-                  <li key={a} className="border-t border-border pt-3 text-[15px] text-muted">
-                    {a}
-                  </li>
-                ))}
-              </ul>
-            </Reveal>
-            <Reveal delay={240}>
-              <h2 className="text-[13px] font-semibold uppercase tracking-label text-muted">
-                Implementation
-              </h2>
-              <p className="mt-4 max-w-xl text-[17px] leading-relaxed text-foreground">
-                {study.implementation}
-              </p>
-            </Reveal>
-          </div>
-
-          <div className="lg:col-span-5">
-            <Reveal delay={120} className="sticky top-28 space-y-10">
-              <div className="border border-border p-8">
-                <p className="text-[13px] font-semibold uppercase tracking-label text-muted">Results</p>
-                <div className="mt-6 space-y-6">
-                  {study.results.map((r) => (
-                    <div key={r.label}>
-                      <p className="font-medium tracking-tightest text-foreground" style={{ fontSize: "clamp(1.8rem, 2.6vw, 2.4rem)" }}>
-                        {r.metric}
-                      </p>
-                      <p className="mt-1 text-[13px] text-muted">{r.label}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="border border-border p-8">
-                <p className="text-[13px] font-semibold uppercase tracking-label text-muted">Technology</p>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {study.technology.map((t) => (
-                    <span
-                      key={t}
-                      className="rounded-full border border-border px-3 py-1.5 text-[13px] text-muted"
-                    >
-                      {t}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              <blockquote className="border-l-2 border-accent pl-6">
-                <p className="font-serif italic leading-snug text-foreground" style={{ fontSize: "1.1rem" }}>
-                  &ldquo;{study.testimonial.quote}&rdquo;
-                </p>
-                <footer className="mt-4 text-[13px] text-muted">
-                  {study.testimonial.name}, {study.testimonial.role}
-                </footer>
-              </blockquote>
-            </Reveal>
-          </div>
+            </div>
+            <span data-hover-arrow className="text-charcoal">
+              <ArrowUpRight size={24} strokeWidth={1.5} aria-hidden="true" />
+            </span>
+          </Link>
         </Container>
       </section>
 
       <FinalCTA />
     </>
+  );
+}
+
+function Block({
+  label,
+  paragraphs,
+  lead = false,
+}: {
+  label: string;
+  paragraphs: string[];
+  lead?: boolean;
+}) {
+  return (
+    <section data-reveal>
+      <Label className="mb-7">{label}</Label>
+      <div className="space-y-6">
+        {paragraphs.map((paragraph, i) => (
+          <p
+            key={paragraph}
+            className={
+              lead && i === 0
+                ? "font-display text-display-sm leading-snug text-charcoal"
+                : "text-[1.0625rem] leading-relaxed text-muted"
+            }
+          >
+            {paragraph}
+          </p>
+        ))}
+      </div>
+    </section>
   );
 }

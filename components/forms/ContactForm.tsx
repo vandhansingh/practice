@@ -1,120 +1,196 @@
 "use client";
 
-import { FormEvent, useState } from "react";
-import { ArrowUpRight, Check } from "lucide-react";
+import { useRef, useState } from "react";
+import clsx from "clsx";
+import { ArrowUpRight, Check, TriangleAlert } from "lucide-react";
 
-const budgetOptions = ["Under $10k", "$10k – $25k", "$25k – $50k", "$50k+"];
+type Status = "idle" | "submitting" | "success" | "error";
+type Errors = Partial<Record<"name" | "email" | "message", string>>;
+
+const NEEDS = [
+  "Not sure yet — I need a diagnosis",
+  "Operations Audit",
+  "Systems Design",
+  "Organizational Alignment",
+  "Something else",
+];
+
+const BUDGETS = ["Under £30k", "£30k – £75k", "£75k – £150k", "£150k+", "Not yet defined"];
 
 export function ContactForm() {
-  const [submitted, setSubmitted] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
+  const [status, setStatus] = useState<Status>("idle");
+  const [errors, setErrors] = useState<Errors>({});
+  const formRef = useRef<HTMLFormElement>(null);
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setSubmitting(true);
-    // No backend is wired up in this build — this simulates submission so
-    // the interaction and success state can be reviewed end to end.
-    window.setTimeout(() => {
-      setSubmitting(false);
-      setSubmitted(true);
-    }, 700);
-  };
+  function validate(data: FormData): Errors {
+    const next: Errors = {};
+    const name = String(data.get("name") ?? "").trim();
+    const email = String(data.get("email") ?? "").trim();
+    const message = String(data.get("message") ?? "").trim();
 
-  if (submitted) {
+    if (!name) next.name = "Please tell us your name.";
+    // Deliberately permissive: a strict pattern rejects valid addresses more
+    // often than it catches typos. The server is the real validator.
+    if (!email) next.email = "Please add an email address.";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+      next.email = "That doesn't look like a complete email address.";
+    if (!message) next.message = "A sentence or two is enough to start.";
+
+    return next;
+  }
+
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const data = new FormData(form);
+
+    const found = validate(data);
+    setErrors(found);
+
+    if (Object.keys(found).length > 0) {
+      // Move focus to the first field with a problem so keyboard and screen
+      // reader users aren't left guessing what failed.
+      const firstKey = Object.keys(found)[0];
+      form.querySelector<HTMLElement>(`[name="${firstKey}"]`)?.focus();
+      return;
+    }
+
+    setStatus("submitting");
+
+    try {
+      // No backend is wired up in this build. Swap this delay for the real
+      // POST — the error branch below already handles a rejected request.
+      //
+      //   const res = await fetch("/api/contact", { method: "POST", body: data });
+      //   if (!res.ok) throw new Error(String(res.status));
+      await new Promise((resolve) => setTimeout(resolve, 900));
+      setStatus("success");
+    } catch {
+      setStatus("error");
+    }
+  }
+
+  if (status === "success") {
     return (
-      <div className="border border-border bg-cream p-10 text-center sm:p-16">
-        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-accent text-cream">
-          <Check size={20} />
-        </div>
-        <h3 className="mt-6 text-[22px] font-medium tracking-tightest text-foreground">
-          Thanks — that&rsquo;s in.
-        </h3>
-        <p className="mx-auto mt-3 max-w-sm text-[15px] leading-relaxed text-muted">
-          We read every message personally and reply within one business
-          day to schedule a call.
+      <div className="border border-border bg-cream-dark/50 p-10 sm:p-14">
+        <span className="flex h-11 w-11 items-center justify-center rounded-full bg-accent text-charcoal">
+          <Check size={20} aria-hidden="true" />
+        </span>
+        <h2 className="mt-8 font-display text-display-sm text-charcoal">
+          Thank you — that&rsquo;s with us.
+        </h2>
+        <p className="mt-4 max-w-[42ch] text-[0.9375rem] leading-relaxed text-muted">
+          A partner reads every enquiry personally. You&rsquo;ll hear back within
+          one working day to arrange a call.
         </p>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-8" noValidate>
-      <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
-        <Field label="Full name" name="name" type="text" autoComplete="name" required />
-        <Field label="Work email" name="email" type="email" autoComplete="email" required />
-      </div>
-      <div className="grid grid-cols-1 gap-8 sm:grid-cols-2">
-        <Field label="Company" name="company" type="text" autoComplete="organization" />
-        <div>
-          <label htmlFor="budget" className="mb-2 block text-[13px] font-medium text-foreground">
-            Estimated budget
-          </label>
-          <select
-            id="budget"
-            name="budget"
-            defaultValue=""
-            className="w-full border-b border-border bg-transparent py-3 text-[15px] text-foreground outline-none transition-colors focus:border-accent"
-          >
-            <option value="" disabled>
-              Select a range
-            </option>
-            {budgetOptions.map((b) => (
-              <option key={b} value={b}>
-                {b}
-              </option>
-            ))}
-          </select>
-        </div>
+    <form ref={formRef} onSubmit={handleSubmit} noValidate className="flex flex-col gap-10">
+      <div className="grid grid-cols-1 gap-10 sm:grid-cols-2">
+        <Field
+          name="name"
+          label="Name"
+          type="text"
+          autoComplete="name"
+          required
+          error={errors.name}
+        />
+        <Field
+          name="email"
+          label="Email"
+          type="email"
+          autoComplete="email"
+          required
+          error={errors.email}
+        />
       </div>
 
+      <div className="grid grid-cols-1 gap-10 sm:grid-cols-2">
+        <Field name="company" label="Company" type="text" autoComplete="organization" />
+        <Select name="budget" label="Budget" options={BUDGETS} />
+      </div>
+
+      <Select name="need" label="What do you need help with?" options={NEEDS} />
+
       <div>
-        <label htmlFor="message" className="mb-2 block text-[13px] font-medium text-foreground">
-          What&rsquo;s slowing your business down right now?
+        <label htmlFor="message" className="mb-3 block text-label uppercase text-muted">
+          Where is the operation losing time?
+          <span className="ml-1 text-accent" aria-hidden="true">
+            *
+          </span>
         </label>
         <textarea
           id="message"
           name="message"
           rows={4}
           required
-          className="w-full resize-none border-b border-border bg-transparent py-3 text-[15px] text-foreground outline-none transition-colors focus:border-accent"
+          aria-required="true"
+          aria-invalid={Boolean(errors.message)}
+          aria-describedby={errors.message ? "message-error" : undefined}
+          className={clsx(
+            "w-full resize-none border-b bg-transparent py-3 text-[1rem] text-charcoal outline-none transition-colors placeholder:text-muted/60 focus:border-accent",
+            errors.message ? "border-accent-deep" : "border-border"
+          )}
         />
+        {errors.message && <FieldError id="message-error">{errors.message}</FieldError>}
       </div>
 
-      <button
-        type="submit"
-        disabled={submitting}
-        className="group inline-flex items-center gap-2.5 rounded-full bg-accent px-7 py-4 text-[14px] font-semibold text-cream transition-colors duration-300 hover:bg-foreground disabled:opacity-60"
-      >
-        <span>{submitting ? "Sending…" : "Send message"}</span>
-        {!submitting && (
-          <ArrowUpRight
-            size={16}
-            className="transition-transform duration-300 ease-power3-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-          />
-        )}
-      </button>
+      {status === "error" && (
+        <p
+          role="alert"
+          className="flex items-start gap-3 border-l-2 border-accent-deep pl-4 text-[0.875rem] text-charcoal"
+        >
+          <TriangleAlert size={16} className="mt-0.5 shrink-0 text-accent-deep" aria-hidden="true" />
+          <span>
+            That didn&rsquo;t send. Please try again, or email us directly and
+            we&rsquo;ll pick it up from there.
+          </span>
+        </p>
+      )}
+
+      <div>
+        <button
+          type="submit"
+          disabled={status === "submitting"}
+          className="group inline-flex items-center gap-3 rounded-card bg-accent py-1.5 pl-5 pr-1.5 text-[0.875rem] font-medium text-charcoal transition-colors duration-300 hover:bg-accent-deep disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          <span>{status === "submitting" ? "Sending…" : "Send enquiry"}</span>
+          <span className="flex h-8 w-8 items-center justify-center rounded-[2px] bg-charcoal/10 transition-transform duration-500 ease-expo group-hover:translate-x-0.5">
+            <ArrowUpRight size={15} aria-hidden="true" />
+          </span>
+        </button>
+      </div>
     </form>
   );
 }
 
 function Field({
-  label,
   name,
+  label,
   type,
   autoComplete,
   required,
+  error,
 }: {
-  label: string;
   name: string;
+  label: string;
   type: string;
   autoComplete?: string;
   required?: boolean;
+  error?: string;
 }) {
   return (
     <div>
-      <label htmlFor={name} className="mb-2 block text-[13px] font-medium text-foreground">
+      <label htmlFor={name} className="mb-3 block text-label uppercase text-muted">
         {label}
-        {required && <span className="text-accent"> *</span>}
+        {required && (
+          <span className="ml-1 text-accent" aria-hidden="true">
+            *
+          </span>
+        )}
       </label>
       <input
         id={name}
@@ -122,8 +198,54 @@ function Field({
         type={type}
         autoComplete={autoComplete}
         required={required}
-        className="w-full border-b border-border bg-transparent py-3 text-[15px] text-foreground outline-none transition-colors focus:border-accent"
+        aria-required={required}
+        aria-invalid={Boolean(error)}
+        aria-describedby={error ? `${name}-error` : undefined}
+        className={clsx(
+          "w-full border-b bg-transparent py-3 text-[1rem] text-charcoal outline-none transition-colors focus:border-accent",
+          error ? "border-accent-deep" : "border-border"
+        )}
       />
+      {error && <FieldError id={`${name}-error`}>{error}</FieldError>}
     </div>
+  );
+}
+
+function Select({
+  name,
+  label,
+  options,
+}: {
+  name: string;
+  label: string;
+  options: string[];
+}) {
+  return (
+    <div>
+      <label htmlFor={name} className="mb-3 block text-label uppercase text-muted">
+        {label}
+      </label>
+      <select
+        id={name}
+        name={name}
+        defaultValue=""
+        className="w-full border-b border-border bg-transparent py-3 text-[1rem] text-charcoal outline-none transition-colors focus:border-accent"
+      >
+        <option value="">Select…</option>
+        {options.map((option) => (
+          <option key={option} value={option}>
+            {option}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+}
+
+function FieldError({ id, children }: { id: string; children: React.ReactNode }) {
+  return (
+    <p id={id} className="mt-2 text-[0.8125rem] text-accent-deep">
+      {children}
+    </p>
   );
 }

@@ -1,52 +1,79 @@
 "use client";
 
 import { useState } from "react";
-import { Plus } from "lucide-react";
 import clsx from "clsx";
+import { Plus } from "lucide-react";
 import type { FaqItem } from "@/lib/data/faq";
 
-export function Accordion({ items }: { items: FaqItem[] }) {
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
+/**
+ * Accessible accordion. One panel open at a time.
+ *
+ * Height animates via grid-template-rows 0fr → 1fr, which transitions cleanly
+ * without measuring scrollHeight in JS. The panel stays in the DOM and is
+ * hidden with `hidden` when closed, so content is never announced while
+ * visually collapsed and never trapped from keyboard users when open.
+ */
+export function Accordion({ items, onDark = false }: { items: FaqItem[]; onDark?: boolean }) {
+  const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <div className="border-t border-border">
+    <div className={clsx("border-t", onDark ? "border-border-dark" : "border-border")}>
       {items.map((item, i) => {
-        const isOpen = openIndex === i;
-        const panelId = `faq-panel-${i}`;
-        const buttonId = `faq-button-${i}`;
+        const isOpen = open === i;
         return (
-          <div key={item.question} className="border-b border-border">
+          <div
+            key={item.question}
+            className={clsx("border-b", onDark ? "border-border-dark" : "border-border")}
+          >
             <h3>
               <button
-                id={buttonId}
                 type="button"
+                id={`faq-trigger-${i}`}
                 aria-expanded={isOpen}
-                aria-controls={panelId}
-                onClick={() => setOpenIndex(isOpen ? null : i)}
-                className="flex w-full items-center justify-between gap-6 py-6 text-left"
+                aria-controls={`faq-panel-${i}`}
+                onClick={() => setOpen(isOpen ? null : i)}
+                className="flex w-full items-start justify-between gap-8 py-7 text-left"
               >
-                <span className="text-[17px] font-medium text-foreground sm:text-[19px]">
+                <span
+                  className={clsx(
+                    "font-display text-[1.25rem] leading-snug sm:text-[1.4375rem]",
+                    onDark ? "text-cream" : "text-charcoal"
+                  )}
+                >
                   {item.question}
                 </span>
-                <Plus
-                  size={20}
+                <span
+                  aria-hidden="true"
                   className={clsx(
-                    "shrink-0 text-accent transition-transform duration-300 ease-power3-out",
+                    "mt-1 shrink-0 transition-transform duration-400 ease-expo",
                     isOpen && "rotate-45"
                   )}
-                  aria-hidden
-                />
+                >
+                  <Plus size={20} strokeWidth={1.5} className="text-accent" />
+                </span>
               </button>
             </h3>
+
             <div
-              id={panelId}
-              role="region"
-              aria-labelledby={buttonId}
-              className="grid transition-all duration-400 ease-power3-out"
+              className="grid transition-[grid-template-rows] duration-500 ease-expo"
               style={{ gridTemplateRows: isOpen ? "1fr" : "0fr" }}
             >
               <div className="overflow-hidden">
-                <p className="max-w-2xl pb-6 text-[15px] leading-relaxed text-muted">{item.answer}</p>
+                <div
+                  id={`faq-panel-${i}`}
+                  role="region"
+                  aria-labelledby={`faq-trigger-${i}`}
+                  hidden={!isOpen}
+                >
+                  <p
+                    className={clsx(
+                      "max-w-[62ch] pb-8 text-[0.9375rem] leading-relaxed",
+                      onDark ? "text-muted-light" : "text-muted"
+                    )}
+                  >
+                    {item.answer}
+                  </p>
+                </div>
               </div>
             </div>
           </div>

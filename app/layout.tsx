@@ -1,76 +1,87 @@
 import type { Metadata } from "next";
-import { Manrope, Newsreader } from "next/font/google";
+import { Instrument_Serif, Instrument_Sans } from "next/font/google";
 import "./globals.css";
-import { Header } from "@/components/layout/Header";
+import { SiteHeader } from "@/components/layout/SiteHeader";
 import { Footer } from "@/components/layout/Footer";
-import { CustomCursor } from "@/components/motion/CustomCursor";
+import { MotionController } from "@/components/motion/MotionController";
 import { site } from "@/lib/data/site";
 
-const manrope = Manrope({
+const display = Instrument_Serif({
   subsets: ["latin"],
-  variable: "--font-sans",
+  weight: "400",
+  style: ["normal", "italic"],
+  variable: "--font-display",
   display: "swap",
 });
 
-const newsreader = Newsreader({
+const sans = Instrument_Sans({
   subsets: ["latin"],
-  style: ["italic", "normal"],
-  variable: "--font-serif",
+  variable: "--font-sans",
   display: "swap",
 });
 
 export const metadata: Metadata = {
   metadataBase: new URL(`https://${site.domain}`),
   title: {
-    default: `${site.name} — AI Systems & Automation Studio`,
+    default: `${site.name} — Operations Consulting`,
     template: `%s — ${site.name}`,
   },
   description: site.description,
   openGraph: {
-    title: `${site.name} — AI Systems & Automation Studio`,
+    type: "website",
+    siteName: site.name,
+    title: `${site.name} — Operations Consulting`,
     description: site.description,
     url: `https://${site.domain}`,
-    siteName: site.name,
-    type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: `${site.name} — AI Systems & Automation Studio`,
+    title: `${site.name} — Operations Consulting`,
     description: site.description,
   },
-  alternates: {
-    canonical: "/",
-  },
+  alternates: { canonical: "/" },
 };
 
 const organizationSchema = {
   "@context": "https://schema.org",
-  "@type": "Organization",
+  "@type": "ProfessionalService",
   name: site.name,
   legalName: site.legalName,
   url: `https://${site.domain}`,
   description: site.description,
   email: site.email,
-  sameAs: [site.social.linkedin, site.social.instagram, site.social.x],
+  telephone: site.phone,
+  areaServed: "Global",
+  sameAs: [site.social.linkedin, site.social.x],
 };
+
+/**
+ * Adds .js-motion before first paint so animated elements can start hidden
+ * without a flash of visible content. Crucially it is skipped entirely when
+ * the visitor prefers reduced motion, and never runs at all with JS disabled —
+ * in both cases the CSS leaves everything visible.
+ */
+const motionBootstrap = `try{if(!matchMedia("(prefers-reduced-motion: reduce)").matches){document.documentElement.classList.add("js-motion")}}catch(e){}`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${manrope.variable} ${newsreader.variable}`}>
-      <body className="font-sans">
+    <html lang="en" className={`${display.variable} ${sans.variable}`}>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: motionBootstrap }} />
+      </head>
+      <body>
         <script
           type="application/ld+json"
-          // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
         />
         <a
           href="#main-content"
-          className="fixed left-4 top-4 z-[100] -translate-y-24 rounded-full bg-accent px-5 py-3 text-sm font-semibold text-cream transition-transform focus:translate-y-0"
+          className="fixed left-4 top-4 z-[100] -translate-y-32 rounded-card bg-accent px-5 py-3 text-sm font-medium text-charcoal transition-transform focus:translate-y-0"
         >
           Skip to content
         </a>
-        <CustomCursor />
-        <Header />
+        <MotionController />
+        <SiteHeader />
         <main id="main-content">{children}</main>
         <Footer />
       </body>
