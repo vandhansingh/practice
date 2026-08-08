@@ -1,15 +1,32 @@
 {
-  "name": "my-blog-app",
+  "name": "meridian-systems",
   "version": "1.0.0",
-  "description": "A simple blog-like web application",
-  "main": "app.js",
+  "private": true,
+  "description": "AI automation & digital systems agency — premium editorial marketing site.",
   "scripts": {
-    "start": "node app.js",
-    "build": "echo 'No build process required for this project'"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
-  "author": "Your Name",
-  "license": "MIT",
   "dependencies": {
-    "express": "^4.17.1"
+    "next": "^14.2.15",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "gsap": "^3.12.5",
+    "framer-motion": "^11.11.9",
+    "lucide-react": "^0.451.0",
+    "clsx": "^2.1.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3",
+    "@types/node": "^20.16.11",
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.1",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.13",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "^14.2.15"
   }
 }

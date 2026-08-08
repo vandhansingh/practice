@@ -1,0 +1,120 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-sans: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-serif: "Newsreader", Georgia, serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #f4f1ea;
+  color: #181817;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+::selection {
+  background-color: #253c35;
+  color: #f4f1ea;
+}
+
+/* Custom scrollbar - subtle, not intrusive */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #f4f1ea;
+}
+::-webkit-scrollbar-thumb {
+  background: #d8d3c8;
+  border-radius: 999px;
+  border: 2px solid #f4f1ea;
+}
+
+/* Visible, deliberate focus states */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid #253c35;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Reveal utility — visible by default (no-JS / crawlers / reduced-motion
+   all get fully visible content, per progressive-enhancement). Only once
+   JS has mounted does .reveal-armed hide the element ahead of its
+   IntersectionObserver-driven entrance via .is-visible. */
+.reveal.reveal-armed {
+  opacity: 0;
+  transform: translateY(28px);
+}
+.reveal.reveal-armed.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-image-mask {
+  overflow: hidden;
+}
+.reveal-image-mask.reveal-armed img {
+  transform: scale(1.08);
+}
+.reveal-image-mask img {
+  transition: transform 1.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-image-mask.reveal-armed.is-visible img {
+  transform: scale(1);
+}
+
+.marquee-track {
+  animation: marquee 34s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .reveal-image-mask img {
+    transform: none !important;
+  }
+}
+
+/* Custom cursor (desktop, fine-pointer only — see CustomCursor.tsx) */
+.cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
