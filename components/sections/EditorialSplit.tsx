@@ -81,14 +81,23 @@ export function EditorialSplit({
             )}
           >
             <div data-image-reveal data-image-mask className={clsx("w-full", aspect)}>
-              <div className="h-full w-full">
-                <ArchitecturalImage
-                  uid={uid}
-                  tone={tone}
-                  motif={motif}
-                  className="h-full w-full"
-                  label={imageLabel}
-                />
+              {/* clip-path + scale target */}
+              <div className="relative h-full w-full">
+                {/* Parallax target, oversized and offset so the scrubbed drift
+                    never exposes an edge inside the clipping box. Registered
+                    for >=1024 only, so mobile never runs it. */}
+                <div
+                  data-parallax="5"
+                  className="absolute left-0 top-[-7%] h-[114%] w-full"
+                >
+                  <ArchitecturalImage
+                    uid={uid}
+                    tone={tone}
+                    motif={motif}
+                    className="h-full w-full"
+                    label={imageLabel}
+                  />
+                </div>
               </div>
             </div>
           </div>

@@ -103,10 +103,18 @@ select:focus-visible,
   overflow: hidden;
 }
 
+/*
+ * Only opacity here — deliberately NOT transform.
+ *
+ * GSAP reads an element's existing transform and keeps it as the baseline it
+ * composes its own tweens on top of. If this rule set translateY(100%), the
+ * line-reveal would finish at yPercent 0 but retain that 100% baseline, leaving
+ * every display heading parked below its overflow-hidden wrapper — permanently
+ * invisible. Opacity alone hides the line pre-paint; GSAP owns the transform.
+ */
 .js-motion [data-reveal-line] > * {
   display: block;
   opacity: 0;
-  transform: translateY(100%);
   will-change: transform, opacity;
 }
 

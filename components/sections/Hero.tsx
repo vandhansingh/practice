@@ -18,14 +18,19 @@ export function Hero() {
   return (
     <section data-hero className="relative isolate min-h-[92svh] overflow-hidden bg-charcoal">
       <div data-hero-item="visual" className="absolute inset-0" data-image-mask>
-        <div data-hero-visual-inner className="absolute inset-0">
-          <ArchitecturalImage
-            uid="hero"
-            tone="dusk"
-            motif="facade"
-            className="h-full w-full"
-            label="Louvred concrete facade in raking evening light"
-          />
+        {/* Two nested wrappers on purpose: the load timeline scales the inner
+            one while the scroll-linked drift moves the outer one. Pointing both
+            at a single element would make them compose transforms and fight. */}
+        <div data-hero-visual-drift className="absolute inset-0">
+          <div data-hero-visual-inner className="absolute inset-0">
+            <ArchitecturalImage
+              uid="hero"
+              tone="dusk"
+              motif="facade"
+              className="h-full w-full"
+              label="Louvred concrete facade in raking evening light"
+            />
+          </div>
         </div>
         {/* Legibility scrim — weighted to the left where the type sits, and
             kept light enough that the facade texture still reads through it. */}
