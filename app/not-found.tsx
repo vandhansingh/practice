@@ -45,7 +45,7 @@ export default function NotFound() {
           </p>
 
           <div data-hero-item="cta" className="mt-10 flex flex-wrap items-center gap-6">
-            <Button href="/" variant="primary">
+            <Button href="/" variant="light">
               Back to home
             </Button>
             <span>

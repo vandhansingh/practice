@@ -6,18 +6,19 @@
 /* Tokens — mirrored from lib/design-system/tokens.ts                   */
 /* ------------------------------------------------------------------ */
 :root {
-  --cream: #f3efe7;
-  --cream-dark: #e8e0d2;
-  --white: #f8f6f1;
-  --charcoal: #1b1a18;
-  --charcoal-2: #24211f;
-  --charcoal-3: #302c29;
-  --muted: #77736b;
-  --muted-light: #a8a29a;
-  --border: #d7d0c3;
-  --border-dark: #3a3531;
-  --accent: #f2a329;
-  --accent-deep: #d8871a;
+  /* Sampled from the hero collage — cream paper, warm ink, one red. */
+  --cream: #ede4d2;
+  --cream-dark: #e4d9c3;
+  --white: #f4eee1;
+  --charcoal: #14110f;
+  --charcoal-2: #1f1b18;
+  --charcoal-3: #2c2723;
+  --muted: #6e665b;
+  --muted-light: #a69c8c;
+  --border: #d2c6ae;
+  --border-dark: #332e29;
+  --accent: #e5231b;
+  --accent-deep: #c2160f;
 
   --ease-power3: cubic-bezier(0.215, 0.61, 0.355, 1);
   --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);

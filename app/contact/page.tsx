@@ -60,18 +60,18 @@ export default function ContactPage() {
                   <Label className="mb-5">What happens next</Label>
                   <ol className="flex flex-col gap-4 text-[0.875rem] leading-relaxed text-muted">
                     <li className="flex gap-4">
-                      <span className="tabular shrink-0 text-accent">01</span>
+                      <span className="tabular shrink-0 text-accent-deep">01</span>
                       <span>A partner replies within one working day.</span>
                     </li>
                     <li className="flex gap-4">
-                      <span className="tabular shrink-0 text-accent">02</span>
+                      <span className="tabular shrink-0 text-accent-deep">02</span>
                       <span>
                         A 30-minute call to understand the operation and whether
                         there&rsquo;s a fit.
                       </span>
                     </li>
                     <li className="flex gap-4">
-                      <span className="tabular shrink-0 text-accent">03</span>
+                      <span className="tabular shrink-0 text-accent-deep">03</span>
                       <span>
                         If there is, a fixed-scope proposal with dates and a number.
                       </span>

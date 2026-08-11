@@ -1,13 +1,13 @@
 export const site = {
-  name: "Halyard",
-  legalName: "Halyard Partners LLP",
-  domain: "halyardpartners.com",
+  name: "Cornerstone",
+  legalName: "Cornerstone Partners LLP",
+  domain: "cornerstone.partners",
   discipline: "Operations Consulting",
   description:
-    "Halyard is an operations consultancy. We find the constraint that's limiting your business, then design and install the systems that remove it.",
+    "Cornerstone is an operations consultancy. We find the constraint that's limiting your business, then design and install the systems that remove it.",
   founded: "2016",
   location: "London · New York",
-  email: "hello@halyardpartners.com",
+  email: "hello@cornerstone.partners",
   phone: "+44 20 7946 0412",
 
   social: {

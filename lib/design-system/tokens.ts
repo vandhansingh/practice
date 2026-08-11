@@ -1,30 +1,43 @@
 /**
  * Single source of truth for the visual system.
  *
- * These values are mirrored as CSS custom properties in app/globals.css and
- * consumed through Tailwind's theme in tailwind.config.ts. Components should
- * reference the Tailwind names (bg-cream, text-muted, ...) rather than raw
- * hex, so a palette change happens in one place.
+ * The palette is sampled from the hero collage: warm cream paper, a warm
+ * near-black ink, and one pure red. Red is punctuation only — in the artwork
+ * it appears exactly once, as the disc, and the site keeps that discipline:
+ * it marks eyebrow rules, step numbers and a single graphic motif, and is
+ * never a surface for body text.
+ *
+ * Key names are deliberately unchanged from the previous palette so the whole
+ * component tree keeps working; only the values moved.
+ *
+ * Mirrored as CSS custom properties in app/globals.css and consumed through
+ * Tailwind in tailwind.config.ts.
  */
 
 export const color = {
-  cream: "#F3EFE7",
-  creamDark: "#E8E0D2",
-  white: "#F8F6F1",
-  charcoal: "#1B1A18",
-  charcoal2: "#24211F",
-  charcoal3: "#302C29",
-  muted: "#77736B",
-  mutedLight: "#A8A29A",
-  border: "#D7D0C3",
-  borderDark: "#3A3531",
-  accent: "#F2A329",
-  accentDeep: "#D8871A",
+  /** Page ground — the paper of the collage. */
+  cream: "#EDE4D2",
+  /** Slightly deeper paper for alternating sections. */
+  creamDark: "#E4D9C3",
+  /** Lifted paper for raised surfaces. */
+  white: "#F4EEE1",
+  /** The ink of the silhouette — warm, not neutral black. */
+  charcoal: "#14110F",
+  charcoal2: "#1F1B18",
+  charcoal3: "#2C2723",
+  /** Warm grey that sits correctly on cream rather than on white. */
+  muted: "#6E665B",
+  mutedLight: "#A69C8C",
+  border: "#D2C6AE",
+  borderDark: "#332E29",
+  /** The single red. Used as a mark, never as a text background. */
+  accent: "#E5231B",
+  accentDeep: "#C2160F",
 } as const;
 
 /** Fluid display sizes. Paired with the serif face, tight leading. */
 export const displayScale = {
-  hero: "clamp(3.1rem, 7.4vw, 7.2rem)",
+  hero: "clamp(2.9rem, 6.2vw, 6.2rem)",
   xl: "clamp(2.6rem, 5.2vw, 5rem)",
   lg: "clamp(2.2rem, 4vw, 3.8rem)",
   md: "clamp(1.9rem, 3vw, 2.9rem)",

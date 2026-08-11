@@ -118,7 +118,7 @@ export function ContactForm() {
       <div>
         <label htmlFor="message" className="mb-3 block text-label uppercase text-muted">
           Where is the operation losing time?
-          <span className="ml-1 text-accent" aria-hidden="true">
+          <span className="ml-1 text-accent-deep" aria-hidden="true">
             *
           </span>
         </label>
@@ -155,10 +155,12 @@ export function ContactForm() {
         <button
           type="submit"
           disabled={status === "submitting"}
-          className="group inline-flex items-center gap-3 rounded-card bg-accent py-1.5 pl-5 pr-1.5 text-[0.875rem] font-medium text-charcoal transition-colors duration-300 hover:bg-accent-deep disabled:cursor-not-allowed disabled:opacity-60"
+          // Matches the Button component: ink surface, red only in the arrow
+          // box. Red behind 14px label text measures 4.3:1, short of AA.
+          className="group inline-flex items-center gap-3 rounded-card bg-charcoal py-1.5 pl-5 pr-1.5 text-[0.875rem] font-medium text-cream transition-colors duration-300 hover:bg-charcoal-2 disabled:cursor-not-allowed disabled:opacity-60"
         >
           <span>{status === "submitting" ? "Sending…" : "Send enquiry"}</span>
-          <span className="flex h-8 w-8 items-center justify-center rounded-[2px] bg-charcoal/10 transition-transform duration-500 ease-expo group-hover:translate-x-0.5">
+          <span className="flex h-8 w-8 items-center justify-center rounded-[2px] bg-accent text-charcoal transition-transform duration-500 ease-expo group-hover:translate-x-0.5">
             <ArrowUpRight size={15} aria-hidden="true" />
           </span>
         </button>
@@ -187,7 +189,7 @@ function Field({
       <label htmlFor={name} className="mb-3 block text-label uppercase text-muted">
         {label}
         {required && (
-          <span className="ml-1 text-accent" aria-hidden="true">
+          <span className="ml-1 text-accent-deep" aria-hidden="true">
             *
           </span>
         )}

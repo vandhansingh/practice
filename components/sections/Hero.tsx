@@ -1,85 +1,74 @@
 import { Container } from "@/components/ui/Container";
 import { DisplayLines } from "@/components/ui/DisplayLines";
 import { Button } from "@/components/ui/Button";
-import { ArchitecturalImage } from "@/components/visuals/ArchitecturalImage";
+import { HeroCollage } from "@/components/visuals/HeroCollage";
 import { site } from "@/lib/data/site";
 
 /**
- * Full-bleed photographic hero with left-weighted content.
+ * Cream hero built around the collage.
  *
- * Deliberately not a centred stack: the type sits in the left seven columns
- * against the bright side of the facade, and the composition breathes into the
- * darker right side rather than balancing symmetrically.
+ * The artwork carries its own large area of empty paper at the upper left, so
+ * the type is set into that space rather than over the image — no scrim, no
+ * darkening, nothing fighting the illustration. On desktop the two share a
+ * 12-column grid; below lg the type stacks above the artwork so the head and
+ * staircase are never cropped to a sliver.
  *
- * `data-hero` marks this subtree so the generic scroll-reveal pass skips it —
- * everything here is choreographed by the page-load timeline instead.
+ * `data-hero` marks the subtree so the generic scroll pass skips it — the
+ * page-load timeline choreographs everything here.
  */
 export function Hero() {
   return (
-    <section data-hero className="relative isolate min-h-[92svh] overflow-hidden bg-charcoal">
-      <div data-hero-item="visual" className="absolute inset-0" data-image-mask>
-        {/* Two nested wrappers on purpose: the load timeline scales the inner
-            one while the scroll-linked drift moves the outer one. Pointing both
-            at a single element would make them compose transforms and fight. */}
-        <div data-hero-visual-drift className="absolute inset-0">
-          <div data-hero-visual-inner className="absolute inset-0">
-            <ArchitecturalImage
-              uid="hero"
-              tone="dusk"
-              motif="facade"
-              className="h-full w-full"
-              label="Louvred concrete facade in raking evening light"
-            />
-          </div>
-        </div>
-        {/* Legibility scrim — weighted to the left where the type sits, and
-            kept light enough that the facade texture still reads through it. */}
+    <section data-hero className="relative overflow-hidden bg-cream pt-28 sm:pt-32 lg:pt-24">
+      <Container>
         <div
-          aria-hidden="true"
-          className="absolute inset-0 bg-gradient-to-r from-charcoal/75 via-charcoal/35 to-transparent"
-        />
-        <div
-          aria-hidden="true"
-          className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-charcoal via-charcoal/55 to-transparent"
-        />
-      </div>
-
-      <Container className="relative flex min-h-[92svh] flex-col justify-end pb-20 pt-40 lg:pb-28">
-        <div data-hero-content className="grid grid-cols-1 gap-12 lg:grid-cols-12">
-          <div className="lg:col-span-8 xl:col-span-7">
+          data-hero-content
+          className="grid grid-cols-1 items-end gap-10 lg:min-h-[calc(100svh-6rem)] lg:grid-cols-12 lg:gap-8"
+        >
+          <div className="pb-4 lg:col-span-6 lg:pb-24 xl:col-span-5">
             <p
               data-hero-item="eyebrow"
-              className="flex items-center gap-3 text-label uppercase text-muted-light"
+              className="flex items-center gap-3 text-label uppercase text-muted"
             >
               <span aria-hidden="true" className="h-px w-6 bg-accent" />
               {site.discipline}
             </p>
 
-            <h1 className="mt-8 font-display text-display-hero text-cream">
-              <DisplayLines lines={["Scale is a", "systems problem."]} />
+            <h1 className="mt-8 font-display text-display-hero text-charcoal">
+              <DisplayLines lines={["Scale is a", "systems", "problem."]} />
             </h1>
 
             <p
               data-hero-item="body"
-              className="mt-9 max-w-[48ch] text-[1.0625rem] leading-relaxed text-muted-light sm:text-[1.1875rem]"
+              className="mt-8 max-w-[44ch] text-[1.0625rem] leading-relaxed text-muted sm:text-[1.125rem]"
             >
               One constraint is limiting your business more than everything else
               combined. We find it, design the operating system that removes it,
               and stay until the numbers hold.
             </p>
 
-            <div data-hero-item="cta" className="mt-11 flex flex-wrap items-center gap-6">
+            <div data-hero-item="cta" className="mt-10 flex flex-wrap items-center gap-6">
               <Button href={site.ctaLong.href} variant="primary">
                 {site.ctaLong.label}
               </Button>
               <span>
                 <a
                   href="#services"
-                  className="link-underline text-[0.875rem] font-medium text-cream"
+                  className="link-underline text-[0.875rem] font-medium text-charcoal"
                 >
                   See how we work
                 </a>
               </span>
+            </div>
+          </div>
+
+          <div
+            data-hero-item="visual"
+            className="relative lg:col-span-6 lg:col-start-7 xl:col-span-7"
+          >
+            <div data-hero-visual-drift>
+              <div data-hero-visual-inner>
+                <HeroCollage className="relative mx-auto h-[62vh] max-h-[760px] w-full max-w-[560px] lg:mx-0 lg:h-[calc(100svh-8rem)] lg:max-h-none lg:max-w-none" />
+              </div>
             </div>
           </div>
         </div>

@@ -25,7 +25,7 @@ export function FinalCTA() {
               losing throughput.
             </p>
             <div className="mt-9">
-              <Button href={site.ctaLong.href} variant="primary">
+              <Button href={site.ctaLong.href} variant="light">
                 {site.ctaLong.label}
               </Button>
             </div>

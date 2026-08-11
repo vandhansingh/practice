@@ -46,7 +46,7 @@ export function PlaybookSection() {
               </p>
             </div>
             <div data-reveal className="mt-10">
-              <Button href="/the-constraint-audit" variant="primary">
+              <Button href="/the-constraint-audit" variant="light">
                 Get the download
               </Button>
             </div>

@@ -60,7 +60,7 @@ export default function PricingPage() {
                       {engagement.name}
                     </h2>
                     {engagement.featured && (
-                      <span className="shrink-0 rounded-[2px] bg-accent px-2.5 py-1 text-[0.625rem] font-medium uppercase tracking-[0.12em] text-charcoal">
+                      <span className="shrink-0 rounded-[2px] bg-cream px-2.5 py-1 text-[0.625rem] font-medium uppercase tracking-[0.12em] text-charcoal">
                         Most common
                       </span>
                     )}
@@ -120,7 +120,7 @@ export default function PricingPage() {
                 <div className="mt-10">
                   <Button
                     href="/contact"
-                    variant={engagement.featured ? "primary" : "outline"}
+                    variant={engagement.featured ? "light" : "outline"}
                   >
                     {engagement.cta}
                   </Button>
