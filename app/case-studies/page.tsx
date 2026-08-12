@@ -6,9 +6,9 @@ import { CaseStudyCard } from "@/components/cards/CaseStudyCard";
 import { caseStudies } from "@/lib/data/caseStudies";
 
 export const metadata: Metadata = {
-  title: "Case Studies",
+  title: "Work",
   description:
-    "How specific operational constraints were found and removed across logistics, distribution and construction.",
+    "Websites, brands and growth programmes we have built, and what changed as a result.",
   alternates: { canonical: "/case-studies" },
 };
 
@@ -21,8 +21,8 @@ export default function CaseStudiesPage() {
           { label: "Case Studies", href: "/case-studies" },
         ]}
         label="Selected work"
-        lines={["Operational clarity,", "measured."]}
-        standfirst="Three engagements, written up properly: what was actually wrong, what we changed, and what moved as a result."
+        lines={["Work that earns", "its keep."]}
+        standfirst="Three projects, written up properly: what was actually wrong, what we changed, and what moved as a result."
       />
 
       <section className="bg-cream py-24 lg:py-32">

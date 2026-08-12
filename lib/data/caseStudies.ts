@@ -1,8 +1,9 @@
+import type { ImageSlot } from "@/components/visuals/BrandImage";
+
 export type CaseStudy = {
   slug: string;
   category: string;
   title: string;
-  /** Short outcome line for cards. */
   outcome: string;
   client: string;
   overview: string;
@@ -12,122 +13,118 @@ export type CaseStudy = {
   results: { metric: string; label: string }[];
   services: string[];
   testimonial: { quote: string; name: string; role: string };
-  motif: "facade" | "colonnade" | "interior" | "stair" | "surface";
-  tone: "dusk" | "night" | "sand" | "stone";
-  /** Figures are composites built from patterns across engagements. */
+  slot: ImageSlot;
+  /** Figures are composites drawn from patterns across projects. */
   illustrative: boolean;
 };
 
 export const caseStudies: CaseStudy[] = [
   {
-    slug: "freight-scheduling-constraint",
-    category: "Logistics",
-    title: "Removing the scheduling constraint from a 40-depot freight network",
-    outcome: "Depot idle time down 34%, same fleet, same headcount",
-    client: "National freight operator, 40 depots",
-    overview:
-      "A freight network had added depots faster than it had added coordination. Utilisation looked acceptable in aggregate and terrible in detail.",
-    challenge: [
-      "Scheduling ran depot by depot, each optimising its own fleet with no view of the network. Loads that could have been consolidated across two neighbouring depots were run separately, and drivers waited on decisions that sat with a regional manager in a different time zone.",
-      "Leadership had approved a fleet expansion to solve it. The audit found the fleet wasn't the constraint — decision latency was.",
-    ],
-    approach: [
-      "We mapped every load from booking to delivery across six representative depots and measured where time was actually lost. 71% of avoidable delay sat in two places: waiting for consolidation decisions, and re-planning after late changes.",
-      "Rather than expand the fleet, we designed a network-level scheduling layer with the consolidation decision automated against explicit rules, and exceptions routed to a duty coordinator with full context.",
-    ],
-    implementation: [
-      "Built the scheduling layer over the existing transport management system rather than replacing it, so depots kept the tooling they knew.",
-      "Ran it in parallel across six depots for nine weeks, comparing decisions against the manual process before extending to the full network.",
-      "Handed over to a new network coordination function with the dashboard, escalation rules and training in place.",
-    ],
-    results: [
-      { metric: "34%", label: "Reduction in depot idle time" },
-      { metric: "£4.1M", label: "Fleet expansion deferred" },
-      { metric: "9 min", label: "Median consolidation decision, from 4 hrs" },
-    ],
-    services: ["Operations Audit", "Systems Design"],
-    testimonial: {
-      quote:
-        "We were about to spend four million on trucks. The real problem was that nobody could make a decision before the truck had already left.",
-      name: "Operations Director",
-      role: "National freight operator",
-    },
-    motif: "facade",
-    tone: "dusk",
-    illustrative: true,
-  },
-  {
-    slug: "distribution-order-flow",
-    category: "Distribution",
-    title: "Rebuilding order flow for a distributor outgrowing its own process",
-    outcome: "Order-to-dispatch cut from 3 days to 6 hours",
-    client: "B2B distributor, 1,800 SKUs",
-    overview:
-      "Revenue had tripled in four years. The order process hadn't changed since it was designed for a business a third of the size.",
-    challenge: [
-      "Orders arrived by email, phone and portal, then were re-keyed into three systems by hand. Every order touched at least four people, and nobody could say where a given order was without asking.",
-      "The team had absorbed the growth through overtime. Error rates were climbing and the best people were leaving.",
-    ],
-    approach: [
-      "We followed 200 orders end to end and found the median order spent 91% of its life waiting, not being worked on. The constraint wasn't capacity — it was the number of handoffs and the absence of a single record.",
-      "We designed one order pipeline with a single source of truth, automated re-keying entirely, and reduced the process from four owners to one with clear exception routing.",
-    ],
-    implementation: [
-      "Consolidated intake so every channel wrote to one record, removing manual re-entry across three systems.",
-      "Automated credit and stock checks that had previously been sequential manual steps.",
-      "Rolled out by product line over eleven weeks, retiring the old process only once each line's numbers held.",
-    ],
-    results: [
-      { metric: "6 hrs", label: "Order-to-dispatch, from 3 days" },
-      { metric: "78%", label: "Fewer order entry errors" },
-      { metric: "0", label: "Additional headcount required" },
-    ],
-    services: ["Operations Audit", "Systems Design", "Organizational Alignment"],
-    testimonial: {
-      quote:
-        "The honest finding was that we'd been paying overtime to compensate for a process problem for two years. That was uncomfortable and completely correct.",
-      name: "Managing Director",
-      role: "B2B distributor",
-    },
-    motif: "interior",
-    tone: "stone",
-    illustrative: true,
-  },
-  {
-    slug: "construction-programme-alignment",
+    slug: "heritage-build-co",
     category: "Construction",
-    title: "Aligning a contractor's programme controls across eleven live sites",
-    outcome: "Programme slippage reporting from 3 weeks to same-day",
-    client: "Regional main contractor, £180M turnover",
+    title: "A builder's site that finally sells the work as well as the crew does",
+    outcome: "Enquiries up 3.1x, cost per lead down 62%",
+    client: "Regional design-build contractor",
     overview:
-      "Eleven sites, eleven ways of reporting progress. By the time head office saw a problem, it had been true for three weeks.",
+      "Twenty years of exceptional work, represented by a site that loaded in six seconds and buried the portfolio three clicks deep.",
     challenge: [
-      "Each site manager reported progress in their own format on their own cadence. Consolidation was a manual monthly exercise, so head office was always steering on data that had already expired.",
-      "The systems weren't the issue — a reporting standard existed. It just lost consistently to the pressures of running a live site.",
+      "The firm won most jobs it quoted, but was quoting too few. Referrals carried the business while the website actively lost people — slow on mobile, portfolio hidden behind a generic services menu, and no clear way to start a conversation.",
+      "Paid search was running into the same page, so spend was subsidising a leak rather than filling a pipeline.",
     ],
     approach: [
-      "This was an alignment problem, not a design one. We found reporting was genuinely burdensome and produced nothing the site manager could use, so it was rationally deprioritised.",
-      "We rebuilt reporting so it fed the site manager's own decisions first and head office's second — making the useful thing and the required thing the same action.",
+      "We rebuilt around the one thing that converts for a builder: the work. Projects became the primary navigation, each one a full story with drawings, process and the finished result.",
+      "Enquiry moved to a short, specific form that qualifies rather than interrogates, placed on every project page instead of quarantined on a contact page.",
     ],
     implementation: [
-      "Cut the reported fields from 40 to 11, keeping only those that changed a decision.",
-      "Made the site view the primary interface, with consolidation as an automatic by-product rather than a separate task.",
-      "Set a weekly cadence with defined decision rights, so escalation stopped depending on who knew whom.",
+      "Custom build with a project CMS the team updates themselves after each job.",
+      "Image pipeline that keeps large photography under a second on mobile.",
+      "Paid search pointed at project pages rather than the homepage.",
     ],
     results: [
-      { metric: "Same-day", label: "Slippage visibility, from 3 weeks" },
-      { metric: "11 → 11", label: "Sites on one reporting standard" },
-      { metric: "72%", label: "Less time spent on reporting per site" },
+      { metric: "3.1x", label: "Increase in qualified enquiries" },
+      { metric: "62%", label: "Lower cost per lead" },
+      { metric: "0.8s", label: "Mobile load time, from 6.2s" },
     ],
-    services: ["Organizational Alignment"],
+    services: ["Websites", "Content & Creative", "SEO & Growth"],
     testimonial: {
       quote:
-        "They worked out that our reporting was ignored because it was useless to the people filling it in. Fixing that fixed the data problem.",
-      name: "Commercial Director",
-      role: "Regional main contractor",
+        "We were spending on ads that pointed at a page losing people. They fixed the page first, which nobody else had suggested.",
+      name: "Managing Director",
+      role: "Regional design-build contractor",
     },
-    motif: "stair",
-    tone: "night",
+    slot: "tower",
+    illustrative: true,
+  },
+  {
+    slug: "north-arbor-clinic",
+    category: "Healthcare",
+    title: "A brand and site for a clinic group opening its fourth location",
+    outcome: "Bookings up 78%, one identity across four sites",
+    client: "Multi-site outpatient clinic group",
+    overview:
+      "Three clinics with three different logos, three websites and no shared voice. A fourth was opening in five months.",
+    challenge: [
+      "Each location had been branded independently as it opened, so the group looked like three unrelated practices. Patients booking at one had no idea the others existed.",
+      "Booking ran through a different system per site, and none of them worked properly on a phone.",
+    ],
+    approach: [
+      "One identity system with room for each location to keep its name, so local recognition survived the consolidation.",
+      "A single site with location-aware booking — pick a clinic or let the site pick the nearest — replacing three disconnected flows.",
+    ],
+    implementation: [
+      "Brand system rolled out digital-first, with print and signage replaced as each came up for renewal.",
+      "One booking flow integrated with the practice-management system, mobile-first.",
+      "Launched with the fourth clinic so the opening carried the new identity.",
+    ],
+    results: [
+      { metric: "78%", label: "Increase in online bookings" },
+      { metric: "4", label: "Locations on one identity" },
+      { metric: "41%", label: "More patients booking on mobile" },
+    ],
+    services: ["Branding", "Websites", "Digital Strategy"],
+    testimonial: {
+      quote:
+        "They kept what people already recognised locally instead of flattening it. That mattered more than we expected.",
+      name: "Group Practice Manager",
+      role: "Outpatient clinic group",
+    },
+    slot: "stone",
+    illustrative: true,
+  },
+  {
+    slug: "meridian-supply",
+    category: "B2B Commerce",
+    title: "Making a 4,000-product catalogue findable for the people who buy it",
+    outcome: "Organic traffic up 240%, search-to-quote up 5.4x",
+    client: "Industrial supply distributor",
+    overview:
+      "A catalogue big enough to answer almost any query, structured so that search engines and customers could find almost none of it.",
+    challenge: [
+      "Product pages were generated with near-identical copy and no structured data, so search treated most of the catalogue as duplicate. Only the homepage ranked.",
+      "On-site search returned nothing useful unless a customer typed the exact SKU.",
+    ],
+    approach: [
+      "We restructured the catalogue around how buyers actually search — by application and specification, not by internal category codes.",
+      "Templates were rewritten to carry genuinely distinct, useful content per product, with structured data throughout.",
+    ],
+    implementation: [
+      "Category and taxonomy rebuild mapped to real search demand.",
+      "Product templates with specs, applications and structured data.",
+      "On-site search rebuilt to handle specs, synonyms and partial terms.",
+    ],
+    results: [
+      { metric: "240%", label: "Increase in organic traffic" },
+      { metric: "5.4x", label: "More search-to-quote conversions" },
+      { metric: "3,100", label: "Product pages ranking, from ~40" },
+    ],
+    services: ["SEO & Growth", "Websites", "Digital Strategy"],
+    testimonial: {
+      quote:
+        "The fix was structural, not cosmetic. They rebuilt how the catalogue was organised and the traffic followed.",
+      name: "Head of Ecommerce",
+      role: "Industrial supply distributor",
+    },
+    slot: "blocks",
     illustrative: true,
   },
 ];

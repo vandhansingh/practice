@@ -1,48 +1,55 @@
 /**
  * Single source of truth for the visual system.
  *
- * The palette is sampled from the hero collage: warm cream paper, a warm
- * near-black ink, and one pure red. Red is punctuation only — in the artwork
- * it appears exactly once, as the disc, and the site keeps that discipline:
- * it marks eyebrow rules, step numbers and a single graphic motif, and is
- * never a surface for body text.
+ * Sampled from the Cornerstone brand board: warm paper, near-neutral ink, a
+ * bright signal red, and an amber dot used purely as punctuation.
  *
- * Key names are deliberately unchanged from the previous palette so the whole
- * component tree keeps working; only the values moved.
+ * Contrast rules that the components rely on:
+ *   red   on paper  = 3.6:1 → large text, icons and graphics only
+ *   red-deep on paper = 5.0:1 → safe for body-size text (form errors, meta)
+ *   amber on paper  = 1.8:1 → decorative dots ONLY, never text or icons
  *
- * Mirrored as CSS custom properties in app/globals.css and consumed through
- * Tailwind in tailwind.config.ts.
+ * Key names are unchanged from earlier palettes so the component tree keeps
+ * working; only the values moved.
  */
 
 export const color = {
-  /** Page ground — the paper of the collage. */
-  cream: "#EDE4D2",
+  /** Page ground — the board's paper stock. */
+  cream: "#F2EFE9",
   /** Slightly deeper paper for alternating sections. */
-  creamDark: "#E4D9C3",
+  creamDark: "#E8E4DC",
   /** Lifted paper for raised surfaces. */
-  white: "#F4EEE1",
-  /** The ink of the silhouette — warm, not neutral black. */
-  charcoal: "#14110F",
-  charcoal2: "#1F1B18",
-  charcoal3: "#2C2723",
-  /** Warm grey that sits correctly on cream rather than on white. */
-  muted: "#6E665B",
-  mutedLight: "#A69C8C",
-  border: "#D2C6AE",
-  borderDark: "#332E29",
-  /** The single red. Used as a mark, never as a text background. */
-  accent: "#E5231B",
-  accentDeep: "#C2160F",
+  white: "#FAF8F4",
+  /** Ink — near-neutral, not warm. */
+  charcoal: "#151515",
+  charcoal2: "#232323",
+  charcoal3: "#2F2F2F",
+  muted: "#6B6B6B",
+  mutedLight: "#9A9A9A",
+  border: "#DCD7CD",
+  borderDark: "#333333",
+  /** The signal red: brackets, blocks, key words, photo underlays. */
+  accent: "#F42B1C",
+  /** Darker red for anything at body size. */
+  accentDeep: "#D01D10",
+  /** Amber dot. Decorative punctuation only. */
+  amber: "#E8A22B",
 } as const;
 
-/** Fluid display sizes. Paired with the serif face, tight leading. */
+/**
+ * Fluid display sizes.
+ *
+ * The board sets headlines in a light-weight grotesque at generous size with
+ * tight tracking, so the scale is paired with negative letter-spacing in the
+ * Tailwind config rather than relying on the face's defaults.
+ */
 export const displayScale = {
-  hero: "clamp(2.9rem, 6.2vw, 6.2rem)",
-  xl: "clamp(2.6rem, 5.2vw, 5rem)",
-  lg: "clamp(2.2rem, 4vw, 3.8rem)",
-  md: "clamp(1.9rem, 3vw, 2.9rem)",
-  sm: "clamp(1.6rem, 2.2vw, 2.1rem)",
-  metric: "clamp(3rem, 5.6vw, 5.4rem)",
+  hero: "clamp(2.75rem, 5.6vw, 5.4rem)",
+  xl: "clamp(2.35rem, 4.4vw, 4.1rem)",
+  lg: "clamp(2rem, 3.4vw, 3.1rem)",
+  md: "clamp(1.7rem, 2.6vw, 2.4rem)",
+  sm: "clamp(1.4rem, 1.9vw, 1.75rem)",
+  metric: "clamp(2.75rem, 5vw, 4.75rem)",
 } as const;
 
 export const motion = {
@@ -53,7 +60,6 @@ export const motion = {
     expo: "expo.out",
     circ: "circ.out",
   },
-  /** CSS equivalents for transition-based micro-interactions. */
   cssEase: {
     power3: "cubic-bezier(0.215, 0.61, 0.355, 1)",
     expo: "cubic-bezier(0.16, 1, 0.3, 1)",

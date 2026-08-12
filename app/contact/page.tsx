@@ -20,8 +20,8 @@ export default function ContactPage() {
           { label: "Contact", href: "/contact" },
         ]}
         label="Get in touch"
-        lines={["Start with a", "conversation."]}
-        standfirst="Tell us roughly where the operation is losing time. A partner will reply within one working day — you'll speak to the person who would run the work, not a salesperson."
+        lines={["Let's build your", "cornerstone."]}
+        standfirst="Tell us what you're building. We reply within one working day — and you'll speak to the person who would run the project, not a salesperson."
       />
 
       <section className="bg-cream py-24 lg:py-32">
@@ -61,12 +61,12 @@ export default function ContactPage() {
                   <ol className="flex flex-col gap-4 text-[0.875rem] leading-relaxed text-muted">
                     <li className="flex gap-4">
                       <span className="tabular shrink-0 text-accent-deep">01</span>
-                      <span>A partner replies within one working day.</span>
+                      <span>We reply within one working day.</span>
                     </li>
                     <li className="flex gap-4">
                       <span className="tabular shrink-0 text-accent-deep">02</span>
                       <span>
-                        A 30-minute call to understand the operation and whether
+                        A 30-minute call to understand the project and whether
                         there&rsquo;s a fit.
                       </span>
                     </li>

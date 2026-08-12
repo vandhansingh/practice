@@ -5,13 +5,13 @@ import { PageHero } from "@/components/sections/PageHero";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { Container } from "@/components/ui/Container";
 import { Label } from "@/components/ui/Label";
-import { ArchitecturalImage } from "@/components/visuals/ArchitecturalImage";
+import { BrandImage } from "@/components/visuals/BrandImage";
 import { featuredPost, otherPosts } from "@/lib/data/blog";
 
 export const metadata: Metadata = {
-  title: "Blog",
+  title: "Journal",
   description:
-    "Notes on operational diagnosis, systems design and why good processes lose to old habits.",
+    "Notes on design, build and growth — written for the people who have to live with the result.",
   alternates: { canonical: "/blog" },
 };
 
@@ -32,11 +32,11 @@ export default function BlogPage() {
       <PageHero
         breadcrumb={[
           { label: "Home", href: "/" },
-          { label: "Blog", href: "/blog" },
+          { label: "Journal", href: "/blog" },
         ]}
-        label="Writing"
-        lines={["Notes from", "inside operations."]}
-        standfirst="Short, specific pieces on diagnosis and systems design — written for operators rather than for search engines."
+        label="Journal"
+        lines={["Notes from", "the studio."]}
+        standfirst="Short, specific pieces on design, build and growth — written for clients rather than for search engines."
       />
 
       {/* Featured article */}
@@ -51,16 +51,13 @@ export default function BlogPage() {
               className="group grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-12"
             >
               <div className="lg:col-span-7">
-                <div data-image-reveal data-image-mask className="aspect-[16/10] w-full">
-                  <div data-hover-image className="h-full w-full">
-                    <ArchitecturalImage
-                      uid={`post-${lead.slug}`}
-                      tone={lead.tone}
-                      motif={lead.motif}
-                      className="h-full w-full"
-                      label={lead.title}
-                    />
-                  </div>
+                <div data-hover-image>
+                  <BrandImage
+            slot={lead.slot}
+            underlay="block"
+            aspect="aspect-[16/10]"
+            alt={lead.title}
+          />
                 </div>
               </div>
 

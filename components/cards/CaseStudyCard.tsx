@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { ArchitecturalImage } from "@/components/visuals/ArchitecturalImage";
+import { BrandImage } from "@/components/visuals/BrandImage";
 import type { CaseStudy } from "@/lib/data/caseStudies";
 
-/** Large editorial case-study card. The image is the primary element. */
+/** Large editorial work card. The image is the primary element. */
 export function CaseStudyCard({
   study,
   aspect = "aspect-[4/3]",
@@ -14,19 +14,16 @@ export function CaseStudyCard({
   return (
     <article>
       <Link href={`/case-studies/${study.slug}`} data-hover-card className="group block">
-        <div data-image-reveal data-image-mask className={`w-full ${aspect}`}>
-          <div data-hover-image className="h-full w-full">
-            <ArchitecturalImage
-              uid={`cs-${study.slug}`}
-              tone={study.tone}
-              motif={study.motif}
-              className="h-full w-full"
-              label={`${study.category} — ${study.title}`}
-            />
-          </div>
+        <div data-hover-image>
+          <BrandImage
+            slot={study.slot}
+            underlay="block"
+            aspect={aspect}
+            alt={`${study.category} — ${study.title}`}
+          />
         </div>
 
-        <div className="mt-6 flex items-baseline justify-between gap-4 border-t border-border pt-5">
+        <div className="mt-7 flex items-baseline justify-between gap-4 border-t border-border pt-5">
           <span className="text-label uppercase text-muted">{study.category}</span>
           <span data-hover-arrow className="text-charcoal">
             <ArrowUpRight size={18} strokeWidth={1.75} aria-hidden="true" />

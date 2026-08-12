@@ -1,7 +1,8 @@
-# Cornerstone — Operations Consulting
+# Cornerstone Digital Agency
 
-A premium editorial marketing site for an operations consultancy, built with
-Next.js (App Router), TypeScript, Tailwind CSS and GSAP.
+Marketing site for Cornerstone Digital Agency — websites, branding, digital
+strategy, SEO and content. Built with Next.js (App Router), TypeScript,
+Tailwind CSS and GSAP, following the supplied brand board.
 
 ## Stack
 
@@ -9,7 +10,7 @@ Next.js (App Router), TypeScript, Tailwind CSS and GSAP.
 - **Tailwind CSS**, with design tokens in `lib/design-system/tokens.ts`
 - **GSAP** + ScrollTrigger, organised under `lib/gsap/`
 - **Lucide React** icons
-- **next/font** (Instrument Serif + Instrument Sans) — no runtime font CDN
+- **next/font** (Archivo) — one grotesque across the whole site, no runtime font CDN
 
 ```bash
 npm install
@@ -20,53 +21,58 @@ npm run start    # serve the production build
 
 ## Design system
 
-Palette is sampled from the hero collage — cream paper, warm near-black ink,
-and one pure red:
+Palette is sampled from the brand board — warm paper, near-neutral ink, a
+signal red, and an amber dot:
 
 | Token | Value | Use |
 | --- | --- | --- |
-| `cream` / `cream-dark` | `#EDE4D2` / `#E4D9C3` | page grounds |
-| `charcoal` | `#14110F` | ink: type, dark sections, nav, footer |
-| `muted` / `muted-light` | `#6E665B` / `#A69C8C` | secondary text |
-| `border` | `#D2C6AE` | hairlines |
-| `accent` / `accent-deep` | `#E5231B` / `#C2160F` | punctuation only |
+| `cream` / `cream-dark` | `#F2EFE9` / `#E8E4DC` | page grounds |
+| `charcoal` | `#151515` | ink: type, dark sections, nav, footer |
+| `muted` / `muted-light` | `#6B6B6B` / `#9A9A9A` | secondary text |
+| `border` | `#DCD7CD` | hairlines |
+| `accent` / `accent-deep` | `#F42B1C` / `#D01D10` | the signal red |
+| `amber` | `#E8A22B` | decorative dots only |
 
-**Red is never a surface for text.** Cream-on-red measures 3.4:1 and
-ink-on-red 4.3:1, both short of WCAG AA at label size. Red appears as the
-eyebrow rule, large step numbers, icons, and the small box behind button
-arrows — all of which only need 3:1. `accent-deep` (4.55:1 on cream) is the
-variant for anything at body size, such as form errors.
+Contrast rules the components rely on:
 
-Type is Instrument Serif for display and Instrument Sans for interface and
-data — a designed-together superfamily.
+- **red on paper is 3.6:1** — large text, icons and graphics only, never a
+  surface behind label-size text. Buttons are ink with a red arrow box.
+- **`accent-deep` is 5.0:1** — the variant for anything at body size (form
+  errors, step numbers, meta).
+- **amber is 1.8:1** — decorative dots only. Never text, never an icon.
 
-## The hero artwork
+Type is Archivo throughout, at multiple weights. Display and body are
+separated by weight and tracking rather than by family, matching the board's
+monolithic sans setting. Everything is square-cornered — `rounded-card` is 0.
 
-`components/visuals/HeroCollage.tsx` looks for a real image at:
+Three motifs carry the identity (`components/visuals/Motifs.tsx`): the red
+corner bracket, a small red square, and the amber dot.
+
+## Images
+
+`components/visuals/BrandImage.tsx` owns the board's photo treatment —
+grayscale, lifted contrast, a halftone dot screen, and a flat red shape offset
+behind the subject.
+
+Drop real photography into `public/images` named for its slot and rebuild —
+that is the only step, no code change:
 
 ```
-public/images/hero-collage.png   (or .jpg / .jpeg / .webp)
+public/images/workspace.jpg     hero — designer at work
+public/images/blocks.jpg        hand placing a red block on a stack
+public/images/stone.jpg         the cornerstone
+public/images/wireframes.jpg    sketching wireframes on a wall
+public/images/screen.jpg        laptop showing the work
+public/images/skyline.jpg       city skyline
+public/images/tower.jpg         tower from below
 ```
 
-**Drop the file in and rebuild — that is the only step.** The component
-checks for it on the server at build time and switches to `next/image`
-automatically; no code change is needed.
+`.jpg`, `.jpeg`, `.png`, `.webp` and `.avif` all resolve. Until a file exists,
+the slot renders a geometric stand-in in the same language — deliberately
+abstract rather than an attempt at the photographic subject, which at this
+scale reads as a botched illustration rather than a placeholder.
 
-Until then it renders a procedural stand-in in the same visual language
-(stippled profile, staircase, red disc, stippled galaxy). The stand-in exists
-so the layout holds and the preview isn't empty — it is not a reproduction of
-the intended artwork.
-
-Make sure you hold the rights to whatever image you place there before the
-site goes live.
-
-## Other imagery
-
-Section imagery (`components/visuals/ArchitecturalImage.tsx`) is likewise
-generated rather than photographed, because this build had no network access
-to fetch licensed photography. Aspect ratios, crops and reveal wrappers are
-already sized for `next/image`, so swapping in real photography is a local
-change per usage site.
+Make sure you hold the rights to whatever imagery you place there.
 
 ## Motion
 

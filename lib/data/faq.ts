@@ -2,38 +2,38 @@ export type FaqItem = { question: string; answer: string };
 
 export const faq: FaqItem[] = [
   {
-    question: "How does an engagement begin?",
+    question: "How does a project start?",
     answer:
-      "With a call, then a short scoping conversation with the people who run the operation. If there's a fit we propose a fixed-scope audit. We don't run long sales processes — you'll know within two conversations.",
+      "With a call, then a short discovery conversation with whoever owns the outcome. If it is a fit we send a fixed-scope proposal with dates and a number. No long pitch process.",
   },
   {
-    question: "How long does an engagement take?",
+    question: "What does a project cost?",
     answer:
-      "An Operations Audit is six weeks. Systems Design typically runs eight to fourteen weeks depending on scope. Alignment work is usually concurrent. You'll get specific dates before anything is signed, not a range.",
+      "Websites typically start around $18k, branding around $12k, and retained growth work from $3.5k a month. You get a fixed number before anything begins, not an hourly estimate that drifts.",
   },
   {
-    question: "Do you work with our existing systems?",
+    question: "How long does it take?",
     answer:
-      "Almost always. Most constraints live in the handoffs between tools rather than in the tools themselves, so replacing a stack is usually expensive and beside the point.",
+      "Most websites run 6–10 weeks and most brand projects 5–8. Strategy is four weeks. We give you specific dates up front rather than a range.",
   },
   {
-    question: "Do we need internal technical capacity?",
+    question: "Can our team edit the site afterwards?",
     answer:
-      "No. We build and implement, then hand over with documentation and a trained owner. Nothing we install should require us to keep it running.",
+      "Yes. Everything editable lives in a CMS built around how your team works, and we train you on it before handover. Nothing we build should require us to keep it running.",
   },
   {
-    question: "Who actually does the work?",
+    question: "Do you work with our existing brand?",
     answer:
-      "The partner who scoped your engagement. We stay deliberately small and take on fewer clients rather than staffing engagements with people you've never met.",
+      "Often. If the identity still holds up we build around it rather than charging you to replace something that works. When it genuinely does not, we will say so and explain why.",
   },
   {
-    question: "What happens after go-live?",
+    question: "What does 'Kingdom values' mean in practice?",
     answer:
-      "We run a parallel period until the numbers hold, then stay on a review cadence. Systems decay quietly, so the optimise phase is where a lot of the value is protected.",
+      "Concretely: we quote honestly, we tell you when you do not need something, we finish what we start, and we hand over what we build. Our faith shapes how we work — it does not restrict who we work with.",
   },
   {
-    question: "What if the audit says our problem is something else?",
+    question: "What happens after launch?",
     answer:
-      "Then it says so. A diagnosis you can act on independently is the deliverable — including when it means the expensive project you were about to approve wasn't the answer.",
+      "Every project includes a post-launch window for fixes and questions. After that you can take it in-house or keep us on a retainer for growth work — both are common, neither is pushed.",
   },
 ];

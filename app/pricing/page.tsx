@@ -15,7 +15,7 @@ import { testimonials } from "@/lib/data/testimonials";
 export const metadata: Metadata = {
   title: "Pricing",
   description:
-    "Three engagement models: a fixed-fee Operations Audit, a full Design & Install programme, or an ongoing retained partnership.",
+    "Three ways to work with us: a website, a full brand-and-site build, or an ongoing growth partnership.",
   alternates: { canonical: "/pricing" },
 };
 
@@ -31,7 +31,7 @@ export default function PricingPage() {
         ]}
         label="Engagements"
         lines={["Fixed scope.", "Fixed fee."]}
-        standfirst="We price engagements, not hours. You'll have a scope and a number before work starts, and we don't bill change requests for things we should have anticipated."
+        standfirst="We price projects, not hours. You'll have a scope and a number before work starts, and we don't bill change requests for things we should have anticipated."
       />
 
       {/* Engagement options — editorial columns, not a SaaS pricing table */}

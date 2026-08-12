@@ -6,19 +6,20 @@
 /* Tokens — mirrored from lib/design-system/tokens.ts                   */
 /* ------------------------------------------------------------------ */
 :root {
-  /* Sampled from the hero collage — cream paper, warm ink, one red. */
-  --cream: #ede4d2;
-  --cream-dark: #e4d9c3;
-  --white: #f4eee1;
-  --charcoal: #14110f;
-  --charcoal-2: #1f1b18;
-  --charcoal-3: #2c2723;
-  --muted: #6e665b;
-  --muted-light: #a69c8c;
-  --border: #d2c6ae;
-  --border-dark: #332e29;
-  --accent: #e5231b;
-  --accent-deep: #c2160f;
+  /* Sampled from the Cornerstone brand board. */
+  --cream: #f2efe9;
+  --cream-dark: #e8e4dc;
+  --white: #faf8f4;
+  --charcoal: #151515;
+  --charcoal-2: #232323;
+  --charcoal-3: #2f2f2f;
+  --muted: #6b6b6b;
+  --muted-light: #9a9a9a;
+  --border: #dcd7cd;
+  --border-dark: #333333;
+  --accent: #f42b1c;
+  --accent-deep: #d01d10;
+  --amber: #e8a22b;
 
   --ease-power3: cubic-bezier(0.215, 0.61, 0.355, 1);
   --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);

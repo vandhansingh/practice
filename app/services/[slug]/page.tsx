@@ -9,7 +9,7 @@ import { FinalCTA } from "@/components/sections/FinalCTA";
 import { Container } from "@/components/ui/Container";
 import { Label } from "@/components/ui/Label";
 import { DisplayLines } from "@/components/ui/DisplayLines";
-import { ArchitecturalImage } from "@/components/visuals/ArchitecturalImage";
+import { BrandImage } from "@/components/visuals/BrandImage";
 import { services, getServiceBySlug } from "@/lib/data/services";
 import { testimonials } from "@/lib/data/testimonials";
 import { site } from "@/lib/data/site";
@@ -68,17 +68,12 @@ export default function ServiceDetailPage({ params }: { params: { slug: string }
       {/* Full-bleed image bridging the dark hero into the light body */}
       <section className="bg-charcoal">
         <Container>
-          <div data-image-reveal data-image-mask className="aspect-[21/9] w-full">
-            <div className="h-full w-full">
-              <ArchitecturalImage
-                uid={`svc-hero-${service.slug}`}
-                tone="dusk"
-                motif={service.motif}
-                className="h-full w-full"
-                label={`${service.title} — architectural study`}
-              />
-            </div>
-          </div>
+          <BrandImage
+            slot={service.slot}
+            underlay="corner"
+            aspect="aspect-[21/9]"
+            alt={`${service.title} — Cornerstone`}
+          />
         </Container>
         <div className="h-24 lg:h-32" />
       </section>

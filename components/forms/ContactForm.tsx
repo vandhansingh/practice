@@ -8,14 +8,16 @@ type Status = "idle" | "submitting" | "success" | "error";
 type Errors = Partial<Record<"name" | "email" | "message", string>>;
 
 const NEEDS = [
-  "Not sure yet — I need a diagnosis",
-  "Operations Audit",
-  "Systems Design",
-  "Organizational Alignment",
+  "Not sure yet — help me scope it",
+  "Website",
+  "Branding",
+  "Digital Strategy",
+  "SEO & Growth",
+  "Content & Creative",
   "Something else",
 ];
 
-const BUDGETS = ["Under £30k", "£30k – £75k", "£75k – £150k", "£150k+", "Not yet defined"];
+const BUDGETS = ["Under $15k", "$15k – $35k", "$35k – $75k", "$75k+", "Not yet defined"];
 
 export function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");
@@ -117,7 +119,7 @@ export function ContactForm() {
 
       <div>
         <label htmlFor="message" className="mb-3 block text-label uppercase text-muted">
-          Where is the operation losing time?
+          What are you building?
           <span className="ml-1 text-accent-deep" aria-hidden="true">
             *
           </span>

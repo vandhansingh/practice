@@ -6,7 +6,7 @@ import { PageHero } from "@/components/sections/PageHero";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { Container } from "@/components/ui/Container";
 import { Label } from "@/components/ui/Label";
-import { ArchitecturalImage } from "@/components/visuals/ArchitecturalImage";
+import { BrandImage } from "@/components/visuals/BrandImage";
 import { caseStudies, getCaseStudyBySlug } from "@/lib/data/caseStudies";
 
 export function generateStaticParams() {
@@ -52,17 +52,12 @@ export default function CaseStudyDetailPage({ params }: { params: { slug: string
 
       <section className="bg-charcoal">
         <Container>
-          <div data-image-reveal data-image-mask className="aspect-[21/9] w-full">
-            <div className="h-full w-full">
-              <ArchitecturalImage
-                uid={`cs-hero-${study.slug}`}
-                tone={study.tone}
-                motif={study.motif}
-                className="h-full w-full"
-                label={`${study.category} — ${study.title}`}
-              />
-            </div>
-          </div>
+          <BrandImage
+            slot={study.slot}
+            underlay="corner"
+            aspect="aspect-[21/9]"
+            alt={`${study.category} — ${study.title}`}
+          />
         </Container>
         <div className="h-24 lg:h-32" />
       </section>
