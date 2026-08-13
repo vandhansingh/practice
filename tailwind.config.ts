@@ -44,6 +44,23 @@ const config: Config = {
       transitionTimingFunction: {
         power3: motion.cssEase.power3,
         expo: motion.cssEase.expo,
+        apple: motion.cssEase.apple,
+        standard: motion.cssEase.standard,
+      },
+      transitionDuration: {
+        // Tailwind's stock scale jumps 300 → 500, so `duration-400` compiled to
+        // nothing at all and the elements carrying it snapped instantly. The
+        // icon choreography needs the values in between.
+        100: "100ms",
+        180: "180ms",
+        200: "200ms",
+        220: "220ms",
+        260: "260ms",
+        400: "400ms",
+      },
+      transitionDelay: {
+        120: "120ms",
+        140: "140ms",
       },
       borderRadius: {
         // The board is square-cornered throughout — no rounding anywhere.

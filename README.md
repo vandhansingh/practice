@@ -104,6 +104,21 @@ Content is visible in the served HTML and only hidden once an inline pre-paint
 script adds `.js-motion`, which never runs under `prefers-reduced-motion` or
 with JS disabled.
 
+The nav is the exception to the data-attribute system and is worth reading
+before touching it. The menu icon is a pure CSS transition — a transition
+always interpolates from the current computed value, so mashing the button
+mid-morph redirects rather than snaps. It runs in two phases on separate
+elements (slide, then pivot) because a single node can only hold one
+`transform`, and the phases are mirrored on close: 180/260ms opening,
+200/220ms closing. `lib/design-system/tokens.ts` owns both curves.
+
+The overlay's tweens are all `.to()`, never `.fromTo()` — a `fromTo` jumps back
+to its start values on the frame it begins, which is exactly the snap a fast
+double-tap exposes. Rows are only re-armed to their entrance offset at the end
+of a *completed* exit. And because `autoAlpha` parks an element at
+`visibility: hidden`, the panel and its rows are unhidden synchronously before
+the timeline builds; otherwise nothing inside can take focus.
+
 ## Content
 
 All editable copy lives in `lib/data/`: `site.ts`, `services.ts`,

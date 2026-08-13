@@ -63,6 +63,14 @@ export const motion = {
   cssEase: {
     power3: "cubic-bezier(0.215, 0.61, 0.355, 1)",
     expo: "cubic-bezier(0.16, 1, 0.3, 1)",
+    /**
+     * Apple's present/dismiss curve. Leaves immediately and settles for a long
+     * time without overshooting, so a short move still reads as deliberate.
+     * Used for the nav icon morph.
+     */
+    apple: "cubic-bezier(0.32, 0.72, 0, 1)",
+    /** Symmetric curve for very short mechanical moves — the press state. */
+    standard: "cubic-bezier(0.4, 0, 0.2, 1)",
   },
   duration: {
     micro: 0.3,

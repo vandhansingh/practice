@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
@@ -20,6 +20,8 @@ export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [pressed, setPressed] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
   const pathname = usePathname();
 
   useEffect(() => setMounted(true), []);
@@ -34,6 +36,11 @@ export function SiteHeader() {
   useEffect(() => {
     setMenuOpen(false);
   }, [pathname]);
+
+  // Stable identity: the overlay keys its focus effect on this, and a fresh
+  // closure each render would tear that effect down mid-open — cancelling the
+  // focus move and bouncing focus back out to this button.
+  const closeMenu = useCallback(() => setMenuOpen(false), []);
 
   return (
     <header
@@ -80,31 +87,97 @@ export function SiteHeader() {
             </Link>
 
             <button
+              ref={menuButtonRef}
               type="button"
               onClick={() => setMenuOpen((v) => !v)}
+              onPointerDown={() => setPressed(true)}
+              onPointerUp={() => setPressed(false)}
+              onPointerLeave={() => setPressed(false)}
+              onPointerCancel={() => setPressed(false)}
+              onBlur={() => setPressed(false)}
               aria-expanded={menuOpen}
               aria-controls="mobile-menu"
               aria-label={menuOpen ? "Close menu" : "Open menu"}
-              className="relative flex h-10 w-10 flex-col items-center justify-center gap-[6px] lg:hidden"
+              className="relative -mr-0.5 flex h-11 w-11 touch-manipulation items-center justify-center lg:hidden"
             >
+              {/*
+                Press state lives on its own wrapper so it never composes with
+                the stroke transforms below. It compresses in 100ms — faster
+                than any perceptual threshold, so the icon feels physically
+                connected to the finger — and releases over 400ms.
+              */}
               <span
+                aria-hidden="true"
                 className={clsx(
-                  "h-px w-5 bg-cream transition-transform duration-400 ease-expo",
-                  menuOpen && "translate-y-[3.5px] rotate-45"
+                  "relative block h-[7px] w-5 transition-transform ease-standard motion-reduce:transition-none",
+                  pressed ? "scale-[0.84] duration-100" : "scale-100 duration-400"
                 )}
-              />
-              <span
-                className={clsx(
-                  "h-px w-5 bg-cream transition-transform duration-400 ease-expo",
-                  menuOpen && "-translate-y-[3.5px] -rotate-45"
-                )}
-              />
+              >
+                <IconStroke open={menuOpen} edge="top" />
+                <IconStroke open={menuOpen} edge="bottom" />
+              </span>
             </button>
           </div>
         </div>
       </div>
 
-      <MobileNavigation open={menuOpen} onClose={() => setMenuOpen(false)} mounted={mounted} />
+      <MobileNavigation
+        open={menuOpen}
+        onClose={closeMenu}
+        mounted={mounted}
+        triggerRef={menuButtonRef}
+      />
     </header>
+  );
+}
+
+/**
+ * One stroke of the menu icon, morphing between two bars and a cross.
+ *
+ * The move is deliberately two-phase rather than one blended tween: the strokes
+ * slide together first, then pivot. Doing both at once is what makes most
+ * hamburger icons read as a smear — the eye can't track a point that is
+ * translating and rotating simultaneously over 400ms, so the shape reads as
+ * mush in the middle. Separated, it reads as a mechanism: close, then turn.
+ *
+ * Translate and rotate therefore live on separate elements. They are distinct
+ * `transform` values on distinct nodes, which is the only way to give them
+ * independent durations and delays — two transforms on one node compose rather
+ * than sequence.
+ *
+ * Timings are asymmetric and mirrored. Opening leads with the slide (180ms) and
+ * overlaps the pivot slightly at 140ms so the phases read as one continuous
+ * gesture instead of two beats. Closing reverses the order and runs shorter in
+ * total (340ms vs 400ms): dismissal should feel like it got out of the way,
+ * not like it was replayed backwards.
+ *
+ * These are CSS transitions rather than a JS timeline on purpose. A transition
+ * always interpolates from the current computed value, so hammering the button
+ * mid-morph redirects smoothly from wherever the strokes actually are — there
+ * is no state to reconcile and nothing snaps.
+ */
+function IconStroke({ open, edge }: { open: boolean; edge: "top" | "bottom" }) {
+  const top = edge === "top";
+
+  return (
+    <span
+      aria-hidden="true"
+      className={clsx(
+        "absolute inset-x-0 block transition-transform ease-apple motion-reduce:transition-none",
+        top ? "top-0" : "bottom-0",
+        open
+          ? clsx("duration-180 delay-0", top ? "translate-y-[3px]" : "-translate-y-[3px]")
+          : "translate-y-0 duration-220 delay-120"
+      )}
+    >
+      <span
+        className={clsx(
+          "block h-px w-full origin-center bg-cream transition-transform ease-apple motion-reduce:transition-none",
+          open
+            ? clsx("duration-260 delay-140", top ? "rotate-45" : "-rotate-45")
+            : "rotate-0 duration-200 delay-0"
+        )}
+      />
+    </span>
   );
 }
