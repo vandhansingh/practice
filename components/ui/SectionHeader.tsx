@@ -49,8 +49,13 @@ export function SectionHeader({
         <DisplayLines lines={lines} />
       </Heading>
       {standfirst && (
-        <div data-reveal className="mt-8 max-w-[46ch]">
-          <p className={clsx("text-[1.0625rem] leading-relaxed", onDark ? "text-muted-light" : "text-muted")}>
+        <div data-reveal="fade" className="mt-8 max-w-[46ch]">
+          <p
+            // Only split when the standfirst is plain text — the pass skips
+            // anything containing markup, so a rich standfirst just fades.
+            data-split-words
+            className={clsx("text-[1.0625rem] leading-relaxed", onDark ? "text-muted-light" : "text-muted")}
+          >
             {standfirst}
           </p>
         </div>

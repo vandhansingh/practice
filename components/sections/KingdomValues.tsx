@@ -10,7 +10,7 @@ import { TextLink } from "@/components/ui/Button";
 export function KingdomValues() {
   return (
     <section className="relative bg-cream py-24 lg:py-32">
-      <CornerBracket className="absolute left-[var(--gutter)] top-12 hidden lg:block" size={26} weight={7} />
+      <CornerBracket className="absolute left-[var(--gutter)] top-12 hidden lg:block" size={26} weight={7} draw />
       <AmberDot className="absolute right-[calc(var(--gutter)+4px)] top-16 hidden lg:block" size={16} />
 
       <Container>
@@ -21,7 +21,11 @@ export function KingdomValues() {
               <span className="block">Human approach.</span>
               <span className="block text-accent">Kingdom values.</span>
             </h2>
-            <p data-reveal className="mt-8 max-w-[40ch] text-[1rem] leading-relaxed text-muted">
+            <p
+              data-reveal="fade"
+              data-split-words
+              className="mt-8 max-w-[40ch] text-[1rem] leading-relaxed text-muted"
+            >
               In practice that means quoting honestly, telling you when you
               don&rsquo;t need something, finishing what we start, and handing over
               what we build. Our faith shapes how we work — it doesn&rsquo;t

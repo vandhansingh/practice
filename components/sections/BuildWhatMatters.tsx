@@ -12,7 +12,7 @@ import { services } from "@/lib/data/services";
 export function BuildWhatMatters() {
   return (
     <section className="relative border-t border-border bg-cream py-24 lg:py-32">
-      <CornerBracket className="absolute left-[var(--gutter)] top-12 hidden lg:block" size={26} weight={7} />
+      <CornerBracket className="absolute left-[var(--gutter)] top-12 hidden lg:block" size={26} weight={7} draw />
 
       <Container>
         <div className="grid grid-cols-1 items-center gap-14 lg:grid-cols-12 lg:gap-10">

@@ -22,15 +22,30 @@ export function SiteHeader() {
   const [mounted, setMounted] = useState(false);
   const [pressed, setPressed] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const barRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
   useEffect(() => setMounted(true), []);
 
+  // One passive listener drives both the shadow and the progress rail. The rail
+  // is written to a CSS custom property rather than React state: scroll fires
+  // far more often than it is worth re-rendering a tree for, and a variable
+  // change only invalidates the one transform that reads it.
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const bar = barRef.current;
+    const onScroll = () => {
+      setScrolled(window.scrollY > 20);
+      if (!bar) return;
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.setProperty("--progress", max > 0 ? String(Math.min(1, window.scrollY / max)) : "0");
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener("resize", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
   }, []);
 
   useEffect(() => {
@@ -49,8 +64,9 @@ export function SiteHeader() {
     >
       <div className="mx-auto max-w-container">
         <div
+          ref={barRef}
           className={clsx(
-            "flex items-center justify-between rounded-card bg-charcoal pl-5 pr-2 transition-shadow duration-200 ease-linear",
+            "relative flex items-center justify-between rounded-card bg-charcoal pl-5 pr-2 transition-shadow duration-200 ease-linear",
             "h-[58px] sm:h-[62px]",
             // A hairline keeps the floating container legible as an object on
             // dark-hero pages, where charcoal-on-charcoal would otherwise make
@@ -63,6 +79,17 @@ export function SiteHeader() {
             scrolled ? "shadow-brut-red" : "shadow-none"
           )}
         >
+          {/*
+            Read depth. Sits on the bar's bottom edge and scales from the left,
+            so it costs one composited transform per scroll frame and no layout.
+            Decorative — the same information is in the scrollbar.
+          */}
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-[3px] origin-left bg-accent"
+            style={{ transform: "scaleX(var(--progress, 0))" }}
+          />
+
           <Link
             href="/"
             // py-1 buys the 24x24 minimum without changing the bar height.

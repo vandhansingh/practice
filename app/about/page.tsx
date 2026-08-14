@@ -107,7 +107,7 @@ export default function AboutPage() {
 
       {/* Commitments */}
       <section className="relative bg-cream py-24 lg:py-32">
-        <CornerBracket className="absolute left-[var(--gutter)] top-12 hidden lg:block" size={26} weight={7} />
+        <CornerBracket className="absolute left-[var(--gutter)] top-12 hidden lg:block" size={26} weight={7} draw />
         <Container>
           <Label className="mb-7">{site.values}</Label>
           <h2 className="max-w-[18ch] font-display text-display-lg text-charcoal">

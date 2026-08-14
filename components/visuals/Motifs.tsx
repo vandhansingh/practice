@@ -16,16 +16,24 @@ export function CornerBracket({
   size = 28,
   weight = 8,
   color = "accent",
+  draw = false,
 }: {
   className?: string;
   size?: number;
   weight?: number;
   color?: "accent" | "cream";
+  /**
+   * Draw the two arms in on scroll instead of appearing whole. Off by default:
+   * the mark is used inside the hero, where the load timeline owns the
+   * choreography and a second animation would fight it.
+   */
+  draw?: boolean;
 }) {
   const fill = color === "accent" ? "bg-accent" : "bg-cream";
   return (
     <span
       aria-hidden="true"
+      {...(draw ? { "data-draw-mark": true } : {})}
       className={clsx("pointer-events-none relative block", className)}
       style={{ width: size, height: size }}
     >

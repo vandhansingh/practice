@@ -38,7 +38,7 @@ export function TrustedBy() {
 
           {/* Trusted-by copy */}
           <div className="relative flex flex-col justify-between gap-10 border-border px-[var(--gutter)] py-16 lg:border-r lg:px-10">
-            <CornerBracket className="absolute left-[var(--gutter)] top-8 lg:left-10" size={24} weight={7} />
+            <CornerBracket className="absolute left-[var(--gutter)] top-8 lg:left-10" size={24} weight={7} draw />
             <div className="pt-12">
               <h2 className="max-w-[14ch] font-display text-display-md text-charcoal">
                 Trusted by businesses that build{" "}
@@ -73,7 +73,7 @@ export function TrustedBy() {
 
           {/* Wordmark panel */}
           <div className="relative flex flex-col justify-center px-[var(--gutter)] py-20 lg:px-10">
-            <CornerBracket className="absolute left-[var(--gutter)] top-10 lg:left-10" size={30} weight={8} />
+            <CornerBracket className="absolute left-[var(--gutter)] top-10 lg:left-10" size={30} weight={8} draw />
             <AmberDot className="absolute bottom-12 right-10" size={16} />
             <p className="font-display text-[clamp(2.25rem,3.4vw,3rem)] font-normal leading-none tracking-[-0.03em] text-charcoal">
               {site.name}

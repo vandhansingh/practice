@@ -6,6 +6,7 @@ import { ApproachSection } from "@/components/sections/ApproachSection";
 import { PromisePanel, ScriptureQuote } from "@/components/sections/PromisePanel";
 import { KingdomValues } from "@/components/sections/KingdomValues";
 import { CaseStudyGrid } from "@/components/sections/CaseStudyGrid";
+import { ServicesTicker } from "@/components/sections/ServicesTicker";
 import { TestimonialSection } from "@/components/sections/TestimonialSection";
 import { TrustedBy } from "@/components/sections/TrustedBy";
 import { FinalCTA } from "@/components/sections/FinalCTA";
@@ -34,6 +35,7 @@ export default function HomePage() {
       <PromisePanel />
       <ScriptureQuote />
       <KingdomValues />
+      <ServicesTicker />
       <CaseStudyGrid />
       <TestimonialSection />
       <TrustedBy />

@@ -37,11 +37,13 @@ export default function PricingPage() {
       {/* Engagement options — editorial columns, not a SaaS pricing table */}
       <section className="bg-cream py-24 lg:py-32">
         <Container>
-          <div data-reveal-group className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+          {/* Not data-reveal-group: these carry hard shadows, so they arrive
+              by sliding off them rather than fading up from nowhere. */}
+          <div data-brut-drop className="grid grid-cols-1 gap-8 lg:grid-cols-3">
             {engagements.map((engagement) => (
               <div
                 key={engagement.name}
-                data-reveal
+                data-brut-item
                 // The featured card is its own ink ground inside a light
                 // section, so it needs the dark-text swap in its own right.
                 {...(engagement.featured ? { "data-dark": true } : {})}

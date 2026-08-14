@@ -123,6 +123,10 @@ inside one `gsap.context()`.
 | `data-parallax` | scrubbed drift (≥1024px only) |
 | `data-counter` | count-up on entry |
 | `data-hover-card` | coordinated hover timeline (fine pointers only) |
+| `data-brut-drop` / `data-brut-item` | lands objects onto their hard shadow |
+| `data-draw-mark` | draws a `CornerBracket`'s two arms in |
+| `data-split-words` | word-by-word rise, wrapped at runtime |
+| `data-marquee` / `data-marquee-track` | infinite linear ticker (≥640px) |
 
 Two rules worth knowing before editing motion:
 
@@ -146,6 +150,34 @@ elements (slide, then pivot) because a single node can only hold one
 `transform`, and the phases are mirrored on close: 180/260ms opening,
 200/220ms closing. `lib/design-system/tokens.ts` owns both curves.
 
+### Motion from the shadow, not on top of it
+
+`lib/gsap/brut.ts` derives its entrances from the visual system. Objects with a
+hard shadow arrive *at* it: they start displaced down-and-right, sitting where
+their own shadow will be, and slide up-and-left to reveal it. The shadow itself
+never animates — `box-shadow` is a paint property, and animating it across a
+grid of cards is the reliable way to drop frames. Transform and opacity only.
+
+`clearProps: "transform"` on that tween is load-bearing twice over: a leftover
+`matrix()` puts the hard shadow on a fractional pixel, and it also blocks the
+hover timelines that write transform to the same nodes.
+
+The ticker (`lib/gsap/marquee.ts`) renders its content **twice** and translates
+the track by exactly `-50%`, so the loop point lands the second copy where the
+first began and the seam is invisible. The duplicate is `aria-hidden`. It is
+registered through `matchMedia` at ≥640px only — it is the one continuously
+running animation on the site, so it is the one worth not keeping alive on a
+phone. Linear easing, no fade mask: an eased marquee reads as a bug, and a
+gradient fade is the soft treatment the rest of the system refuses.
+
+`data-split-words` rewrites a text node into per-word spans at runtime, so the
+served HTML stays one clean string for copy-paste, translation and screen
+readers. Two guards matter: it skips any block containing markup (rebuilding
+from `textContent` would delete the elements inside), and it is always paired
+with `data-reveal="fade"` on the same element — that fade is the proven,
+always-runs path, so if the guard bails the copy still appears. A bare
+`[data-split-words]` CSS pre-state could strand text permanently.
+
 The overlay's tweens are all `.to()`, never `.fromTo()` — a `fromTo` jumps back
 to its start values on the frame it begins, which is exactly the snap a fast
 double-tap exposes. Rows are only re-armed to their entrance offset at the end
@@ -165,12 +197,16 @@ before launch.
 
 ## Design reference
 
-`.claude/skills/` carries the
-[ui-ux-pro-max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) plugin
-(v2.13.0, MIT), installed by copying its skills in — `/plugin` is unavailable in
-the web environment. Its searchable database is what the neubrutalist values
-above are drawn from, and its accessibility checklist is what the QA sweep
-audits against.
+`.claude/skills/` carries two plugins, installed by copying their skills in —
+`/plugin` is unavailable in the web environment:
+
+- [ui-ux-pro-max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill)
+  v2.13.0, MIT — the searchable database the neubrutalist values above are drawn
+  from, and the accessibility checklist the QA sweep audits against.
+- [web-animation-skills](https://github.com/iart-ai/web-animation-skills)
+  v0.1.0, MIT — GSAP/ScrollTrigger, micro-interaction timing, 60fps and
+  accessible-animation guidance. Its `glassmorphism` skill is installed but
+  deliberately unused; blur is off the table here.
 
 ```bash
 python3 .claude/skills/ui-ux-pro-max/scripts/search.py "agency landing page" -d style

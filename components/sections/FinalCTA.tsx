@@ -12,7 +12,7 @@ import { site } from "@/lib/data/site";
 export function FinalCTA() {
   return (
     <section data-dark className="relative bg-charcoal pb-24 pt-28 lg:pb-32 lg:pt-40">
-      <CornerBracket className="absolute left-[var(--gutter)] top-14 hidden lg:block" size={30} weight={8} />
+      <CornerBracket className="absolute left-[var(--gutter)] top-14 hidden lg:block" size={30} weight={8} draw />
 
       <Container>
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
@@ -22,7 +22,11 @@ export function FinalCTA() {
             </h2>
           </div>
           <div data-reveal className="flex flex-col justify-end lg:col-span-4 lg:col-start-9">
-            <p className="max-w-[36ch] text-[1.0625rem] leading-relaxed text-muted-light">
+            <p
+              data-reveal="fade"
+              data-split-words
+              className="max-w-[36ch] text-[1.0625rem] leading-relaxed text-muted-light"
+            >
               Tell us what you&rsquo;re building. One conversation is usually enough
               to know whether we&rsquo;re the right people for it.
             </p>
