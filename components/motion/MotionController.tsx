@@ -10,6 +10,8 @@ import { parallax, heroScrollOut } from "@/lib/gsap/parallax";
 import { counter } from "@/lib/gsap/counter";
 import { hover } from "@/lib/gsap/hover";
 import { pageTransition } from "@/lib/gsap/pageTransition";
+import { brutDrop, drawMark, splitWords } from "@/lib/gsap/brut";
+import { marquee } from "@/lib/gsap/marquee";
 
 /**
  * Single motion entry point for the whole site.
@@ -45,10 +47,15 @@ export function MotionController() {
       ctx = gsap.context(() => {
         pageTransition(isFirst);
         if (isFirst) pageLoad();
+        // Before scrollReveal: this one rewrites text nodes into spans, and a
+        // ScrollTrigger created first would have measured the old heights.
+        splitWords();
         scrollReveal();
         imageReveal();
         counter();
         heroScrollOut();
+        brutDrop();
+        drawMark();
       });
 
       // Responsive-only motion. matchMedia tears these down automatically
@@ -56,6 +63,10 @@ export function MotionController() {
       mm = gsap.matchMedia();
       mm.add("(min-width: 1024px)", () => parallax());
       mm.add("(min-width: 1024px) and (pointer: fine)", () => hover());
+      // The ticker is the only continuously-running animation on the page, so
+      // it is the one worth cutting on a phone: it would otherwise keep a
+      // compositor thread awake for the entire visit.
+      mm.add("(min-width: 640px)", () => marquee());
 
       // Late-arriving webfonts and images change element heights, which
       // invalidates every start/end position ScrollTrigger measured.

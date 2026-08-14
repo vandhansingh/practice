@@ -62,7 +62,7 @@ export function TestimonialSlider({ items }: { items: Testimonial[] }) {
           type="button"
           onClick={() => go(-1)}
           aria-label="Previous testimonial"
-          className="flex h-11 w-11 items-center justify-center rounded-[2px] border border-border-dark text-cream transition-colors duration-300 hover:border-accent hover:text-accent"
+          className="flex h-11 w-11 items-center justify-center rounded-card border-2 border-cream text-cream shadow-brut-light-sm transition-[transform,box-shadow,color] duration-100 ease-linear hover:text-accent active:translate-x-0.5 active:translate-y-0.5 active:shadow-none motion-reduce:transition-none"
         >
           <ArrowLeft size={16} aria-hidden="true" />
         </button>
@@ -70,7 +70,7 @@ export function TestimonialSlider({ items }: { items: Testimonial[] }) {
           type="button"
           onClick={() => go(1)}
           aria-label="Next testimonial"
-          className="flex h-11 w-11 items-center justify-center rounded-[2px] border border-border-dark text-cream transition-colors duration-300 hover:border-accent hover:text-accent"
+          className="flex h-11 w-11 items-center justify-center rounded-card border-2 border-cream text-cream shadow-brut-light-sm transition-[transform,box-shadow,color] duration-100 ease-linear hover:text-accent active:translate-x-0.5 active:translate-y-0.5 active:shadow-none motion-reduce:transition-none"
         >
           <ArrowRight size={16} aria-hidden="true" />
         </button>

@@ -1,206 +1,299 @@
-import { processSteps } from "./metrics";
+import type { ImageSlot } from "@/components/visuals/BrandImage";
 
 export type Service = {
   slug: string;
   number: string;
   label: string;
   title: string;
-  /** One line for the homepage list. */
   summary: string;
-  /** Longer opening paragraph for the service page hero. */
   intro: string;
   overview: string[];
   capabilities: { title: string; description: string }[];
   deliverables: string[];
   whoItsFor: string[];
   faq: { question: string; answer: string }[];
-  motif: "facade" | "colonnade" | "interior" | "stair" | "surface";
+  slot: ImageSlot;
 };
 
 export const services: Service[] = [
   {
-    slug: "operations-audit",
+    slug: "websites",
     number: "01",
-    label: "Diagnostic",
-    title: "Operations Audit",
-    summary:
-      "A structured read of how work actually moves through the business, and where it stops.",
-    intro:
-      "Every business has one constraint doing more damage than the rest combined. The audit finds it. Six weeks, inside the operation, with the people doing the work — then a written diagnosis you can act on whether or not you hire us again.",
-    overview: [
-      "Most operational problems are misdiagnosed. Teams optimise the step that feels worst rather than the step that governs throughput, and six months later the same bottleneck has moved one desk to the left.",
-      "The audit is deliberately unglamorous. We observe the work, measure the handoffs, follow the exceptions, and interview the people who quietly keep things running. What comes out is a ranked list of constraints with the cost of each one attached.",
-    ],
-    capabilities: [
-      {
-        title: "Process mapping",
-        description:
-          "Current-state maps built from observation and system logs, not from workshops where everyone describes the ideal version.",
-      },
-      {
-        title: "Constraint analysis",
-        description:
-          "We quantify where throughput is actually lost — queue time, rework, waiting on a decision — and rank by cost.",
-      },
-      {
-        title: "Cost-of-delay modelling",
-        description:
-          "Each bottleneck gets a number, so sequencing the fixes becomes an arithmetic question rather than a political one.",
-      },
-      {
-        title: "Written diagnosis",
-        description:
-          "A document your team can act on independently, with a recommended sequence and the evidence behind each call.",
-      },
-    ],
-    deliverables: [
-      "Current-state process maps",
-      "Ranked constraint register with cost-of-delay",
-      "Written diagnosis and recommended sequence",
-      "Executive readout session",
-    ],
-    whoItsFor: [
-      "Businesses growing faster than their processes can absorb",
-      "Leadership teams that disagree about where the real problem is",
-      "Operators who've fixed symptoms twice and want the cause",
-    ],
-    faq: [
-      {
-        question: "How disruptive is the audit to the team?",
-        answer:
-          "Minimally. We work around the operation rather than through it — mostly observation and short interviews. Expect roughly two hours per key person across six weeks.",
-      },
-      {
-        question: "What if we already know what's broken?",
-        answer:
-          "Then the audit either confirms it with numbers you can act on, or it tells you the thing you were about to spend six figures fixing wasn't the constraint. Both are worth knowing first.",
-      },
-    ],
-    motif: "surface",
-  },
-  {
-    slug: "systems-design",
-    number: "02",
     label: "Build",
-    title: "Systems Design",
-    summary:
-      "Designing and installing the operating system that removes the constraint for good.",
+    title: "Websites",
+    summary: "Fast, accessible sites designed to convert and built to last.",
     intro:
-      "A diagnosis is not a fix. Systems Design is where the future-state operation gets drawn, built and run in parallel with the current one until the numbers hold — then handed over with the documentation and ownership to keep it running.",
+      "A website is the one asset you own outright. We design and build sites that load fast, read clearly, rank well and keep working long after launch — not templates dressed up as custom work.",
     overview: [
-      "We design the operation as a system: what runs without a human, what needs judgment, who owns each decision, and what happens when something falls outside the rules.",
-      "The last part matters most. Systems fail at their exceptions, so we design the exception path first and build the happy path around it.",
+      "Most sites underperform for unglamorous reasons: they are slow, they bury the thing the visitor came for, or they were built on a stack nobody on the team can safely edit.",
+      "We start from what the site has to achieve, then design around that. Every build ships fast, accessible, measurable, and handed over so your team can run it without calling us for a copy change.",
     ],
     capabilities: [
       {
-        title: "Future-state design",
+        title: "Design & build",
         description:
-          "The target operation drawn end to end, with owners, decision rights and service levels attached to each step.",
+          "Custom design and front-end build — no page-builder bloat, no theme fighting you six months in.",
       },
       {
-        title: "Workflow implementation",
+        title: "Performance",
         description:
-          "We build it — integrations, automations, interfaces — against your existing stack rather than replacing it.",
+          "Core Web Vitals treated as a requirement, not a nice-to-have. Speed is the cheapest conversion win available.",
       },
       {
-        title: "Exception design",
+        title: "Accessibility",
         description:
-          "Edge cases route to a named human with context attached, instead of failing silently or stalling the queue.",
+          "Semantic markup, real keyboard support and tested contrast. It widens your audience and it is the right thing to do.",
       },
       {
-        title: "Instrumentation",
+        title: "Handover",
         description:
-          "Every system ships with the dashboard that shows whether it's still working, so decay surfaces early.",
+          "A CMS your team can actually use, with documentation and training so you own the site the day we finish.",
       },
     ],
     deliverables: [
-      "Future-state system design and decision-rights map",
-      "Implemented workflows running in production",
-      "Operating dashboard and alerting",
-      "Handover documentation and team training",
+      "Custom design system and page templates",
+      "Production build with CMS",
+      "Performance and accessibility audit",
+      "Team training and documentation",
     ],
     whoItsFor: [
-      "Teams with a diagnosis and no capacity to execute it",
-      "Operations running critical work across disconnected tools",
-      "Businesses that need throughput to grow faster than headcount",
+      "Businesses whose site no longer reflects the company",
+      "Teams stuck on a slow or unmaintainable platform",
+      "Founders who need a site that sells while they sleep",
     ],
     faq: [
       {
-        question: "Do you replace our existing tools?",
+        question: "How long does a website take?",
         answer:
-          "Rarely. Replacing a stack is expensive and usually unnecessary — most constraints live in the handoffs between tools, not the tools themselves.",
+          "Most marketing sites run 6–10 weeks from kickoff to launch, depending on page count and how ready the content is. You will have specific dates before we start.",
       },
       {
-        question: "Who owns the system afterwards?",
+        question: "Can we edit it ourselves afterwards?",
         answer:
-          "Your team. We hand over documentation, train a named owner, and stay available on a support arrangement — but nothing we build should require us to keep running.",
+          "Yes — that is the point of the handover. Everything editable is in the CMS, and we train your team on it before we finish.",
       },
     ],
-    motif: "facade",
+    slot: "screen",
   },
   {
-    slug: "organizational-alignment",
-    number: "03",
-    label: "Embed",
-    title: "Organizational Alignment",
-    summary:
-      "Making the new operating model survive contact with the organisation that has to run it.",
+    slug: "branding",
+    number: "02",
+    label: "Identity",
+    title: "Branding",
+    summary: "Identity systems with a clear idea underneath, not just a logo file.",
     intro:
-      "Most operational change fails after go-live, when the system meets the incentives, reporting lines and habits that produced the old one. Alignment is the work of making the new model the path of least resistance.",
+      "A brand is what people say about you when you are not in the room. We build the identity system that makes that easier to steer — the mark, the voice, and the rules that keep it consistent.",
     overview: [
-      "A system that requires people to act against their own incentives will lose, every time. So we look at what the organisation actually rewards, who owns which decision, and where accountability is ambiguous enough to be avoidable.",
-      "This is the least technical and most decisive part of the work. It is also the part most consultancies leave to the client.",
+      "Plenty of businesses have a logo and no brand: nothing that tells a designer what to do next week, or a writer how the company sounds.",
+      "We build the whole system — positioning, mark, type, colour, voice, and usage rules — so everything you make afterwards holds together without you having to police it.",
     ],
     capabilities: [
       {
-        title: "Decision-rights mapping",
+        title: "Positioning",
         description:
-          "Who decides, who's consulted, who's merely informed — written down, so escalation stops being a personality contest.",
+          "What you stand for, who it is for, and what makes it different — written plainly enough to act on.",
       },
       {
-        title: "Operating cadence",
-        description:
-          "The meeting and review rhythm that keeps the system honest, sized to the business rather than inherited from one.",
+        title: "Visual identity",
+        description: "Logo, type, colour and layout system, built to work at every size and surface.",
       },
       {
-        title: "Role and accountability design",
+        title: "Voice",
         description:
-          "Clear ownership for each part of the operation, including the parts nobody currently owns.",
+          "How the brand sounds, with real examples rather than adjectives, so anyone can write in it.",
       },
       {
-        title: "Change enablement",
-        description:
-          "Training, documentation and the internal case for why the new way is better, built with the people who have to live it.",
+        title: "Guidelines",
+        description: "A practical brand book your team and any future agency can follow.",
       },
     ],
     deliverables: [
-      "Decision-rights and accountability map",
-      "Operating cadence and review structure",
-      "Role definitions for the new model",
-      "Enablement materials and rollout plan",
+      "Positioning and messaging framework",
+      "Logo suite and full visual identity",
+      "Voice and tone guide with examples",
+      "Brand guidelines document",
     ],
     whoItsFor: [
-      "Businesses where a good process keeps losing to old habits",
-      "Leadership teams with overlapping or ambiguous ownership",
-      "Organisations that have implemented change and watched it decay",
+      "Companies that outgrew the identity they started with",
+      "Businesses that look different in every channel",
+      "New ventures that need to launch coherent",
     ],
     faq: [
       {
-        question: "Is this change management?",
+        question: "Do we have to rebrand everything at once?",
         answer:
-          "Narrower and more concrete. We're not running a culture programme — we're fixing the specific incentives, decision rights and cadence that determine whether the new operating model holds.",
+          "No. We usually phase it — digital first, print and environment as they come up for renewal — so the cost lands over time.",
       },
       {
-        question: "Can this run without the other engagements?",
+        question: "Do you work with our existing logo?",
         answer:
-          "Yes, if you already have a system that works on paper but keeps losing in practice. That's usually an alignment problem, not a design one.",
+          "Often, yes. If the mark still has equity we build the system around it rather than charging you to replace something that works.",
       },
     ],
-    motif: "colonnade",
+    slot: "stone",
+  },
+  {
+    slug: "digital-strategy",
+    number: "03",
+    label: "Direction",
+    title: "Digital Strategy",
+    summary: "A clear plan for where to invest, and what to stop doing.",
+    intro:
+      "Strategy work earns its keep by removing things. We map where your digital effort actually goes, what it returns, and the two or three moves worth making next.",
+    overview: [
+      "Teams rarely lack ideas — they lack an agreed order. So effort spreads across channels that each get too little to work.",
+      "We assess the whole picture, size the opportunities honestly, and hand back a sequenced plan with the reasoning attached, so it survives the next change of mind.",
+    ],
+    capabilities: [
+      {
+        title: "Audit",
+        description: "Site, channels, analytics and competitors, reviewed against what you are trying to achieve.",
+      },
+      {
+        title: "Audience",
+        description: "Who is actually buying, what they are looking for, and where they look for it.",
+      },
+      {
+        title: "Roadmap",
+        description: "A sequenced plan with effort, expected return and a clear first move.",
+      },
+      {
+        title: "Measurement",
+        description: "The handful of numbers worth watching, and the reporting to see them.",
+      },
+    ],
+    deliverables: [
+      "Digital audit and findings",
+      "Audience and opportunity map",
+      "Sequenced 12-month roadmap",
+      "Measurement framework",
+    ],
+    whoItsFor: [
+      "Teams busy across many channels with little to show",
+      "Businesses about to invest and wanting the order right",
+      "Leaders who need a plan they can take to a board",
+    ],
+    faq: [
+      {
+        question: "Do you deliver the plan, or just write it?",
+        answer:
+          "Either. Plenty of clients take the roadmap in-house; when you would rather we built it, the strategy fee comes off the build.",
+      },
+      {
+        question: "How long does it take?",
+        answer: "Four weeks for most businesses, including the readout session.",
+      },
+    ],
+    slot: "wireframes",
+  },
+  {
+    slug: "seo-and-growth",
+    number: "04",
+    label: "Reach",
+    title: "SEO & Growth",
+    summary: "Compounding visibility from technical foundations up, not tricks.",
+    intro:
+      "Growth work that still pays two years from now looks boring at the start: fix the technical base, publish what people actually search for, and earn links honestly.",
+    overview: [
+      "Search rewards patience and punishes shortcuts. We do not sell tactics with a short shelf life.",
+      "The work is sequenced — technical health, then structure and content, then authority — because each stage makes the next one worth doing.",
+    ],
+    capabilities: [
+      {
+        title: "Technical SEO",
+        description: "Crawlability, speed, structured data and the errors quietly capping your ceiling.",
+      },
+      {
+        title: "Content strategy",
+        description: "What to publish, in what order, based on demand and how hard each term is to win.",
+      },
+      {
+        title: "Local & conversion",
+        description: "Local presence where it matters, and turning arriving traffic into enquiries.",
+      },
+      {
+        title: "Reporting",
+        description: "Plain monthly reporting on rankings, traffic and enquiries — no vanity dashboards.",
+      },
+    ],
+    deliverables: [
+      "Technical SEO audit and fixes",
+      "Keyword and content plan",
+      "On-page optimisation across the site",
+      "Monthly reporting",
+    ],
+    whoItsFor: [
+      "Businesses invisible for the terms that matter",
+      "Sites that lost traffic after a migration",
+      "Teams wanting a channel that compounds",
+    ],
+    faq: [
+      {
+        question: "How long before we see results?",
+        answer:
+          "Technical fixes can move things in weeks. Content and authority typically take three to six months to show clearly. Anyone promising faster is guessing.",
+      },
+      {
+        question: "Do you guarantee rankings?",
+        answer: "No, and neither should anyone else. We guarantee the work and report the outcomes honestly.",
+      },
+    ],
+    slot: "skyline",
+  },
+  {
+    slug: "content-and-creative",
+    number: "05",
+    label: "Voice",
+    title: "Content & Creative",
+    summary: "Words and visuals that sound like you and do a job.",
+    intro:
+      "Good content is not volume. It is the right thing said clearly, to someone specific, at the moment it helps — produced consistently enough to build trust.",
+    overview: [
+      "Most content programmes fail on consistency, not talent. They start strong and quietly stop.",
+      "We build something sustainable at your real capacity: a clear voice, a workable cadence, and templates that make producing the next piece straightforward.",
+    ],
+    capabilities: [
+      {
+        title: "Copywriting",
+        description: "Site copy, campaigns and long-form that sounds like a person, not a category.",
+      },
+      {
+        title: "Art direction",
+        description: "A consistent visual approach across photography, layout and social.",
+      },
+      {
+        title: "Production",
+        description: "Photography and video direction, produced to the brand rather than to a trend.",
+      },
+      {
+        title: "Editorial system",
+        description: "Calendar, templates and a workflow your team can maintain after we step back.",
+      },
+    ],
+    deliverables: [
+      "Voice guide with worked examples",
+      "Core site and campaign copy",
+      "Art direction and asset library",
+      "Editorial calendar and templates",
+    ],
+    whoItsFor: [
+      "Businesses that sound like everyone else",
+      "Teams who start content programmes and stall",
+      "Brands needing consistency across channels",
+    ],
+    faq: [
+      {
+        question: "Can you write for a technical industry?",
+        answer:
+          "Yes. We interview your experts and write from what they say — that is usually the difference between credible and generic.",
+      },
+      {
+        question: "Do you hand over the system?",
+        answer: "Always. The goal is that your team can keep producing without us.",
+      },
+    ],
+    slot: "workspace",
   },
 ];
-
-/** All service pages share the engagement arc. */
-export const serviceProcess = processSteps;
 
 export const getServiceBySlug = (slug: string) => services.find((s) => s.slug === slug);

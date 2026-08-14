@@ -6,14 +6,14 @@ import { ProcessList } from "@/components/sections/ProcessList";
 import { FaqSection } from "@/components/sections/FaqSection";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { Container } from "@/components/ui/Container";
-import { ArchitecturalImage } from "@/components/visuals/ArchitecturalImage";
+import { BrandImage } from "@/components/visuals/BrandImage";
 import { services } from "@/lib/data/services";
 import { faq } from "@/lib/data/faq";
 
 export const metadata: Metadata = {
   title: "Services",
   description:
-    "Three engagements: an Operations Audit to find the constraint, Systems Design to remove it, and Organizational Alignment to make the change hold.",
+    "Websites, branding, digital strategy, SEO and content — five services that build on each other.",
   alternates: { canonical: "/services" },
 };
 
@@ -26,8 +26,8 @@ export default function ServicesPage() {
           { label: "Services", href: "/services" },
         ]}
         label="Services"
-        lines={["Diagnose. Design.", "Make it hold."]}
-        standfirst="Three engagements that build on each other. Most clients start with an audit, because committing capital before naming the constraint is how expensive projects fix the wrong thing."
+        lines={["Everything we make,", "built to last."]}
+        standfirst="Five services that work on their own and work better together. Most clients start with a website or a brand, then keep us on for the growth work afterwards."
       />
 
       <section className="bg-cream py-24 lg:py-32">
@@ -58,16 +58,8 @@ export default function ServicesPage() {
                   </div>
 
                   <div className="flex items-center justify-between gap-6 lg:col-span-2 lg:justify-end">
-                    <div data-image-mask className="hidden h-20 w-28 shrink-0 lg:block">
-                      <div data-hover-image className="h-full w-full">
-                        <ArchitecturalImage
-                          uid={`svc-list-${service.slug}`}
-                          tone="stone"
-                          motif={service.motif}
-                          className="h-full w-full"
-                          decorative
-                        />
-                      </div>
+                    <div data-hover-image className="hidden h-20 w-28 shrink-0 lg:block">
+                      <BrandImage slot={service.slot} underlay="none" aspect="h-full w-full" frame="none" alt="" />
                     </div>
                     <span data-hover-arrow className="text-charcoal">
                       <ArrowUpRight size={20} strokeWidth={1.75} aria-hidden="true" />

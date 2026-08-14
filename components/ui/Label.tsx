@@ -20,9 +20,9 @@ export function Label({
     <Tag className={clsx("flex items-center gap-3 text-label uppercase", className)}>
       <span
         aria-hidden="true"
-        className={clsx("h-px w-6 shrink-0", onDark ? "bg-accent" : "bg-accent")}
+        className="h-[3px] w-6 shrink-0 bg-accent"
       />
-      <span className={clsx("font-medium", onDark ? "text-muted-light" : "text-muted")}>
+      <span className={clsx("font-bold", onDark ? "text-muted-light" : "text-muted")}>
         {children}
       </span>
     </Tag>

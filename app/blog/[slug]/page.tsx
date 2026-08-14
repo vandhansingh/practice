@@ -5,7 +5,7 @@ import { ArrowUpRight } from "lucide-react";
 import { PageHero } from "@/components/sections/PageHero";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { Container } from "@/components/ui/Container";
-import { ArchitecturalImage } from "@/components/visuals/ArchitecturalImage";
+import { BrandImage } from "@/components/visuals/BrandImage";
 import { blogPosts, getPostBySlug } from "@/lib/data/blog";
 import { site } from "@/lib/data/site";
 
@@ -57,7 +57,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
       <PageHero
         breadcrumb={[
           { label: "Home", href: "/" },
-          { label: "Blog", href: "/blog" },
+          { label: "Journal", href: "/blog" },
           { label: post.category, href: "/blog" },
         ]}
         label={`${post.category} — ${post.readTime}`}
@@ -65,19 +65,15 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
         standfirst={post.excerpt}
       />
 
-      <section className="bg-charcoal">
+      <section data-dark className="bg-charcoal">
         <Container>
-          <div data-image-reveal data-image-mask className="aspect-[21/9] w-full">
-            <div className="h-full w-full">
-              <ArchitecturalImage
-                uid={`post-hero-${post.slug}`}
-                tone={post.tone}
-                motif={post.motif}
-                className="h-full w-full"
-                label={post.title}
-              />
-            </div>
-          </div>
+          <BrandImage
+            slot={post.slot}
+            underlay="corner"
+            aspect="aspect-[21/9]"
+            frame="cream"
+            alt={post.title}
+          />
         </Container>
         <div className="h-24 lg:h-28" />
       </section>

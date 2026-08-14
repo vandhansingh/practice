@@ -6,7 +6,7 @@ import { PageHero } from "@/components/sections/PageHero";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { Container } from "@/components/ui/Container";
 import { Label } from "@/components/ui/Label";
-import { ArchitecturalImage } from "@/components/visuals/ArchitecturalImage";
+import { BrandImage } from "@/components/visuals/BrandImage";
 import { caseStudies, getCaseStudyBySlug } from "@/lib/data/caseStudies";
 
 export function generateStaticParams() {
@@ -50,19 +50,15 @@ export default function CaseStudyDetailPage({ params }: { params: { slug: string
         ]}
       />
 
-      <section className="bg-charcoal">
+      <section data-dark className="bg-charcoal">
         <Container>
-          <div data-image-reveal data-image-mask className="aspect-[21/9] w-full">
-            <div className="h-full w-full">
-              <ArchitecturalImage
-                uid={`cs-hero-${study.slug}`}
-                tone={study.tone}
-                motif={study.motif}
-                className="h-full w-full"
-                label={`${study.category} — ${study.title}`}
-              />
-            </div>
-          </div>
+          <BrandImage
+            slot={study.slot}
+            underlay="corner"
+            aspect="aspect-[21/9]"
+            frame="cream"
+            alt={`${study.category} — ${study.title}`}
+          />
         </Container>
         <div className="h-24 lg:h-32" />
       </section>
@@ -104,7 +100,7 @@ export default function CaseStudyDetailPage({ params }: { params: { slug: string
                     {study.services.map((service) => (
                       <li
                         key={service}
-                        className="rounded-[2px] border border-border px-3 py-1.5 text-[0.8125rem] text-muted"
+                        className="border-2 border-charcoal px-3 py-1.5 text-[0.8125rem] font-medium text-charcoal"
                       >
                         {service}
                       </li>
@@ -118,7 +114,7 @@ export default function CaseStudyDetailPage({ params }: { params: { slug: string
       </article>
 
       {/* Client quote */}
-      <section className="bg-charcoal py-24 lg:py-32">
+      <section data-dark className="bg-charcoal py-24 lg:py-32">
         <Container>
           <div data-reveal className="max-w-[40ch]">
             <p className="font-display text-display-md text-cream">

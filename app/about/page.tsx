@@ -5,32 +5,33 @@ import { FinalCTA } from "@/components/sections/FinalCTA";
 import { Container } from "@/components/ui/Container";
 import { Label } from "@/components/ui/Label";
 import { DisplayLines } from "@/components/ui/DisplayLines";
-import { ArchitecturalImage } from "@/components/visuals/ArchitecturalImage";
+import { BrandImage } from "@/components/visuals/BrandImage";
+import { CornerBracket, AmberDot } from "@/components/visuals/Motifs";
 import { team } from "@/lib/data/team";
-import { site } from "@/lib/data/site";
+import { site, approach } from "@/lib/data/site";
 
 export const metadata: Metadata = {
   title: "About",
-  description: `${site.name} is a four-partner operations consultancy. The person who diagnoses your operation designs the fix and is there at go-live.`,
+  description: `${site.fullName} — a small studio building websites, brands and growth systems on strong foundations. ${site.values}`,
   alternates: { canonical: "/about" },
 };
 
-const values = [
+const commitments = [
   {
-    title: "Diagnose before prescribing",
-    body: "We won't propose a solution in a first meeting. Anyone who does is selling something they'd already built.",
+    title: "We quote honestly",
+    body: "A fixed number before anything starts. If we underestimate something we should have anticipated, that is ours to absorb.",
   },
   {
-    title: "Measure what actually governs output",
-    body: "Touch time against elapsed time, exception volume, decision latency. Most operational dashboards measure activity instead.",
+    title: "We tell you what you don't need",
+    body: "The fastest way to lose a client is to sell them something that doesn't work. We would rather scope smaller and be right.",
   },
   {
-    title: "Design for the exception",
-    body: "Systems fail at their edges, so the exception path gets designed first and the standard path is built around it.",
+    title: "We finish what we start",
+    body: "No handing the project to someone you have never met halfway through. The people who scope it are the people who build it.",
   },
   {
-    title: "Leave properly",
-    body: "Handover with documentation and a trained owner. If a system needs us to keep running, we've built the wrong thing.",
+    title: "We hand over what we build",
+    body: "Documentation, training, and a CMS your team can run. Nothing we make should depend on us to keep working.",
   },
 ];
 
@@ -43,70 +44,60 @@ export default function AboutPage() {
           { label: "About", href: "/about" },
         ]}
         label={`About ${site.name}`}
-        lines={["A small firm with", "an outsized remit."]}
-        standfirst={`Founded in ${site.founded}. Four partners, no analyst layer, and a deliberate cap on how many clients we take at once.`}
+        lines={["A studio built on", "strong foundations."]}
+        standfirst={`Founded in ${site.founded}. A small team, deliberately — so the people who scope your project are the people who build it.`}
       />
 
       {/* Asymmetric image composition */}
-      <section className="bg-cream py-24 lg:py-32">
+      <section className="relative bg-cream py-24 lg:py-32">
+        <AmberDot className="absolute right-[calc(var(--gutter)+6px)] top-16 hidden lg:block" size={16} />
         <Container>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-12">
             <div className="sm:col-span-7">
-              <div data-image-reveal data-image-mask className="aspect-[4/3] w-full">
-                <div className="h-full w-full">
-                  <ArchitecturalImage
-                    uid="about-1"
-                    tone="stone"
-                    motif="interior"
-                    className="h-full w-full"
-                    label="Studio interior with raking daylight"
-                  />
-                </div>
-              </div>
+              <BrandImage
+                slot="workspace"
+                underlay="block"
+                aspect="aspect-[4/3]"
+                alt="The studio at work"
+              />
             </div>
-            <div className="sm:col-span-4 sm:col-start-9 sm:mt-20">
-              <div data-image-reveal data-image-mask className="aspect-[3/4] w-full">
-                <div className="h-full w-full">
-                  <ArchitecturalImage
-                    uid="about-2"
-                    tone="dusk"
-                    motif="stair"
-                    className="h-full w-full"
-                    label="Concrete stair detail"
-                  />
-                </div>
-              </div>
+            <div className="sm:col-span-4 sm:col-start-9 sm:mt-24">
+              <BrandImage
+                slot="stone"
+                underlay="none"
+                aspect="aspect-[3/4]"
+                alt="A cornerstone"
+              />
             </div>
           </div>
         </Container>
       </section>
 
       {/* Philosophy */}
-      <section className="bg-cream-dark py-24 lg:py-32">
+      <section className="border-t border-border bg-cream-dark py-24 lg:py-32">
         <Container>
           <div className="grid grid-cols-1 gap-14 lg:grid-cols-12 lg:gap-10">
             <div className="lg:col-span-5">
-              <Label className="mb-7">Philosophy</Label>
+              <Label className="mb-7">Why we exist</Label>
               <h2 className="font-display text-display-lg text-charcoal">
-                <DisplayLines lines={["Depth beats", "leverage."]} />
+                <DisplayLines lines={["Build it like", "it matters."]} />
               </h2>
             </div>
             <div data-reveal className="lg:col-span-6 lg:col-start-7">
               <div className="space-y-6">
-                <p className="font-display text-display-sm leading-snug text-charcoal">
-                  You cannot diagnose a constraint from a status call.
+                <p className="font-display text-display-sm font-light leading-snug text-charcoal">
+                  Every project is something someone will depend on.
                 </p>
                 <p className="text-[1.0625rem] leading-relaxed text-muted">
-                  The standard consulting model staffs engagements with people who
-                  weren&rsquo;t in the room when the work was sold. It scales well
-                  and diagnoses badly, because the signal in operational work is in
-                  the detail — the workaround nobody documented, the approval that
-                  always waits for one person, the report everyone ignores.
+                  To be found. To be trusted. To make a living from. A website is
+                  rarely just a website — it is how a plumber gets calls, how a
+                  clinic gets booked, how a family business survives a slow year.
                 </p>
                 <p className="text-[1.0625rem] leading-relaxed text-muted">
-                  So we stay small on purpose and take fewer clients than we could.
-                  Every engagement is led by a partner who spent the first two weeks
-                  inside the operation.
+                  That is the reason we quote honestly, keep the team small, and
+                  hand over everything we build. Our faith shapes how we work; it
+                  doesn&rsquo;t restrict who we work with, and you will never be
+                  preached at in a project meeting.
                 </p>
               </div>
             </div>
@@ -114,18 +105,19 @@ export default function AboutPage() {
         </Container>
       </section>
 
-      {/* Values */}
-      <section className="bg-cream py-24 lg:py-32">
+      {/* Commitments */}
+      <section className="relative bg-cream py-24 lg:py-32">
+        <CornerBracket className="absolute left-[var(--gutter)] top-12 hidden lg:block" size={26} weight={7} draw />
         <Container>
-          <Label className="mb-7">How we work</Label>
+          <Label className="mb-7">{site.values}</Label>
           <h2 className="max-w-[18ch] font-display text-display-lg text-charcoal">
             <DisplayLines lines={["Four commitments."]} />
           </h2>
 
           <div data-reveal-group className="mt-16 grid grid-cols-1 gap-x-10 gap-y-12 sm:grid-cols-2">
-            {values.map((value, i) => (
+            {commitments.map((value, i) => (
               <div key={value.title} data-reveal className="border-t border-border pt-6">
-                <span className="tabular text-label uppercase text-muted">
+                <span className="tabular text-label uppercase text-accent-deep">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <h3 className="mt-4 font-display text-display-sm text-charcoal">{value.title}</h3>
@@ -138,29 +130,59 @@ export default function AboutPage() {
         </Container>
       </section>
 
-      {/* Team */}
-      <section className="bg-cream-dark py-24 lg:py-32">
+      {/* How we work — the three-step arc */}
+      <section className="border-y border-border bg-cream-dark py-24 lg:py-32">
         <Container>
-          <Label className="mb-7">The partners</Label>
+          <div className="grid grid-cols-1 gap-14 lg:grid-cols-12 lg:gap-10">
+            <div className="lg:col-span-4">
+              <Label className="mb-7">How we work</Label>
+              <h2 className="font-display text-display-lg text-charcoal">
+                <DisplayLines lines={["Understand.", "Build. Grow."]} />
+              </h2>
+            </div>
+            <ol data-reveal-group className="lg:col-span-7 lg:col-start-6">
+              {approach.map((step) => (
+                <li
+                  key={step.number}
+                  data-reveal
+                  className="grid grid-cols-[auto_1fr] gap-x-8 border-t border-border py-8 first:border-t-0 first:pt-0"
+                >
+                  <span className="tabular pt-1 text-[0.8125rem] font-medium text-accent-deep">
+                    {step.number}
+                  </span>
+                  <div>
+                    <h3 className="font-display text-display-sm text-charcoal">{step.title}</h3>
+                    <p className="mt-3 max-w-[52ch] text-[0.9375rem] leading-relaxed text-muted">
+                      {step.description}
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </Container>
+      </section>
+
+      {/* Team */}
+      <section className="bg-cream py-24 lg:py-32">
+        <Container>
+          <Label className="mb-7">The team</Label>
           <h2 className="max-w-[20ch] font-display text-display-lg text-charcoal">
             <DisplayLines lines={["Who you", "actually get."]} />
           </h2>
 
-          <div
-            data-reveal-group
-            className="mt-16 grid grid-cols-2 gap-x-6 gap-y-12 lg:grid-cols-4"
-          >
+          <div data-reveal-group className="mt-16 grid grid-cols-2 gap-x-6 gap-y-12 lg:grid-cols-4">
             {team.map((member) => (
               <article key={member.name} data-reveal>
                 <div data-image-mask className="aspect-[4/5] w-full bg-charcoal">
                   <div className="flex h-full w-full items-center justify-center">
-                    <span className="font-display text-[clamp(2rem,3vw,2.75rem)] text-cream/70">
+                    <span className="font-display text-[clamp(2rem,3vw,2.75rem)] font-light text-cream/70">
                       {member.initials}
                     </span>
                   </div>
                 </div>
-                <h3 className="mt-5 font-display text-[1.25rem] text-charcoal">{member.name}</h3>
-                <p className="mt-1 text-[0.8125rem] uppercase tracking-[0.1em] text-muted">
+                <h3 className="mt-5 text-[1.0625rem] font-semibold text-charcoal">{member.name}</h3>
+                <p className="mt-1 text-[0.75rem] uppercase tracking-[0.12em] text-muted">
                   {member.role}
                 </p>
                 <p className="mt-3 text-[0.875rem] leading-relaxed text-muted">{member.bio}</p>

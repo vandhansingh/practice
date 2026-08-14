@@ -7,27 +7,27 @@ export type TeamMember = {
 
 export const team: TeamMember[] = [
   {
-    name: "Ruth Okonjo",
-    role: "Founding Partner",
-    bio: "Fifteen years in industrial operations before founding the practice. Leads diagnosis on every engagement.",
-    initials: "RO",
+    name: "Micah Delaney",
+    role: "Founder & Creative Director",
+    bio: "Fifteen years in brand and product design. Leads positioning and art direction on every engagement.",
+    initials: "MD",
   },
   {
-    name: "Daniel Reiss",
-    role: "Partner, Systems",
-    bio: "Designs the future-state operating models and owns implementation quality end to end.",
-    initials: "DR",
+    name: "Ruth Adeyemi",
+    role: "Design Director",
+    bio: "Owns the design system on every build, from first layout through to the handover documentation.",
+    initials: "RA",
   },
   {
-    name: "Mei Lundqvist",
-    role: "Partner, Alignment",
-    bio: "Works on decision rights, cadence and the organisational conditions that let a new system hold.",
-    initials: "ML",
+    name: "Josiah Park",
+    role: "Lead Engineer",
+    bio: "Builds what we design. Performance, accessibility and the CMS your team actually has to live with.",
+    initials: "JP",
   },
   {
-    name: "Tomas Ferreira",
-    role: "Principal",
-    bio: "Runs the audit workstream — measurement, instrumentation and the numbers behind each recommendation.",
-    initials: "TF",
+    name: "Hannah Vogel",
+    role: "Strategy & Growth",
+    bio: "Runs audits, roadmaps and the reporting that tells you plainly whether the work is paying.",
+    initials: "HV",
   },
 ];

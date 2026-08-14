@@ -17,13 +17,13 @@ export function Accordion({ items, onDark = false }: { items: FaqItem[]; onDark?
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <div className={clsx("border-t", onDark ? "border-border-dark" : "border-border")}>
+    <div className={clsx("border-t-2", onDark ? "border-cream" : "border-charcoal")}>
       {items.map((item, i) => {
         const isOpen = open === i;
         return (
           <div
             key={item.question}
-            className={clsx("border-b", onDark ? "border-border-dark" : "border-border")}
+            className={clsx("border-b-2", onDark ? "border-cream" : "border-charcoal")}
           >
             <h3>
               <button
@@ -45,7 +45,8 @@ export function Accordion({ items, onDark = false }: { items: FaqItem[]; onDark?
                 <span
                   aria-hidden="true"
                   className={clsx(
-                    "mt-1 shrink-0 transition-transform duration-400 ease-expo",
+                    "mt-1 flex h-9 w-9 shrink-0 items-center justify-center border-2 transition-transform duration-400 ease-expo",
+                    onDark ? "border-cream" : "border-charcoal",
                     isOpen && "rotate-45"
                   )}
                 >

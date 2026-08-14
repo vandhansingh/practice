@@ -28,6 +28,7 @@ export function PageHero({
   return (
     <section
       data-hero
+      {...(onDark ? { "data-dark": true } : {})}
       className={clsx(
         "pb-16 pt-32 sm:pt-36 lg:pb-20 lg:pt-40",
         onDark ? "bg-charcoal" : "border-b border-border bg-cream"
@@ -38,8 +39,7 @@ export function PageHero({
           <nav
             aria-label="Breadcrumb"
             className={clsx(
-              "mb-10 flex flex-wrap items-center gap-2 text-[0.8125rem]",
-              onDark ? "text-muted" : "text-muted"
+              "mb-10 flex flex-wrap items-center gap-2 text-[0.8125rem] text-muted"
             )}
           >
             {breadcrumb.map((crumb, i) => (
@@ -48,7 +48,8 @@ export function PageHero({
                 <Link
                   href={crumb.href}
                   className={clsx(
-                    "transition-colors",
+                    // WCAG 2.2 target size: a bare 13px link is ~21px tall.
+                    "inline-block py-0.5 transition-colors",
                     onDark ? "hover:text-cream" : "hover:text-charcoal"
                   )}
                 >

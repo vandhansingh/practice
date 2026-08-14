@@ -1,80 +1,78 @@
 import { Container } from "@/components/ui/Container";
 import { DisplayLines } from "@/components/ui/DisplayLines";
 import { Button } from "@/components/ui/Button";
-import { ArchitecturalImage } from "@/components/visuals/ArchitecturalImage";
+import { BrandImage } from "@/components/visuals/BrandImage";
+import { CornerBracket, AmberDot } from "@/components/visuals/Motifs";
 import { site } from "@/lib/data/site";
 
 /**
- * Full-bleed photographic hero with left-weighted content.
+ * Hero, following the brand board's opening panel: the wordmark and tagline set
+ * against open paper on the left, the red-backed workspace image filling the
+ * right, and the value line anchored to the bottom of the type column.
  *
- * Deliberately not a centred stack: the type sits in the left seven columns
- * against the bright side of the facade, and the composition breathes into the
- * darker right side rather than balancing symmetrically.
- *
- * `data-hero` marks this subtree so the generic scroll-reveal pass skips it —
- * everything here is choreographed by the page-load timeline instead.
+ * `data-hero` marks the subtree so the generic scroll pass skips it — the
+ * page-load timeline choreographs everything here.
  */
 export function Hero() {
   return (
-    <section data-hero className="relative isolate min-h-[92svh] overflow-hidden bg-charcoal">
-      <div data-hero-item="visual" className="absolute inset-0" data-image-mask>
-        <div data-hero-visual-inner className="absolute inset-0">
-          <ArchitecturalImage
-            uid="hero"
-            tone="dusk"
-            motif="facade"
-            className="h-full w-full"
-            label="Louvred concrete facade in raking evening light"
-          />
-        </div>
-        {/* Legibility scrim — weighted to the left where the type sits, and
-            kept light enough that the facade texture still reads through it. */}
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 bg-gradient-to-r from-charcoal/75 via-charcoal/35 to-transparent"
-        />
-        <div
-          aria-hidden="true"
-          className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-charcoal via-charcoal/55 to-transparent"
-        />
-      </div>
+    <section data-hero className="relative overflow-hidden bg-cream pt-28 sm:pt-32 lg:pt-24">
+      <CornerBracket className="absolute left-[var(--gutter)] top-24 hidden lg:block" size={34} weight={9} />
+      <AmberDot className="absolute right-[calc(var(--gutter)+8px)] top-28 hidden lg:block" size={16} />
 
-      <Container className="relative flex min-h-[92svh] flex-col justify-end pb-20 pt-40 lg:pb-28">
-        <div data-hero-content className="grid grid-cols-1 gap-12 lg:grid-cols-12">
-          <div className="lg:col-span-8 xl:col-span-7">
-            <p
-              data-hero-item="eyebrow"
-              className="flex items-center gap-3 text-label uppercase text-muted-light"
-            >
-              <span aria-hidden="true" className="h-px w-6 bg-accent" />
-              {site.discipline}
-            </p>
-
-            <h1 className="mt-8 font-display text-display-hero text-cream">
-              <DisplayLines lines={["Scale is a", "systems problem."]} />
+      <Container>
+        <div
+          data-hero-content
+          className="grid grid-cols-1 items-center gap-12 lg:min-h-[calc(100svh-7rem)] lg:grid-cols-12 lg:gap-10"
+        >
+          <div className="lg:col-span-5 lg:py-16">
+            <h1 className="font-display text-display-hero font-normal text-charcoal">
+              <DisplayLines lines={["Cornerstone", "Digital Agency"]} />
             </h1>
 
             <p
               data-hero-item="body"
-              className="mt-9 max-w-[48ch] text-[1.0625rem] leading-relaxed text-muted-light sm:text-[1.1875rem]"
+              className="mt-8 flex max-w-[28ch] items-start gap-2 text-[1.0625rem] leading-relaxed text-muted sm:text-[1.1875rem]"
             >
-              One constraint is limiting your business more than everything else
-              combined. We find it, design the operating system that removes it,
-              and stay until the numbers hold.
+              <span>
+                {site.tagline}
+                <span aria-hidden="true" className="ml-1.5 inline-block h-[7px] w-[7px] translate-y-[-2px] bg-accent" />
+              </span>
             </p>
 
-            <div data-hero-item="cta" className="mt-11 flex flex-wrap items-center gap-6">
-              <Button href={site.ctaLong.href} variant="primary">
-                {site.ctaLong.label}
+            <div data-hero-item="cta" className="mt-12 flex flex-wrap items-center gap-6">
+              <Button href={site.cta.href} variant="primary">
+                {site.cta.label}
               </Button>
               <span>
                 <a
-                  href="#services"
-                  className="link-underline text-[0.875rem] font-medium text-cream"
+                  href="#approach"
+                  className="link-underline text-[0.875rem] font-medium text-charcoal"
                 >
                   See how we work
                 </a>
               </span>
+            </div>
+
+            <p
+              data-hero-item="eyebrow"
+              className="mt-16 text-[0.8125rem] font-medium tracking-[0.02em] text-charcoal lg:mt-24"
+            >
+              {site.values}
+            </p>
+          </div>
+
+          <div data-hero-item="visual" className="lg:col-span-7">
+            <div data-hero-visual-drift>
+              <div data-hero-visual-inner>
+                <BrandImage
+                  slot="workspace"
+                  underlay="silhouette"
+                  aspect="aspect-[4/3] lg:aspect-[16/11]"
+                  priority
+                  reveal={false}
+                  alt="A designer at work on a brand strategy layout"
+                />
+              </div>
             </div>
           </div>
         </div>

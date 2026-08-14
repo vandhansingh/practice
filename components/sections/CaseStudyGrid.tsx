@@ -20,11 +20,11 @@ export function CaseStudyGrid() {
           <div>
             <Label className="mb-7">Selected work</Label>
             <h2 className="max-w-[20ch] font-display text-display-xl text-charcoal">
-              <DisplayLines lines={["Fewer moving parts.", "Better numbers."]} />
+              <DisplayLines lines={["Built to last.", "Built to work."]} />
             </h2>
           </div>
           <div data-reveal className="shrink-0">
-            <TextLink href="/case-studies">All case studies</TextLink>
+            <TextLink href="/case-studies">See all work</TextLink>
           </div>
         </div>
 

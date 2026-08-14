@@ -37,7 +37,10 @@ export function heroScrollOut() {
   if (!hero) return;
 
   const content = hero.querySelector("[data-hero-content]");
-  const visual = hero.querySelector("[data-hero-visual-inner]");
+  // Deliberately the drift wrapper, not [data-hero-visual-inner] — that one is
+  // owned by the load timeline's scale tween, and two tweens writing transform
+  // on one element compose rather than override.
+  const visual = hero.querySelector("[data-hero-visual-drift]");
 
   if (content) {
     gsap.to(content, {

@@ -6,18 +6,20 @@
 /* Tokens — mirrored from lib/design-system/tokens.ts                   */
 /* ------------------------------------------------------------------ */
 :root {
-  --cream: #f3efe7;
-  --cream-dark: #e8e0d2;
-  --white: #f8f6f1;
-  --charcoal: #1b1a18;
-  --charcoal-2: #24211f;
-  --charcoal-3: #302c29;
-  --muted: #77736b;
-  --muted-light: #a8a29a;
-  --border: #d7d0c3;
-  --border-dark: #3a3531;
-  --accent: #f2a329;
-  --accent-deep: #d8871a;
+  /* Sampled from the Cornerstone brand board. */
+  --cream: #f2efe9;
+  --cream-dark: #e8e4dc;
+  --white: #faf8f4;
+  --charcoal: #151515;
+  --charcoal-2: #232323;
+  --charcoal-3: #2f2f2f;
+  --muted: #636363;
+  --muted-light: #9a9a9a;
+  --border: #dcd7cd;
+  --border-dark: #333333;
+  --accent: #f42b1c;
+  --accent-deep: #c4180c;
+  --amber: #e8a22b;
 
   --ease-power3: cubic-bezier(0.215, 0.61, 0.355, 1);
   --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
@@ -103,10 +105,18 @@ select:focus-visible,
   overflow: hidden;
 }
 
+/*
+ * Only opacity here — deliberately NOT transform.
+ *
+ * GSAP reads an element's existing transform and keeps it as the baseline it
+ * composes its own tweens on top of. If this rule set translateY(100%), the
+ * line-reveal would finish at yPercent 0 but retain that 100% baseline, leaving
+ * every display heading parked below its overflow-hidden wrapper — permanently
+ * invisible. Opacity alone hides the line pre-paint; GSAP owns the transform.
+ */
 .js-motion [data-reveal-line] > * {
   display: block;
   opacity: 0;
-  transform: translateY(100%);
   will-change: transform, opacity;
 }
 
@@ -165,4 +175,28 @@ select:focus-visible,
   pointer-events: none;
   transform: scaleY(0);
   transform-origin: bottom;
+}
+
+/* ------------------------------------------------------------------ */
+/* Dark grounds                                                        */
+/*                                                                     */
+/* `muted` is tuned for paper: on ink it measures 3.4:1, well short of  */
+/* AA for body text. Rather than hand-swapping every occurrence — and   */
+/* re-introducing the bug the next time a section turns dark — any      */
+/* subtree marked [data-dark] promotes it to the light variant (6.5:1). */
+/* Deliberately unlayered: plain CSS outranks Tailwind's utilities      */
+/* layer, so this wins without !important.                             */
+/* ------------------------------------------------------------------ */
+[data-dark] .text-muted {
+  color: var(--muted-light);
+}
+
+/* Pointer targets. WCAG 2.2 AA wants 24x24 CSS px; a bare inline link  */
+/* in a 14px face is ~22px tall, so the standalone link utility buys    */
+/* the difference back without moving the text or its rule.             */
+.link-underline {
+  padding-block: 2px;
+}
+.link-underline::after {
+  bottom: 0;
 }

@@ -1,20 +1,17 @@
 import type { Metadata } from "next";
-import { Instrument_Serif, Instrument_Sans } from "next/font/google";
+import { Archivo } from "next/font/google";
 import "./globals.css";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { Footer } from "@/components/layout/Footer";
 import { MotionController } from "@/components/motion/MotionController";
 import { site } from "@/lib/data/site";
 
-const display = Instrument_Serif({
-  subsets: ["latin"],
-  weight: "400",
-  style: ["normal", "italic"],
-  variable: "--font-display",
-  display: "swap",
-});
-
-const sans = Instrument_Sans({
+/**
+ * One grotesque for the whole site, matching the board's monolithic sans
+ * setting — display and body are separated by weight and tracking, not by
+ * family. Variable, so the full weight range costs a single file.
+ */
+const sans = Archivo({
   subsets: ["latin"],
   variable: "--font-sans",
   display: "swap",
@@ -65,7 +62,7 @@ const motionBootstrap = `try{if(!matchMedia("(prefers-reduced-motion: reduce)").
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${display.variable} ${sans.variable}`}>
+    <html lang="en" className={sans.variable}>
       <head>
         <script dangerouslySetInnerHTML={{ __html: motionBootstrap }} />
       </head>
