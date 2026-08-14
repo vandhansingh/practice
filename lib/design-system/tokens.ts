@@ -6,8 +6,13 @@
  *
  * Contrast rules that the components rely on:
  *   red   on paper  = 3.6:1 → large text, icons and graphics only
- *   red-deep on paper = 5.0:1 → safe for body-size text (form errors, meta)
+ *   red-deep on paper = 5.3:1, and 4.8:1 on the deeper paper → safe at body size
+ *                     (form errors, step numbers, meta). #D01D10 only made 4.3:1 there.
  *   amber on paper  = 1.8:1 → decorative dots ONLY, never text or icons
+ *   muted on paper  = 5.2:1, and 4.7:1 on the deeper paper — the second number
+ *                     is the binding one, and #6B6B6B only made 4.2:1 there
+ *   muted is for LIGHT grounds only. On ink it measures 3.4:1; dark sections
+ *                     carry data-dark, which swaps it for muted-light (6.5:1).
  *
  * Key names are unchanged from earlier palettes so the component tree keeps
  * working; only the values moved.
@@ -24,14 +29,14 @@ export const color = {
   charcoal: "#151515",
   charcoal2: "#232323",
   charcoal3: "#2F2F2F",
-  muted: "#6B6B6B",
+  muted: "#636363",
   mutedLight: "#9A9A9A",
   border: "#DCD7CD",
   borderDark: "#333333",
   /** The signal red: brackets, blocks, key words, photo underlays. */
   accent: "#F42B1C",
   /** Darker red for anything at body size. */
-  accentDeep: "#D01D10",
+  accentDeep: "#C4180C",
   /** Amber dot. Decorative punctuation only. */
   amber: "#E8A22B",
 } as const;
@@ -89,4 +94,56 @@ export const motion = {
 export const layout = {
   container: "1320px",
   containerNarrow: "880px",
+} as const;
+
+/**
+ * The neubrutalist half.
+ *
+ * Half the style is taken and half is deliberately refused, so it lands as a
+ * sharpened version of the brand board rather than a different site wearing its
+ * colours. Written down because the split is the whole design decision:
+ *
+ * TAKEN — hard offset shadows with zero blur; structural ink borders at 2–3px;
+ * a mechanical press that translates an object by its own shadow offset so it
+ * lands flat on the page; heavy weights on labels, buttons and figures; zero
+ * radius (the board already had this); no blur or gradient anywhere.
+ *
+ * REFUSED — the pop palette (yellow / blue / violet); "anti-design" asymmetry
+ * and ugly-cute chaos, which would throw away the Swiss grid and the editorial
+ * whitespace the board is built on; uppercase-everything; and rotation on
+ * anything but a single badge.
+ *
+ * One refusal is worth spelling out. Canonical brutalism specifies
+ * `transition: none` — instant state changes. That directly contradicts the
+ * same reference's own accessibility priorities, which list "instant state
+ * changes (0ms)" as a critical interaction anti-pattern. Motion is kept, and
+ * made mechanical instead: `press` below is the whole budget for a press, short
+ * and linear enough to read as a physical click rather than an ease.
+ */
+export const edge = {
+  /** Offsets, in px. The press translation must equal the shadow offset. */
+  offset: { sm: 2, md: 4, lg: 8 },
+  /** Border weights. 2px is structural, 3px is a primary control. */
+  width: { structural: "2px", control: "3px" },
+  /** Mechanical press. Deliberately not one of the editorial easings. */
+  press: { duration: "100ms", ease: "linear" },
+} as const;
+
+const hard = (px: number, hex: string) => `${px}px ${px}px 0 0 ${hex}`;
+
+/**
+ * Hard shadows, keyed by the ground they sit on: an ink shadow is invisible on
+ * a dark section, so dark surfaces take the cream variant instead.
+ */
+export const shadow = {
+  brutSm: hard(edge.offset.sm, color.charcoal),
+  brut: hard(edge.offset.md, color.charcoal),
+  brutLg: hard(edge.offset.lg, color.charcoal),
+  /** For objects on ink grounds. */
+  brutLight: hard(edge.offset.md, color.cream),
+  brutLightSm: hard(edge.offset.sm, color.cream),
+  /** Reserved for the two loudest objects on the page — the nav and the
+   *  featured engagement. Red carries no text here, so 3.6:1 is irrelevant. */
+  brutRed: hard(edge.offset.md, color.accent),
+  brutRedLg: hard(edge.offset.lg, color.accent),
 } as const;

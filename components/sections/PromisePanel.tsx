@@ -15,12 +15,12 @@ export function PromisePanel() {
           <div className="bg-accent px-[var(--gutter)] py-16 lg:col-span-5 lg:py-24 lg:pl-[var(--gutter)] lg:pr-12">
             <div data-reveal-group className="flex h-full flex-col justify-center gap-10">
               {promise.map((line) => (
-                <p key={line.verb} data-reveal className="text-[1.375rem] leading-tight text-cream sm:text-[1.625rem]">
+                <p key={line.verb} data-reveal className="text-[1.375rem] leading-tight text-charcoal sm:text-[1.625rem]">
                   <span className="block font-semibold">{line.verb}</span>
                   <span className="block font-light">{line.rest}</span>
                 </p>
               ))}
-              <span aria-hidden="true" className="mt-4 block h-px w-14 bg-cream/70" />
+              <span aria-hidden="true" className="mt-4 block h-[3px] w-14 bg-charcoal/70" />
             </div>
           </div>
 
@@ -29,6 +29,7 @@ export function PromisePanel() {
               slot="wireframes"
               underlay="none"
               aspect="aspect-[4/3] lg:aspect-auto lg:h-full"
+              frame="none"
               alt="A designer sketching wireframes on a studio wall"
             />
           </div>

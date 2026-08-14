@@ -44,7 +44,7 @@ export function ServiceGrid() {
                   />
                 </div>
 
-                <div className="mt-7 flex items-baseline justify-between gap-4 border-t border-border pt-5">
+                <div className="mt-7 flex items-baseline justify-between gap-4 border-t-2 border-charcoal pt-5">
                   <span className="tabular text-label uppercase text-muted">
                     {service.number} — {service.label}
                   </span>

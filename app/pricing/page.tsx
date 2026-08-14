@@ -42,11 +42,14 @@ export default function PricingPage() {
               <div
                 key={engagement.name}
                 data-reveal
+                // The featured card is its own ink ground inside a light
+                // section, so it needs the dark-text swap in its own right.
+                {...(engagement.featured ? { "data-dark": true } : {})}
                 className={clsx(
-                  "flex flex-col justify-between p-8 lg:p-10",
+                  "flex flex-col justify-between border-2 border-charcoal p-8 lg:p-10",
                   engagement.featured
-                    ? "bg-charcoal text-cream"
-                    : "border border-border bg-cream-dark/40 text-charcoal"
+                    ? "bg-charcoal text-cream shadow-brut-red"
+                    : "bg-white text-charcoal shadow-brut"
                 )}
               >
                 <div>
@@ -60,7 +63,7 @@ export default function PricingPage() {
                       {engagement.name}
                     </h2>
                     {engagement.featured && (
-                      <span className="shrink-0 rounded-[2px] bg-cream px-2.5 py-1 text-[0.625rem] font-medium uppercase tracking-[0.12em] text-charcoal">
+                      <span className="shrink-0 -rotate-2 border-2 border-cream bg-accent px-2.5 py-1 text-[0.625rem] font-bold uppercase tracking-[0.12em] text-charcoal">
                         Most common
                       </span>
                     )}
@@ -190,7 +193,7 @@ export default function PricingPage() {
 
       <FaqSection items={faq} background="cream" />
 
-      <section className="bg-charcoal py-24 lg:py-32">
+      <section data-dark className="bg-charcoal py-24 lg:py-32">
         <Container>
           <div data-reveal className="max-w-[40ch]">
             <p className="font-display text-display-md text-cream">

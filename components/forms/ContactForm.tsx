@@ -74,8 +74,8 @@ export function ContactForm() {
 
   if (status === "success") {
     return (
-      <div className="border border-border bg-cream-dark/50 p-10 sm:p-14">
-        <span className="flex h-11 w-11 items-center justify-center rounded-full bg-accent text-charcoal">
+      <div className="border-2 border-charcoal bg-white p-10 sm:p-14 shadow-brut">
+        <span className="flex h-11 w-11 items-center justify-center border-2 border-charcoal bg-accent text-charcoal">
           <Check size={20} aria-hidden="true" />
         </span>
         <h2 className="mt-8 font-display text-display-sm text-charcoal">
@@ -133,8 +133,9 @@ export function ContactForm() {
           aria-invalid={Boolean(errors.message)}
           aria-describedby={errors.message ? "message-error" : undefined}
           className={clsx(
-            "w-full resize-none border-b bg-transparent py-3 text-[1rem] text-charcoal outline-none transition-colors placeholder:text-muted/60 focus:border-accent",
-            errors.message ? "border-accent-deep" : "border-border"
+            "w-full resize-none border-2 bg-white px-4 py-3 text-[1rem] text-charcoal outline-none placeholder:text-muted/60",
+            "transition-[box-shadow,border-color] duration-100 ease-linear focus:shadow-brut motion-reduce:transition-none",
+            errors.message ? "border-accent-deep" : "border-charcoal"
           )}
         />
         {errors.message && <FieldError id="message-error">{errors.message}</FieldError>}
@@ -159,10 +160,10 @@ export function ContactForm() {
           disabled={status === "submitting"}
           // Matches the Button component: ink surface, red only in the arrow
           // box. Red behind 14px label text measures 4.3:1, short of AA.
-          className="group inline-flex items-center gap-3 rounded-card bg-charcoal py-1.5 pl-5 pr-1.5 text-[0.875rem] font-medium text-cream transition-colors duration-300 hover:bg-charcoal-2 disabled:cursor-not-allowed disabled:opacity-60"
+          className="group inline-flex items-center gap-3 rounded-card border-2 border-charcoal bg-charcoal py-1.5 pl-5 pr-1.5 text-[0.875rem] font-semibold text-cream shadow-brut transition-[transform,box-shadow,background-color] duration-100 ease-linear hover:bg-charcoal-2 active:translate-x-1 active:translate-y-1 active:shadow-none disabled:cursor-not-allowed disabled:opacity-60 disabled:shadow-none motion-reduce:transition-none"
         >
           <span>{status === "submitting" ? "Sending…" : "Send enquiry"}</span>
-          <span className="flex h-8 w-8 items-center justify-center rounded-[2px] bg-accent text-charcoal transition-transform duration-500 ease-expo group-hover:translate-x-0.5">
+          <span className="flex h-8 w-8 items-center justify-center rounded-card bg-accent text-charcoal transition-transform duration-500 ease-expo group-hover:translate-x-0.5">
             <ArrowUpRight size={15} aria-hidden="true" />
           </span>
         </button>
@@ -206,8 +207,9 @@ function Field({
         aria-invalid={Boolean(error)}
         aria-describedby={error ? `${name}-error` : undefined}
         className={clsx(
-          "w-full border-b bg-transparent py-3 text-[1rem] text-charcoal outline-none transition-colors focus:border-accent",
-          error ? "border-accent-deep" : "border-border"
+          "w-full border-2 bg-white px-4 py-3 text-[1rem] text-charcoal outline-none",
+          "transition-[box-shadow,border-color] duration-100 ease-linear focus:shadow-brut motion-reduce:transition-none",
+          error ? "border-accent-deep" : "border-charcoal"
         )}
       />
       {error && <FieldError id={`${name}-error`}>{error}</FieldError>}
@@ -233,7 +235,7 @@ function Select({
         id={name}
         name={name}
         defaultValue=""
-        className="w-full border-b border-border bg-transparent py-3 text-[1rem] text-charcoal outline-none transition-colors focus:border-accent"
+        className="w-full border-2 border-charcoal bg-white px-4 py-3 text-[1rem] text-charcoal outline-none transition-[box-shadow] duration-100 ease-linear focus:shadow-brut motion-reduce:transition-none"
       >
         <option value="">Select…</option>
         {options.map((option) => (

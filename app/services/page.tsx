@@ -59,7 +59,7 @@ export default function ServicesPage() {
 
                   <div className="flex items-center justify-between gap-6 lg:col-span-2 lg:justify-end">
                     <div data-hover-image className="hidden h-20 w-28 shrink-0 lg:block">
-                      <BrandImage slot={service.slot} underlay="none" aspect="h-full w-full" alt="" />
+                      <BrandImage slot={service.slot} underlay="none" aspect="h-full w-full" frame="none" alt="" />
                     </div>
                     <span data-hover-arrow className="text-charcoal">
                       <ArrowUpRight size={20} strokeWidth={1.75} aria-hidden="true" />

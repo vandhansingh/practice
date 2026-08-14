@@ -34,7 +34,7 @@ export function MetricStrip() {
                 }
               >
                 <p
-                  className="tabular font-display text-metric text-charcoal"
+                  className="tabular font-display text-metric font-semibold text-charcoal"
                   {...(metric.counter
                     ? {
                         "data-counter": metric.counter.value,

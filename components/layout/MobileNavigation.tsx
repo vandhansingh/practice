@@ -12,10 +12,12 @@ const ITEM_RISE = 26;
 /**
  * Full-screen mobile navigation.
  *
- * Portaled to <body> rather than rendered inside the header: the header is a
- * transformed, backdrop-filtered element, and per spec either of those makes it
- * the containing block for position:fixed descendants — which would collapse
- * this overlay to the height of the header bar.
+ * Portaled to <body> rather than rendered inside the header. The header used to
+ * carry a backdrop-filter, which per spec makes an element the containing block
+ * for position:fixed descendants — it collapsed this overlay to the height of
+ * the nav bar. That filter is gone now, but the portal stays: it keeps the
+ * overlay out of the header's stacking context, so nothing about the bar's own
+ * z-index or future transforms can trap it again.
  */
 export function MobileNavigation({
   open,
@@ -217,7 +219,7 @@ export function MobileNavigation({
           href={site.cta.href}
           onClick={onClose}
           tabIndex={open ? 0 : -1}
-          className="flex w-full items-center justify-center rounded-card bg-accent px-6 py-4 text-[0.9375rem] font-medium text-charcoal"
+          className="flex w-full items-center justify-center rounded-card border-2 border-charcoal bg-accent px-6 py-4 text-[0.9375rem] font-semibold text-charcoal shadow-brut-light transition-[transform,box-shadow] duration-100 ease-linear active:translate-x-1 active:translate-y-1 active:shadow-none motion-reduce:transition-none"
         >
           {site.ctaLong.label}
         </Link>

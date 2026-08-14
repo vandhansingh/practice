@@ -66,12 +66,13 @@ export default function ServiceDetailPage({ params }: { params: { slug: string }
       />
 
       {/* Full-bleed image bridging the dark hero into the light body */}
-      <section className="bg-charcoal">
+      <section data-dark className="bg-charcoal">
         <Container>
           <BrandImage
             slot={service.slot}
             underlay="corner"
             aspect="aspect-[21/9]"
+            frame="cream"
             alt={`${service.title} — Cornerstone`}
           />
         </Container>
@@ -177,7 +178,7 @@ export default function ServiceDetailPage({ params }: { params: { slug: string }
       />
 
       {/* Testimonial */}
-      <section className="bg-charcoal py-24 lg:py-32">
+      <section data-dark className="bg-charcoal py-24 lg:py-32">
         <Container>
           <div data-reveal className="max-w-[42ch]">
             <p className="font-display text-display-md text-cream">

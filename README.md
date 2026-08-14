@@ -28,17 +28,26 @@ signal red, and an amber dot:
 | --- | --- | --- |
 | `cream` / `cream-dark` | `#F2EFE9` / `#E8E4DC` | page grounds |
 | `charcoal` | `#151515` | ink: type, dark sections, nav, footer |
-| `muted` / `muted-light` | `#6B6B6B` / `#9A9A9A` | secondary text |
+| `muted` / `muted-light` | `#636363` / `#9A9A9A` | secondary text |
 | `border` | `#DCD7CD` | hairlines |
-| `accent` / `accent-deep` | `#F42B1C` / `#D01D10` | the signal red |
+| `accent` / `accent-deep` | `#F42B1C` / `#C4180C` | the signal red |
 | `amber` | `#E8A22B` | decorative dots only |
 
-Contrast rules the components rely on:
+Contrast rules the components rely on. Every one is measured against
+**`cream-dark`, not `cream`** — the deeper paper is the binding case, and
+checking only the lighter one is what let three of these drift below AA:
 
 - **red on paper is 3.6:1** — large text, icons and graphics only, never a
-  surface behind label-size text. Buttons are ink with a red arrow box.
-- **`accent-deep` is 5.0:1** — the variant for anything at body size (form
-  errors, step numbers, meta).
+  surface behind label-size text. Buttons are ink with a red arrow box, and
+  where red *is* the ground (the promise panel) the type on it is ink at
+  4.5:1, never cream at 3.5:1.
+- **`accent-deep` is 4.8:1** on the deeper paper — the variant for anything at
+  body size (form errors, step numbers, meta).
+- **`muted` is 4.7:1** on the deeper paper, and is for **light grounds only**.
+  On ink it measures 3.4:1, so every dark section carries `data-dark`, which
+  swaps it for `muted-light` (6.5:1) through a single unlayered rule in
+  `globals.css`. Mark a new dark section with `data-dark` and its secondary
+  text is correct automatically.
 - **amber is 1.8:1** — decorative dots only. Never text, never an icon.
 
 Type is Archivo throughout, at multiple weights. Display and body are
@@ -47,6 +56,31 @@ monolithic sans setting. Everything is square-cornered — `rounded-card` is 0.
 
 Three motifs carry the identity (`components/visuals/Motifs.tsx`): the red
 corner bracket, a small red square, and the amber dot.
+
+### The neubrutalist half
+
+Half of neubrutalism is taken and half is deliberately refused, so it reads as
+a sharpened version of the board rather than a different site wearing its
+colours. `edge` and `shadow` in `lib/design-system/tokens.ts` hold the values,
+and the split is documented there.
+
+**Taken** — hard offset shadows with zero blur (`shadow-brut`, and the
+`-light` / `-red` variants for the grounds they sit on); structural ink borders
+at 2–3px; a mechanical press that translates a control by exactly its own
+shadow offset and drops the shadow, so it lands flat; heavy weights on labels,
+buttons and figures; no blur or gradient anywhere.
+
+**Refused** — the pop palette, anti-design asymmetry, uppercase-everything, and
+rotation on anything but the one pricing badge.
+
+The shadow colour follows the **ground, not the object**: an ink shadow is
+invisible on a dark section, so anything on ink takes `shadow-brut-light`, and
+`BrandImage` takes a matching `frame="ink" | "cream" | "none"`.
+
+Canonical brutalism also specifies `transition: none`. That is refused too, and
+the reason is worth knowing: instant state changes are a critical interaction
+anti-pattern. Motion stays, made mechanical instead — 100ms, linear, which is
+what `edge.press` encodes.
 
 ## Images
 
@@ -128,6 +162,22 @@ All editable copy lives in `lib/data/`: `site.ts`, `services.ts`,
 Metrics and case-study figures are illustrative composites, marked as such in
 the data files and disclosed in the footer. Replace them with audited numbers
 before launch.
+
+## Design reference
+
+`.claude/skills/` carries the
+[ui-ux-pro-max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) plugin
+(v2.13.0, MIT), installed by copying its skills in — `/plugin` is unavailable in
+the web environment. Its searchable database is what the neubrutalist values
+above are drawn from, and its accessibility checklist is what the QA sweep
+audits against.
+
+```bash
+python3 .claude/skills/ui-ux-pro-max/scripts/search.py "agency landing page" -d style
+```
+
+`ui-styling/canvas-fonts` (5.5MB of font binaries for canvas poster rendering)
+is omitted; nothing here uses it.
 
 ## Not yet wired
 

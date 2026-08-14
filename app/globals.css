@@ -13,12 +13,12 @@
   --charcoal: #151515;
   --charcoal-2: #232323;
   --charcoal-3: #2f2f2f;
-  --muted: #6b6b6b;
+  --muted: #636363;
   --muted-light: #9a9a9a;
   --border: #dcd7cd;
   --border-dark: #333333;
   --accent: #f42b1c;
-  --accent-deep: #d01d10;
+  --accent-deep: #c4180c;
   --amber: #e8a22b;
 
   --ease-power3: cubic-bezier(0.215, 0.61, 0.355, 1);
@@ -175,4 +175,28 @@ select:focus-visible,
   pointer-events: none;
   transform: scaleY(0);
   transform-origin: bottom;
+}
+
+/* ------------------------------------------------------------------ */
+/* Dark grounds                                                        */
+/*                                                                     */
+/* `muted` is tuned for paper: on ink it measures 3.4:1, well short of  */
+/* AA for body text. Rather than hand-swapping every occurrence — and   */
+/* re-introducing the bug the next time a section turns dark — any      */
+/* subtree marked [data-dark] promotes it to the light variant (6.5:1). */
+/* Deliberately unlayered: plain CSS outranks Tailwind's utilities      */
+/* layer, so this wins without !important.                             */
+/* ------------------------------------------------------------------ */
+[data-dark] .text-muted {
+  color: var(--muted-light);
+}
+
+/* Pointer targets. WCAG 2.2 AA wants 24x24 CSS px; a bare inline link  */
+/* in a 14px face is ~22px tall, so the standalone link utility buys    */
+/* the difference back without moving the text or its rule.             */
+.link-underline {
+  padding-block: 2px;
+}
+.link-underline::after {
+  bottom: 0;
 }

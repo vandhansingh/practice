@@ -50,12 +50,13 @@ export default function CaseStudyDetailPage({ params }: { params: { slug: string
         ]}
       />
 
-      <section className="bg-charcoal">
+      <section data-dark className="bg-charcoal">
         <Container>
           <BrandImage
             slot={study.slot}
             underlay="corner"
             aspect="aspect-[21/9]"
+            frame="cream"
             alt={`${study.category} — ${study.title}`}
           />
         </Container>
@@ -99,7 +100,7 @@ export default function CaseStudyDetailPage({ params }: { params: { slug: string
                     {study.services.map((service) => (
                       <li
                         key={service}
-                        className="rounded-[2px] border border-border px-3 py-1.5 text-[0.8125rem] text-muted"
+                        className="border-2 border-charcoal px-3 py-1.5 text-[0.8125rem] font-medium text-charcoal"
                       >
                         {service}
                       </li>
@@ -113,7 +114,7 @@ export default function CaseStudyDetailPage({ params }: { params: { slug: string
       </article>
 
       {/* Client quote */}
-      <section className="bg-charcoal py-24 lg:py-32">
+      <section data-dark className="bg-charcoal py-24 lg:py-32">
         <Container>
           <div data-reveal className="max-w-[40ch]">
             <p className="font-display text-display-md text-cream">

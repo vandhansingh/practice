@@ -11,7 +11,7 @@ import { site } from "@/lib/data/site";
  */
 export function FinalCTA() {
   return (
-    <section className="relative bg-charcoal pb-24 pt-28 lg:pb-32 lg:pt-40">
+    <section data-dark className="relative bg-charcoal pb-24 pt-28 lg:pb-32 lg:pt-40">
       <CornerBracket className="absolute left-[var(--gutter)] top-14 hidden lg:block" size={30} weight={8} />
 
       <Container>

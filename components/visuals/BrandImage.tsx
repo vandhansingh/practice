@@ -60,6 +60,7 @@ export function BrandImage({
   priority = false,
   alt,
   reveal = true,
+  frame = "ink",
 }: {
   slot: ImageSlot;
   underlay?: Underlay;
@@ -67,6 +68,12 @@ export function BrandImage({
   aspect?: string;
   priority?: boolean;
   alt?: string;
+  /**
+   * The hard frame around the photo. Follows the ground it sits on — an ink
+   * border and ink shadow vanish on a dark section, so those take `cream`.
+   * `none` is for images that are already bounded by something else.
+   */
+  frame?: "ink" | "cream" | "none";
   /**
    * Set false inside a [data-hero]. The generic scroll passes deliberately skip
    * the hero subtree, so emitting reveal attributes there would let the CSS
@@ -86,7 +93,11 @@ export function BrandImage({
           underlay is deliberately offset outside the bounds, and a clip-path on
           the outer element would shear it off. */}
       <div
-        className="absolute inset-0"
+        className={clsx(
+          "absolute inset-0",
+          frame === "ink" && "border-2 border-charcoal shadow-brut",
+          frame === "cream" && "border-2 border-cream shadow-brut-light"
+        )}
         data-image-mask
         {...(reveal ? { "data-image-reveal": true } : {})}
       >

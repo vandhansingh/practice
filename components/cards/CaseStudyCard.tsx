@@ -7,10 +7,18 @@ import type { CaseStudy } from "@/lib/data/caseStudies";
 export function CaseStudyCard({
   study,
   aspect = "aspect-[4/3]",
+  headingLevel = 3,
 }: {
   study: CaseStudy;
   aspect?: string;
+  /**
+   * The card's title level. 3 is right under a section h2 (the homepage grid);
+   * the work index has no intervening h2, so there it must be 2 or the document
+   * outline skips a level.
+   */
+  headingLevel?: 2 | 3;
 }) {
+  const Heading = headingLevel === 2 ? "h2" : "h3";
   return (
     <article>
       <Link href={`/case-studies/${study.slug}`} data-hover-card className="group block">
@@ -23,7 +31,7 @@ export function CaseStudyCard({
           />
         </div>
 
-        <div className="mt-7 flex items-baseline justify-between gap-4 border-t border-border pt-5">
+        <div className="mt-7 flex items-baseline justify-between gap-4 border-t-2 border-charcoal pt-5">
           <span className="text-label uppercase text-muted">{study.category}</span>
           <span data-hover-arrow className="text-charcoal">
             <ArrowUpRight size={18} strokeWidth={1.75} aria-hidden="true" />
@@ -31,9 +39,9 @@ export function CaseStudyCard({
         </div>
 
         <div data-hover-shift>
-          <h3 className="mt-4 max-w-[30ch] font-display text-display-sm text-charcoal">
+          <Heading className="mt-4 max-w-[30ch] font-display text-display-sm text-charcoal">
             {study.title}
-          </h3>
+          </Heading>
           <p className="mt-3 text-[0.9375rem] text-muted">{study.outcome}</p>
         </div>
       </Link>

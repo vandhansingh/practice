@@ -44,6 +44,7 @@ export default function CaseStudiesPage() {
                 className={i % 2 === 1 ? "lg:mt-24" : undefined}
               >
                 <CaseStudyCard
+                  headingLevel={2}
                   study={study}
                   aspect={i % 2 === 1 ? "aspect-[4/5]" : "aspect-[4/3]"}
                 />

@@ -12,9 +12,9 @@ import { MobileNavigation } from "./MobileNavigation";
  * Compact floating navigation.
  *
  * Reads as an object sitting on top of the page rather than a full-width bar
- * fused to the top edge: inset from all three sides, dark against the cream
- * ground, with a small radius and a shadow that deepens slightly once the page
- * has scrolled. It stays present for the whole scroll journey — it never hides.
+ * fused to the top edge: inset from all three sides, square, dark against the
+ * cream ground, and lifted off the page by a hard red offset once it has
+ * scrolled. It stays present for the whole scroll journey — it never hides.
  */
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
@@ -50,18 +50,23 @@ export function SiteHeader() {
       <div className="mx-auto max-w-container">
         <div
           className={clsx(
-            "flex items-center justify-between rounded-card bg-charcoal pl-5 pr-2 transition-shadow duration-500 ease-power3",
+            "flex items-center justify-between rounded-card bg-charcoal pl-5 pr-2 transition-shadow duration-200 ease-linear",
             "h-[58px] sm:h-[62px]",
             // A hairline keeps the floating container legible as an object on
             // dark-hero pages, where charcoal-on-charcoal would otherwise make
             // the bar disappear entirely.
             "border border-white/[0.08]",
-            scrolled ? "shadow-[0_10px_40px_-12px_rgba(27,26,24,0.55)]" : "shadow-none"
+            // Once the page has moved the bar lifts off it — a hard red offset
+            // rather than the blurred drop it used to carry. Red is the only
+            // shadow that reads against both cream and ink grounds, and it
+            // carries no text, so its 3.6:1 is irrelevant here.
+            scrolled ? "shadow-brut-red" : "shadow-none"
           )}
         >
           <Link
             href="/"
-            className="flex items-baseline gap-3"
+            // py-1 buys the 24x24 minimum without changing the bar height.
+            className="flex items-baseline gap-3 py-1"
             aria-label={`${site.name} — home`}
           >
             <span className="font-display text-[1.375rem] leading-none tracking-[-0.02em] text-cream">
@@ -81,7 +86,7 @@ export function SiteHeader() {
 
             <Link
               href={site.cta.href}
-              className="hidden items-center rounded-[2px] bg-accent px-4 py-2.5 text-[0.8125rem] font-medium text-charcoal transition-colors duration-300 hover:bg-accent-deep sm:inline-flex"
+              className="hidden items-center rounded-card border-2 border-charcoal bg-accent px-4 py-2.5 text-[0.8125rem] font-semibold text-charcoal transition-[transform,background-color] duration-100 ease-linear hover:bg-accent-deep active:translate-x-0.5 active:translate-y-0.5 motion-reduce:transition-none sm:inline-flex"
             >
               {site.cta.label}
             </Link>

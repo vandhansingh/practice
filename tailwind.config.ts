@@ -1,5 +1,5 @@
 import type { Config } from "tailwindcss";
-import { color, displayScale, layout, motion } from "./lib/design-system/tokens";
+import { color, displayScale, edge, layout, motion, shadow } from "./lib/design-system/tokens";
 
 const config: Config = {
   content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./lib/**/*.{ts,tsx}"],
@@ -66,6 +66,20 @@ const config: Config = {
         // The board is square-cornered throughout — no rounding anywhere.
         card: "0px",
         pill: "999px",
+      },
+      boxShadow: {
+        // Zero blur, always. A blurred shadow is the one thing this treatment
+        // cannot contain — it reads as the soft SaaS depth the board rejects.
+        "brut-sm": shadow.brutSm,
+        brut: shadow.brut,
+        "brut-lg": shadow.brutLg,
+        "brut-light": shadow.brutLight,
+        "brut-light-sm": shadow.brutLightSm,
+        "brut-red": shadow.brutRed,
+        "brut-red-lg": shadow.brutRedLg,
+      },
+      borderWidth: {
+        3: edge.width.control,
       },
     },
   },

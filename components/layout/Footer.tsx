@@ -10,7 +10,7 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-charcoal pt-24 lg:pt-32">
+    <footer data-dark className="bg-charcoal pt-24 lg:pt-32">
       <Container>
         {/* The group wraps the bottom bar as well as the columns, on purpose.
             As the last element on the page the bar's top never rises above a

@@ -16,6 +16,11 @@ type Variant = "primary" | "light" | "outline" | "outline-dark";
  * ink-on-red 4.3:1, both short of AA for label-sized text. As a graphic box
  * behind an icon it only needs 3:1, which it clears comfortably.
  *
+ * The hard offset shadow and the press that collapses it are the neubrutalist
+ * half of the system. The shadow colour follows the ground, not the button: an
+ * ink shadow is invisible on a dark section, so `light` and `outline-dark`
+ * carry the cream one.
+ *
  *   primary → ink button, for light (cream) sections
  *   light   → cream button, for dark (ink) sections
  */
@@ -33,10 +38,10 @@ export function Button({
   arrow?: boolean;
 }) {
   const variants: Record<Variant, string> = {
-    primary: "bg-charcoal text-cream hover:bg-charcoal-2",
-    light: "bg-cream text-charcoal hover:bg-white",
-    outline: "border border-border text-charcoal hover:border-charcoal",
-    "outline-dark": "border border-border-dark text-cream hover:border-cream",
+    primary: "border-2 border-charcoal bg-charcoal text-cream shadow-brut hover:bg-charcoal-2",
+    light: "border-2 border-cream bg-cream text-charcoal shadow-brut-light hover:bg-white",
+    outline: "border-2 border-charcoal text-charcoal shadow-brut hover:bg-cream-dark",
+    "outline-dark": "border-2 border-cream text-cream shadow-brut-light hover:bg-charcoal-2",
   };
 
   const boxes: Record<Variant, string> = {
@@ -50,7 +55,13 @@ export function Button({
     <Link
       href={href}
       className={clsx(
-        "group inline-flex items-center gap-3 rounded-card py-1.5 pl-5 pr-1.5 text-[0.875rem] font-medium transition-colors duration-300 ease-power3",
+        "group inline-flex items-center gap-3 rounded-card py-1.5 pl-5 pr-1.5 text-[0.875rem] font-semibold",
+        // The press travels exactly the shadow's offset and drops the shadow,
+        // so the object lands flat on the page instead of merely dimming.
+        // Linear and 100ms: a click is mechanical, not eased.
+        "transition-[transform,box-shadow,background-color] duration-100 ease-linear",
+        "active:translate-x-1 active:translate-y-1 active:shadow-none",
+        "motion-reduce:transition-none",
         variants[variant],
         className
       )}
@@ -59,7 +70,7 @@ export function Button({
       {arrow && (
         <span
           className={clsx(
-            "flex h-8 w-8 items-center justify-center rounded-[2px] transition-transform duration-500 ease-expo group-hover:translate-x-0.5",
+            "flex h-8 w-8 items-center justify-center rounded-card transition-transform duration-500 ease-expo group-hover:translate-x-0.5",
             boxes[variant]
           )}
         >

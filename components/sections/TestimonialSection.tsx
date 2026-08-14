@@ -5,7 +5,7 @@ import { testimonials } from "@/lib/data/testimonials";
 
 export function TestimonialSection() {
   return (
-    <section className="bg-charcoal py-24 lg:py-32">
+    <section data-dark className="bg-charcoal py-24 lg:py-32">
       <Container>
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
           <div className="lg:col-span-3">

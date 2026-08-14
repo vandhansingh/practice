@@ -65,12 +65,13 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
         standfirst={post.excerpt}
       />
 
-      <section className="bg-charcoal">
+      <section data-dark className="bg-charcoal">
         <Container>
           <BrandImage
             slot={post.slot}
             underlay="corner"
             aspect="aspect-[21/9]"
+            frame="cream"
             alt={post.title}
           />
         </Container>
